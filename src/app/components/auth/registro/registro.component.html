@@ -1,0 +1,35 @@
+<router-outlet></router-outlet>
+<div class="body">
+  <div class="container" id="container" #container>
+    <div class="form-container especialistas-container">
+      <app-especialistas></app-especialistas>
+    </div>
+    <div class="form-container pacientes-container">
+      <app-pacientes></app-pacientes>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Registrarse como paciente</h1>
+          <p>Registrese para reservar turnos para consulta o tratamiento</p>
+          <button class="ghost" (click)="registrarPacientes()">
+            Registrarse
+          </button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Registrarse como especialista</h1>
+          <p>
+            Registrese para atender consultas u ofrecer tratamientos a los
+            pacientes
+          </p>
+          <button class="ghost" (click)="registrarEspecialistas()">
+            Registrarse
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="boton-container">
+    <button routerLink="">Volver</button>
+  </div> -->
+</div>

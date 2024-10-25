@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: bold;
+  margin: 0;
+}
+
+span {
+  font-size: 12px;
+}
+
+a {
+  color: #161a1d;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+form {
+  background-color: #f5f3f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+  height: 100%;
+  text-align: center;
+  overflow-y: auto;
+}
+
+form::-webkit-scrollbar-thumb {
+  background: #888; /* Color del 'thumb' de la barra de desplazamiento */
+  border-radius: 4px; /* Esquinas redondeadas */
+}
+
+form::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color del 'thumb' al pasar el mouse */
+}
+
+input {
+  background-color: #d3d3d3;
+  border: none;
+  padding: 12px 15px;
+  margin: 10px 0;
+  width: 80%;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+}
+div + button {
+  margin-top: 20px;
+}
+
+.buttons-container {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.small-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.small-button {
+  font-size: 10px;
+  padding: 8px 20px;
+}
+
+.small-button:active {
+  transform: scale(0.95);
+}
+
+.error-message {
+  color: #be2b2b;
+  line-height: 0px;
+  padding: 0;
+  width: 100%;
+}
+
+.error-message + button {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}

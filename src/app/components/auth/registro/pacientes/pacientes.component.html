@@ -1,0 +1,111 @@
+<form [formGroup]="formRegistro" action="#">
+  <h1>Registrarse como paciente</h1>
+  <div class="social-container"></div>
+
+  <input
+    type="text"
+    placeholder="Nombre"
+    name="nombre"
+    formControlName="nombre"
+  />
+  @if (nombreError){
+  <div class="error-message">
+    <p>{{ mensajeNombre }}</p>
+  </div>
+  }
+
+  <input
+    type="text"
+    placeholder="Apellido"
+    name="apellido"
+    formControlName="apellido"
+  />
+  @if (apellidoError){
+  <div class="error-message">
+    <p>{{ mensajeApellido }}</p>
+  </div>
+  }
+
+  <input type="text" placeholder="Edad" name="edad" formControlName="edad" />
+  @if (edadError){
+  <div class="error-message">
+    <p>{{ mensajeEdad }}</p>
+  </div>
+  }
+
+  <input type="text" placeholder="DNI" name="dni" formControlName="dni" />
+  @if (DNIError){
+  <div class="error-message">
+    <p>{{ mensajeDNI }}</p>
+  </div>
+  }
+
+  <input
+    type="text"
+    placeholder="Obra Social"
+    name="obraSocial"
+    formControlName="obraSocial"
+  />
+  @if (obraSocialError){
+  <div class="error-message">
+    <p>{{ mensajeObraSocial }}</p>
+  </div>
+  }
+
+  <input type="email" placeholder="Email" formControlName="email" />
+  @if (emailError){
+  <div class="error-message">
+    <p>{{ mensajeEmail }}</p>
+  </div>
+  }
+  <input
+    type="password"
+    placeholder="Contraseña"
+    formControlName="contrasena"
+  />
+  @if (contrasenaError){
+  <div class="error-message">
+    <p>{{ mensajeContrasena }}</p>
+  </div>
+  }
+
+  <div class="buttons-container">
+    <label for="imagen-perfil" class="custom-file-upload">
+      Imagen de Perfil
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      name="imagenPerfil"
+      formControlName="imagenPerfil"
+      id="imagen-perfil"
+    />
+
+    <label for="imagen-portada" class="custom-file-upload">
+      Imagen de Portada
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      name="imagenPortada"
+      formControlName="imagenPortada"
+      id="imagen-portada"
+    />
+  </div>
+  @if (imagenPerfilError){
+  <div class="error-message img-error">
+    <p>{{ mensajeImagenPerfil }}</p>
+  </div>
+  } @if (imagenPortadaError){
+  <div class="error-message img-error">
+    <p>{{ mensajeImagenPortada }}</p>
+  </div>
+  }
+
+  <button (click)="Registro()">Registrarse</button>
+  @if (conexionError){
+  <div class="error-message">
+    <p>{{ mensajeUsuario }}</p>
+  </div>
+  }
+</form>

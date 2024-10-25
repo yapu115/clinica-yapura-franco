@@ -1,0 +1,38 @@
+<!-- <form [formGroup]="formRegistro" action="#"> -->
+<form action="#">
+  <h1>Registrarse como especialista</h1>
+  <div class="social-container"></div>
+  <input
+    type="text"
+    placeholder="Nombre"
+    name="nombre"
+    formControlName="nombre"
+  />
+  <!-- @if (nombreError){ -->
+  <div class="error-message">
+    <!-- <p>{{ mensajeNombre }}</p> -->
+  </div>
+  <!-- } -->
+  <input type="email" placeholder="Email" formControlName="email" />
+  <!-- @if (mailError){ -->
+  <div class="error-message">
+    <!-- <p>{{ mensajeMail }}</p> -->
+  </div>
+  <!-- } -->
+  <input
+    type="password"
+    placeholder="Contraseña"
+    formControlName="contrasena"
+  />
+  <!-- @if (contrasenaError){ -->
+  <div class="error-message">
+    <!-- <p>{{ mensajeContrasena }}</p> -->
+  </div>
+  <!-- } -->
+  <button>Registrarse</button>
+  <!-- @if (conexionError){ -->
+  <div class="error-message">
+    <!-- <p>{{ mensajeUsuario }}</p> -->
+  </div>
+  <!-- } -->
+</form>
