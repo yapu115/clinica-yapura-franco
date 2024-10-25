@@ -79,6 +79,7 @@
       name="imagenPerfil"
       formControlName="imagenPerfil"
       id="imagen-perfil"
+      (change)="nuevaImagenPerfilCargada($event)"
     />
 
     <label for="imagen-portada" class="custom-file-upload">
@@ -90,6 +91,7 @@
       name="imagenPortada"
       formControlName="imagenPortada"
       id="imagen-portada"
+      (change)="nuevaImagenPortadaCargada($event)"
     />
   </div>
   @if (imagenPerfilError){

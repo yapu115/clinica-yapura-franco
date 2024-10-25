@@ -1,38 +1,113 @@
-<!-- <form [formGroup]="formRegistro" action="#"> -->
-<form action="#">
+<form [formGroup]="formRegistro" action="#">
   <h1>Registrarse como especialista</h1>
   <div class="social-container"></div>
+
   <input
     type="text"
     placeholder="Nombre"
     name="nombre"
     formControlName="nombre"
   />
-  <!-- @if (nombreError){ -->
+  @if (nombreError){
   <div class="error-message">
-    <!-- <p>{{ mensajeNombre }}</p> -->
+    <p>{{ mensajeNombre }}</p>
   </div>
-  <!-- } -->
+  }
+
+  <input
+    type="text"
+    placeholder="Apellido"
+    name="apellido"
+    formControlName="apellido"
+  />
+  @if (apellidoError){
+  <div class="error-message">
+    <p>{{ mensajeApellido }}</p>
+  </div>
+  }
+
+  <input type="text" placeholder="Edad" name="edad" formControlName="edad" />
+  @if (edadError){
+  <div class="error-message">
+    <p>{{ mensajeEdad }}</p>
+  </div>
+  }
+
+  <input type="text" placeholder="DNI" name="dni" formControlName="dni" />
+  @if (DNIError){
+  <div class="error-message">
+    <p>{{ mensajeDNI }}</p>
+  </div>
+  }
+
+  <input
+    type="text"
+    id="combobox"
+    [(ngModel)]="especialidadSeleccionada"
+    formControlName="especialidad"
+    placeholder="Especialidad"
+  />
+  <label for="combobox" (click)="mostrarEspecialidades = true"
+    >Seleccionar especialidad ya existente</label
+  >
+
+  @if (mostrarEspecialidades){
+  <div class="dropdown">
+    @for (option of especialidades; track $index) {
+    <div (click)="seleccionarEspecialidad(option)">
+      {{ option }}
+    </div>
+
+    }
+  </div>
+
+  } @if (especialidadError){
+  <div class="error-message">
+    <p>{{ mensajeEspecialidad }}</p>
+  </div>
+  }
+
   <input type="email" placeholder="Email" formControlName="email" />
-  <!-- @if (mailError){ -->
+  @if (emailError){
   <div class="error-message">
-    <!-- <p>{{ mensajeMail }}</p> -->
+    <p>{{ mensajeEmail }}</p>
   </div>
-  <!-- } -->
+  }
   <input
     type="password"
     placeholder="Contraseña"
     formControlName="contrasena"
   />
-  <!-- @if (contrasenaError){ -->
+  @if (contrasenaError){
   <div class="error-message">
-    <!-- <p>{{ mensajeContrasena }}</p> -->
+    <p>{{ mensajeContrasena }}</p>
   </div>
-  <!-- } -->
-  <button>Registrarse</button>
-  <!-- @if (conexionError){ -->
+  }
+
+  <div class="buttons-container">
+    <label for="imagen-perfil" class="custom-file-upload">
+      Imagen de Perfil
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      name="imagenPerfil"
+      formControlName="imagenPerfil"
+      id="imagen-perfil"
+      (change)="nuevaImagenPerfilCargada($event)"
+    />
+  </div>
+
+  @if (imagenPerfilError){
+  <div class="error-message img-error">
+    <p>{{ mensajeImagenPerfil }}</p>
+  </div>
+  }
+
+  <button (click)="Registro()">Registrarse</button>
+  @if (conexionError){
   <div class="error-message">
-    <!-- <p>{{ mensajeUsuario }}</p> -->
+    <p>{{ mensajeUsuario }}</p>
   </div>
-  <!-- } -->
+  }
 </form>

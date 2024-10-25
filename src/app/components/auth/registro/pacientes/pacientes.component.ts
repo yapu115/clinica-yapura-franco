@@ -10,6 +10,7 @@ import { DatabaseService } from '../../../../services/database.service';
 import { Paciente } from '../../../../classes/paciente';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { StorageService } from '../../../../services/storage.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -20,6 +21,9 @@ import Swal from 'sweetalert2';
 })
 export class PacientesComponent {
   formRegistro: FormGroup;
+
+  imagenPerfil: Blob = new Blob();
+  imagenPortada: Blob = new Blob();
 
   nombreError: boolean = false;
   apellidoError: boolean = false;
@@ -46,6 +50,7 @@ export class PacientesComponent {
   constructor(
     protected auth: AuthService,
     protected db: DatabaseService,
+    protected storage: StorageService,
     protected router: Router
   ) {
     this.formRegistro = new FormGroup({
@@ -53,13 +58,13 @@ export class PacientesComponent {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        Validators.pattern('^[a-zA-Z]+$'),
+        Validators.pattern('^[a-zA-Z ]+$'),
       ]),
       apellido: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        // Validators.pattern('^[a-zA-Z]+$'), (de cceco)
+        // Validators.pattern('^[a-zA-Z ]+$'), (de cceco)
       ]),
       edad: new FormControl('', [
         Validators.required,
@@ -105,15 +110,22 @@ export class PacientesComponent {
     if (this.ValidarCampos())
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
-        .then((response) => {
+        .then(async (response) => {
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
           const dni = this.formRegistro.controls['dni'].value;
           const obraSocial = this.formRegistro.controls['obraSocial'].value;
           const email = this.formRegistro.controls['email'].value;
-          const fotoPerfil = this.formRegistro.controls['fotoPerfil'].value;
-          const fotoPortada = this.formRegistro.controls['fotoPortada'].value;
+          const fotoPerfil = await this.storage.ObtenerImagenURL(
+            // no puedo obtenerlo porque se debe hacer un await
+            this.imagenPerfil,
+            'ImagenesDePerfil'
+          );
+          const fotoPortada = await this.storage.ObtenerImagenURL(
+            this.imagenPortada,
+            'ImagenesDePortada'
+          );
 
           this.db.AgregarObjeto(
             new Paciente(
@@ -137,7 +149,7 @@ export class PacientesComponent {
           this.formRegistro.get('fotoPerfil')?.setValue('');
           this.formRegistro.get('fotoPortada')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
-          this.router.navigate(['']);
+          this.router.navigateByUrl('/');
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -204,7 +216,9 @@ export class PacientesComponent {
         controlNombre.errors!['minlength'] ||
         controlNombre.errors!['maxlength']
       ) {
-        this.mensajeNombre = 'El apellido debe tener entre 3 y 20 caracteres';
+        this.mensajeNombre = 'El nombre debe tener entre 3 y 20 caracteres';
+      } else if (controlApellido.errors!['pattern']) {
+        this.mensajeApellido = 'El nombre debe ser letras';
       }
     }
 
@@ -218,9 +232,6 @@ export class PacientesComponent {
         controlApellido.errors!['maxlength']
       ) {
         this.mensajeApellido = 'El apellido debe tener entre 3 y 20 caracteres';
-      } else if (controlApellido.errors!['pattern']) {
-        this.mensajeApellido =
-          'El apellido debe ser letras y no puede tener espacios en blanco';
       }
     }
 
@@ -297,7 +308,7 @@ export class PacientesComponent {
     if (controlImagnePerfil.errors !== null) {
       camposValidados = false;
       this.imagenPerfilError = true;
-      if (controlImagenPortada.errors!['required']) {
+      if (controlImagnePerfil.errors!['required']) {
         this.mensajeImagenPerfil = 'Suba una foto de perfil';
       }
     }
@@ -311,5 +322,15 @@ export class PacientesComponent {
     }
 
     return camposValidados;
+  }
+
+  nuevaImagenPerfilCargada($event: any) {
+    const file = $event.target.files[0];
+    this.imagenPerfil = new Blob([file], { type: file.type });
+  }
+
+  nuevaImagenPortadaCargada($event: any) {
+    const file = $event.target.files[0];
+    this.imagenPortada = new Blob([file], { type: file.type });
   }
 }

@@ -11,7 +11,7 @@ export class DatabaseService {
     const colObjeto = this.firestore.collection(coleccion);
 
     const documento = colObjeto.doc();
-    objeto.idFirebase = documento.ref.id;
+    objeto.id = documento.ref.id;
 
     documento.set({ ...objeto });
 
