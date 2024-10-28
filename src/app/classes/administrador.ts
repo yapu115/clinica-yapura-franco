@@ -13,9 +13,10 @@ export class Administrador {
     edad: number,
     dni: number,
     email: string,
-    fotoPerfil: any
+    fotoPerfil: any,
+    id: string = ''
   ) {
-    this.id = '';
+    this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
     this.edad = edad;

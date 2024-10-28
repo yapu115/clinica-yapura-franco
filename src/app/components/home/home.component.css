@@ -8,12 +8,12 @@
 }
 
 .centered-image {
-  max-width: 200px;
+  max-width: 170px;
   margin-bottom: 20px;
 }
 
 .welcome-title {
-  font-size: 100px;
+  font-size: 80px;
   margin-bottom: 70px;
 }
 
@@ -23,9 +23,10 @@
 }
 
 .left-button,
-.right-button {
-  padding: 15px 30px;
-  font-size: 30px;
+.right-button,
+.bottom-button {
+  padding: 12px 24px;
+  font-size: 20px;
   margin: 0 40px;
   background-color: #0077b6;
   color: white;
@@ -35,6 +36,11 @@
 }
 
 .left-button:hover,
-.right-button:hover {
+.right-button:hover,
+.bottom-button:hover {
   background-color: #0056b3;
+}
+
+.bottom-button {
+  margin-top: 30px;
 }

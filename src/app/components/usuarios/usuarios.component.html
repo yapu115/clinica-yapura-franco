@@ -1,0 +1,91 @@
+<div class="user-type-buttons">
+  <button
+    class="user-type-button"
+    id="adminButton"
+    (click)="mostrarAdministradores()"
+  >
+    Administradores
+  </button>
+  <button
+    class="user-type-button"
+    id="guestButton"
+    (click)="mostrarEspecialistas()"
+  >
+    Especialistas
+  </button>
+  <button
+    class="user-type-button"
+    id="regularButton"
+    (click)="mostrarPacientes()"
+  >
+    Pacientes
+  </button>
+</div>
+<div class="user-list-container">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Foto de Perfil</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>DNI</th>
+        <th>Edad</th>
+        @if (mostrarInfoPacientes){
+        <th>Obra Social</th>
+        } @else if (mostrarInfoEspecialistas){
+        <th>Especialidad</th>
+        <th>Acceso</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (mostrarInfoAdministradores){ @for (admin of administradores; track
+      $index) {
+      <tr>
+        <td>
+          <img src="{{ admin.fotoPerfil }}" alt="Foto de Perfil" />
+        </td>
+        <td>{{ admin.nombre }}</td>
+        <td>{{ admin.apellido }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.dni }}</td>
+        <td>{{ admin.edad }}</td>
+      </tr>
+      } } @else if (mostrarInfoEspecialistas){ @for (espec of especialistas;
+      track $index) {
+      <tr>
+        <td>
+          <img src="{{ espec.fotoPerfil }}" alt="Foto de Perfil" />
+        </td>
+        <td>{{ espec.nombre }}</td>
+        <td>{{ espec.apellido }}</td>
+        <td>{{ espec.email }}</td>
+        <td>{{ espec.dni }}</td>
+        <td>{{ espec.edad }}</td>
+        <td>{{ espec.especialidad }}</td>
+        @if (espec.acceso === "pendiente"){
+        <td class="{{ espec.acceso }}" (click)="cambiarEstadoAcceso(espec)">
+          {{ espec.acceso }}
+        </td>
+        } @else {
+        <td class="{{ espec.acceso }}">{{ espec.acceso }}</td>
+        }
+      </tr>
+      } } @else if (mostrarInfoPacientes){ @for (pac of pacientes; track $index)
+      {
+      <tr>
+        <td>
+          <img src="{{ pac.fotoPerfil }}" alt="Foto de Perfil" />
+        </td>
+        <td>{{ pac.nombre }}</td>
+        <td>{{ pac.apellido }}</td>
+        <td>{{ pac.email }}</td>
+        <td>{{ pac.dni }}</td>
+        <td>{{ pac.edad }}</td>
+        <td>{{ pac.obraSocial }}</td>
+      </tr>
+      } }
+    </tbody>
+  </table>
+</div>

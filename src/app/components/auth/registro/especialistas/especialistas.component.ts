@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Paciente } from '../../../../classes/paciente';
 import Swal from 'sweetalert2';
 import { Especialista } from '../../../../classes/especialista';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-especialistas',
@@ -22,19 +23,12 @@ import { Especialista } from '../../../../classes/especialista';
   styleUrl: './especialistas.component.css',
 })
 export class EspecialistasComponent {
+  subscription: Subscription | null = null;
+
   especialidadSeleccionada = '';
   mostrarEspecialidades = false;
 
-  especialidades = [
-    // llamar a las especialidades de firebas
-    'Opción 1',
-    'Opción 2',
-    'Opción 3',
-    'Opción 3',
-    'Opción 3',
-    'Opción 3',
-    'Opción 3',
-  ];
+  especialidades: any[] = [];
 
   formRegistro: FormGroup;
 
@@ -95,7 +89,6 @@ export class EspecialistasComponent {
       especialidad: new FormControl('', [
         Validators.required,
         Validators.minLength(3), //apl
-        Validators.pattern('^[a-zA-Z ]+$'),
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       contrasena: new FormControl('', [
@@ -105,6 +98,14 @@ export class EspecialistasComponent {
         Validators.pattern('^[^\\s]+$'),
       ]),
       imagenPerfil: new FormControl('', [Validators.required]),
+    });
+
+    const observable = this.db.traerObjetos('especialistas');
+
+    this.subscription = observable.subscribe((resultado) => {
+      this.especialidades = Array.from(
+        new Set((resultado as any[]).map((doc) => doc.especialidad))
+      );
     });
   }
 
@@ -122,7 +123,7 @@ export class EspecialistasComponent {
     if (this.ValidarCampos())
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
-        .then(async (response) => {
+        .then(async (userCredential) => {
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
@@ -143,7 +144,8 @@ export class EspecialistasComponent {
               dni,
               especialidad,
               email,
-              fotoPerfil
+              fotoPerfil,
+              'pendiente'
             ),
             'especialistas'
           );
@@ -153,7 +155,7 @@ export class EspecialistasComponent {
           this.formRegistro.get('dni')?.setValue('');
           this.formRegistro.get('especialidad')?.setValue('');
           this.formRegistro.get('email')?.setValue('');
-          this.formRegistro.get('fotoPerfil')?.setValue('');
+          this.formRegistro.get('imagenPerfil')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
           this.router.navigateByUrl('/');
           Swal.fire({
@@ -211,6 +213,8 @@ export class EspecialistasComponent {
     const controlMail = this.formRegistro.controls['email'];
     const controlContrasena = this.formRegistro.controls['contrasena'];
     const controlImagenPerfil = this.formRegistro.controls['imagenPerfil'];
+
+    console.log(this.formRegistro.get('especialidad'));
 
     if (controlNombre.errors !== null) {
       camposValidados = false;
@@ -278,8 +282,6 @@ export class EspecialistasComponent {
       } else if (controlEspecialidad.errors!['minlength']) {
         this.mensajeEspecialidad =
           'La especialidad debe tener al menos 3 caracteres';
-      } else if (controlEspecialidad.errors!['pattern']) {
-        this.mensajeEspecialidad = 'Ingrese una especialidad válida';
       }
     }
 
@@ -324,11 +326,6 @@ export class EspecialistasComponent {
   nuevaImagenPerfilCargada($event: any) {
     const file = $event.target.files[0];
     this.imagenPerfil = new Blob([file], { type: file.type });
-  }
-
-  nuevaImagenPortadaCargada($event: any) {
-    const file = $event.target.files[0];
-    this.imagenPortada = new Blob([file], { type: file.type });
   }
 
   seleccionarEspecialidad(option: string) {

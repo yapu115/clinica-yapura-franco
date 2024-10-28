@@ -28,6 +28,22 @@ export const routes: Routes = [
       ),
     // canDeactivate: [noAuthGuard],
   },
+  {
+    path: 'usuarios',
+    loadComponent: () =>
+      import('./components/usuarios/usuarios.component').then(
+        (m) => m.UsuariosComponent
+      ),
+    // canDeactivate: [noAuthGuard],
+  },
+  {
+    path: 'registrar-administradores',
+    loadComponent: () =>
+      import(
+        './components/auth/registro-administradores/registro-administradores.component'
+      ).then((m) => m.RegistroAdministradoresComponent),
+    // canDeactivate: [noAuthGuard],
+  },
 
   {
     path: 'error',

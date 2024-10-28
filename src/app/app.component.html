@@ -1,1 +1,46 @@
+@if (this.auth.usuario !== null){
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/" class="nav-link">Inicio</a>
+    @if (this.auth.tipoDeUsuario === "administrador"){
+    <a routerLink="/usuarios" class="nav-link">Usuarios</a>
+    <a routerLink="/registrar-administradores" class="nav-link"
+      >Registrar administradores</a
+    >
+
+    }
+  </div>
+  <div class="navbar-right">
+    <img
+      src="{{ this.auth.usuario.fotoPerfil }}"
+      alt="Foto de Usuario"
+      class="user-photo"
+      (click)="togglePanel()"
+    />
+  </div>
+</nav>
+} @if (mostrarPanel){
+<div class="profile-panel">
+  <div class="cover-photo">
+    @if (this.auth.tipoDeUsuario === "paciente"){
+    <img src="{{ this.auth.usuario.fotoPortada }}" alt="Cover Photo" />
+    } @else {
+    <img src="/banner.png" alt="Cover Photo" />
+    }
+  </div>
+  <div class="profile-photo">
+    <img src="{{ this.auth.usuario.fotoPerfil }}" alt="User Photo" />
+  </div>
+  <h3>{{ auth.usuario.nombre }} {{ auth.usuario.apellido }}</h3>
+  <p>{{ auth.usuario.email }}</p>
+  <p>{{ auth.usuario.dni }}</p>
+  @if (this.auth.tipoDeUsuario === "paciente"){
+  <p>{{ auth.usuario.obraSocial }}</p>
+  } @else if (this.auth.tipoDeUsuario === "especialista"){
+  <p>{{ auth.usuario.especialidad }}</p>
+  }
+
+  <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
+</div>
+}
 <router-outlet />

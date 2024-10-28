@@ -2,9 +2,22 @@
   <img src="/home_logo.png" alt="Imagen" class="centered-image" />
   <h1 class="welcome-title">Bienvenido a la clínica</h1>
   <div class="button-container">
+    @if (this.auth.usuario === null){
     <button class="left-button" routerLink="/iniciar-sesion">
       Iniciar Sesión
     </button>
     <button class="right-button" routerLink="/registrarse">Registrarse</button>
+    }
+  </div>
+
+  <div class="button-container">
+    @if (this.auth.usuario !== null && this.auth.tipoDeUsuario ===
+    "administrador") {
+    <button class="left-button" routerLink="/usuarios">Usuarios</button>
+
+    <button class="right-button" routerLink="/registrarse">
+      Registrar usuarios
+    </button>
+    }
   </div>
 </div>

@@ -1,4 +1,9 @@
 <router-outlet></router-outlet>
+@if (this.auth.usuario === null){
+<button class="back-button" routerLink="/">
+  <i class="fas fa-arrow-left"></i>
+</button>
+}
 <div class="body">
   <div class="container" id="container" #container>
     <div class="form-container especialistas-container">
@@ -10,14 +15,14 @@
     <div class="overlay-container">
       <div class="overlay">
         <div class="overlay-panel overlay-left">
-          <h1>Registrarse como paciente</h1>
+          <h1>Registrar Paciente</h1>
           <p>Registrese para reservar turnos para consulta o tratamiento</p>
           <button class="ghost" (click)="registrarPacientes()">
             Registrarse
           </button>
         </div>
         <div class="overlay-panel overlay-right">
-          <h1>Registrarse como especialista</h1>
+          <h1>Registrar Especialista</h1>
           <p>
             Registrese para atender consultas u ofrecer tratamientos a los
             pacientes
@@ -29,7 +34,4 @@
       </div>
     </div>
   </div>
-  <!-- <div class="boton-container">
-    <button routerLink="">Volver</button>
-  </div> -->
 </div>

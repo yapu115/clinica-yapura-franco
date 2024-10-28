@@ -3,6 +3,7 @@ import { DatabaseService } from './database.service';
 import {
   Auth,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   Unsubscribe,
@@ -18,6 +19,7 @@ export class AuthService {
   authSubscription?: Unsubscribe;
 
   usuarioEncontrado: boolean = false;
+  public tipoDeUsuario = '';
 
   constructor(protected db: DatabaseService, protected auth: Auth) {
     this.authSubscription = this.auth.onAuthStateChanged((auth) => {
@@ -30,6 +32,7 @@ export class AuthService {
             this.usuarioDeDB = usuario;
             if (this.usuarioDeDB.email == this.usuario.email) {
               this.usuario = this.usuarioDeDB;
+              this.tipoDeUsuario = 'paciente';
             }
           });
         });
@@ -41,6 +44,7 @@ export class AuthService {
               this.usuarioDeDB = usuario;
               if (this.usuarioDeDB.email == this.usuario.email) {
                 this.usuario = this.usuarioDeDB;
+                this.tipoDeUsuario = 'especialista';
               }
             });
           });
@@ -53,6 +57,7 @@ export class AuthService {
               this.usuarioDeDB = usuario;
               if (this.usuarioDeDB.email == this.usuario.email) {
                 this.usuario = this.usuarioDeDB;
+                this.tipoDeUsuario = 'administrador';
               }
             });
           });
@@ -64,7 +69,13 @@ export class AuthService {
   }
 
   RegistrarUsuario({ email, contrasena }: any) {
-    return createUserWithEmailAndPassword(this.auth, email, contrasena);
+    return createUserWithEmailAndPassword(this.auth, email, contrasena).then(
+      (userCredential) => {
+        const user = userCredential.user;
+
+        return sendEmailVerification(user);
+      }
+    );
   }
 
   IniciarSesion({ email, contrasena }: any) {

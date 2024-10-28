@@ -7,6 +7,7 @@ export class Especialista {
   especialidad: string;
   email: string;
   fotoPerfil: any;
+  acceso: string;
 
   constructor(
     nombre: string,
@@ -15,9 +16,11 @@ export class Especialista {
     dni: number,
     especialidad: string,
     email: string,
-    fotoPerfil: any
+    fotoPerfil: any,
+    accesoPermitido: string,
+    id: string = ''
   ) {
-    this.id = '';
+    this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
     this.edad = edad;
@@ -25,5 +28,6 @@ export class Especialista {
     this.especialidad = especialidad;
     this.email = email;
     this.fotoPerfil = fotoPerfil;
+    this.acceso = accesoPermitido;
   }
 }

@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-h1 {
+h2 {
   font-weight: bold;
   margin: 0;
 }
@@ -59,7 +59,7 @@ label {
   cursor: pointer;
 }
 div + button {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .buttons-container {
@@ -104,13 +104,13 @@ div + button {
 }
 
 .dropdown {
-  position: absolute; /* Hace que la lista cubra lo que está debajo */
-  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  position: absolute;
+  z-index: 1000;
   background-color: white;
   border: 1px solid #ccc;
-  width: 100%;
-  max-height: 200px; /* Define la altura máxima de la lista */
-  overflow-y: auto; /* Añade barra de desplazamiento vertical si es necesario */
+  width: 80%;
+  max-height: 200px;
+  overflow-y: auto;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -120,5 +120,24 @@ div + button {
 }
 
 .dropdown div:hover {
-  background-color: #f0f0f0; /* Cambia el fondo cuando se pasa el mouse por encima */
+  background-color: #f0f0f0;
+}
+
+.speciality-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 10px 0;
+}
+
+.speciality-container label {
+  flex: 1;
+  font-size: 0.9em;
+  margin-right: 10px;
+  color: #333;
+}
+
+.speciality-container input {
+  flex: 2;
+  padding: 12px 15px;
 }

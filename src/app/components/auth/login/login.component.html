@@ -1,38 +1,97 @@
-<div class="container">
-  <div class="screen">
-    <div class="screen__content">
-      <form class="login">
-        <div class="login__field">
-          <i class="login__icon fas fa-user"></i>
-          <input
-            type="text"
-            class="login__input"
-            placeholder="User name / Email"
-          />
-        </div>
-        <div class="login__field">
-          <i class="login__icon fas fa-lock"></i>
-          <input type="password" class="login__input" placeholder="Password" />
-        </div>
-        <button class="button login__submit">
-          <span class="button__text">Log In Now</span>
-          <i class="button__icon fas fa-chevron-right"></i>
-        </button>
-      </form>
-      <div class="social-login">
-        <h3>log in via</h3>
-        <div class="social-icons">
-          <a href="#" class="social-login__icon fab fa-instagram"></a>
-          <a href="#" class="social-login__icon fab fa-facebook"></a>
-          <a href="#" class="social-login__icon fab fa-twitter"></a>
+<router-outlet></router-outlet>
+@if (this.auth.usuario === null){
+<button class="back-button" routerLink="/">
+  <i class="fas fa-arrow-left"></i>
+</button>
+}
+<div class="body">
+  <div class="container">
+    <div class="screen">
+      <div class="screen__content">
+        <form class="login" [formGroup]="formInicioSesion">
+          <div class="login__field">
+            <i class="login__icon fas fa-user"></i>
+            <input
+              type="email"
+              class="login__input"
+              placeholder="Correo"
+              formControlName="email"
+            />
+          </div>
+          @if (mailError){
+          <div class="error-message">
+            <p>{{ mensajeMail }}</p>
+          </div>
+          }
+          <div class="login__field">
+            <i class="login__icon fas fa-lock"></i>
+            <input
+              type="password"
+              class="login__input"
+              placeholder="Contraseña"
+              formControlName="contrasena"
+            />
+          </div>
+          @if (contrasenaError){
+          <div class="error-message">
+            <p>{{ mensajeContrasena }}</p>
+          </div>
+          }
+          <button class="button login__submit" (click)="login()" type="button">
+            <span class="button__text">Iniciar Sesión</span>
+            <i class="button__icon fas fa-chevron-right"></i>
+          </button>
+          @if (usuarioNoEncontrado){
+          <div class="error-message">
+            <p>{{ mensajeUsuario }}</p>
+          </div>
+          }
+        </form>
+        <div class="small-button-container">
+          <div class="column left-column">
+            <h4>Administradores</h4>
+            <button class="small-button" (click)="iniciarOsborn()">
+              Osborn
+            </button>
+            <button class="small-button" (click)="iniciarJameson()">
+              Jameson
+            </button>
+          </div>
+          <div class="column right-column">
+            <h4>Especialistas</h4>
+
+            <button class="small-button" (click)="iniciarParker()">
+              Parker
+            </button>
+            <button class="small-button" (click)="iniciarStacy()">Stacy</button>
+          </div>
+          <div class="column center-column">
+            <h4>Pacientes</h4>
+
+            <button class="small-button" (click)="iniciarMorales()">
+              Morales
+            </button>
+            <button class="small-button" (click)="iniciarPryde()">Pryde</button>
+          </div>
         </div>
       </div>
+      <div class="screen__background">
+        <span
+          class="screen__background__shape screen__background__shape4"
+        ></span>
+        <span
+          class="screen__background__shape screen__background__shape3"
+        ></span>
+        <span
+          class="screen__background__shape screen__background__shape2"
+        ></span>
+        <span
+          class="screen__background__shape screen__background__shape1"
+        ></span>
+      </div>
     </div>
-    <div class="screen__background">
-      <span class="screen__background__shape screen__background__shape4"></span>
-      <span class="screen__background__shape screen__background__shape3"></span>
-      <span class="screen__background__shape screen__background__shape2"></span>
-      <span class="screen__background__shape screen__background__shape1"></span>
+    <div class="social-login">
+      <h2 routerLink="/registrarse">Registrarse</h2>
     </div>
   </div>
 </div>

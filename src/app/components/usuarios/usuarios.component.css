@@ -1,0 +1,101 @@
+/* Contenedor principal de la lista */
+.user-list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+/* Tabla de usuarios */
+.user-table {
+  width: 90%;
+  border-collapse: collapse;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Estilos de las cabeceras de la tabla */
+.user-table th {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 15px;
+  text-align: left;
+}
+
+/* Estilos de las filas de la tabla */
+.user-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Estilo de la imagen de perfil */
+.user-table img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* Colores alternos en las filas */
+.user-table tbody tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Contenedor de botones */
+.user-type-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+/* Botones de tipo de usuario */
+.user-type-button {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-type-button:hover {
+  background-color: #495057;
+}
+
+.user-type-button:active {
+  background-color: #212529;
+}
+
+.back-button {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  font-size: larger;
+}
+
+.permitido {
+  color: #409f43;
+  font-weight: bold;
+}
+
+.denegado {
+  color: #bb1c2a;
+  font-weight: bold;
+}
+
+.pendiente {
+  color: #d1b82c;
+  font-weight: bold;
+
+  cursor: pointer;
+}

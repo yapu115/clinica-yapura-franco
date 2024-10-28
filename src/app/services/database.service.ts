@@ -26,12 +26,12 @@ export class DatabaseService {
     return observable;
   }
 
-  // ModificarUsuario(usuario: Usuario) {
-  //   const colUsuarios = this.firestore.collection('usuarios');
-  //   const documento = colUsuarios.doc(usuario.id);
+  ModificarObjeto(objeto: any, col: string) {
+    const colObjeto = this.firestore.collection(col);
+    const documento = colObjeto.doc(objeto.id);
 
-  //   documento.update({ ...usuario });
-  // }
+    documento.update({ ...objeto });
+  }
   // EliminarUsuario(usuario: Usuario) {
   //   const colUsuarios = this.firestore.collection('usuarios');
   //   const documento = colUsuarios.doc(usuario.id);

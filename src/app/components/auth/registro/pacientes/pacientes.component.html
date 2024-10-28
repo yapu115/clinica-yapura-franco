@@ -1,5 +1,5 @@
 <form [formGroup]="formRegistro" action="#">
-  <h1>Registrarse como paciente</h1>
+  <h2>Registrar Paciente</h2>
   <div class="social-container"></div>
 
   <input
@@ -70,7 +70,7 @@
   }
 
   <div class="buttons-container">
-    <label for="imagen-perfil" class="custom-file-upload">
+    <label for="img-perfil" class="custom-file-upload">
       Imagen de Perfil
     </label>
     <input
@@ -78,7 +78,7 @@
       accept="image/*"
       name="imagenPerfil"
       formControlName="imagenPerfil"
-      id="imagen-perfil"
+      id="img-perfil"
       (change)="nuevaImagenPerfilCargada($event)"
     />
 

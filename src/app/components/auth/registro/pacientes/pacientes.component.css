@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-h1 {
+h2 {
   font-weight: bold;
   margin: 0;
 }
@@ -31,12 +31,12 @@ form {
 }
 
 form::-webkit-scrollbar-thumb {
-  background: #888; /* Color del 'thumb' de la barra de desplazamiento */
-  border-radius: 4px; /* Esquinas redondeadas */
+  background: #888;
+  border-radius: 4px;
 }
 
 form::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color del 'thumb' al pasar el mouse */
+  background: #555;
 }
 
 input {

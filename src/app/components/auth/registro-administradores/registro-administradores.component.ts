@@ -5,47 +5,50 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../../services/auth.service';
-import { DatabaseService } from '../../../../services/database.service';
-import { Paciente } from '../../../../classes/paciente';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
+import { DatabaseService } from '../../../services/database.service';
+import { StorageService } from '../../../services/storage.service';
 import { Router } from '@angular/router';
+import { Administrador } from '../../../classes/administrador';
 import Swal from 'sweetalert2';
-import { StorageService } from '../../../../services/storage.service';
 
 @Component({
-  selector: 'app-pacientes',
+  selector: 'app-registro-administradores',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './pacientes.component.html',
-  styleUrl: './pacientes.component.css',
+  templateUrl: './registro-administradores.component.html',
+  styleUrl: './registro-administradores.component.css',
 })
-export class PacientesComponent {
+export class RegistroAdministradoresComponent {
+  subscription: Subscription | null = null;
+
+  especialidadSeleccionada = '';
+  mostrarEspecialidades = false;
+
+  especialidades: any[] = [];
+
   formRegistro: FormGroup;
 
   imagenPerfil: Blob = new Blob();
-  imagenPortada: Blob = new Blob();
 
   nombreError: boolean = false;
   apellidoError: boolean = false;
   edadError: boolean = false;
   DNIError: boolean = false;
-  obraSocialError: boolean = false;
   emailError: boolean = false;
   contrasenaError: boolean = false;
-  conexionError: boolean = false;
   imagenPerfilError: boolean = false;
-  imagenPortadaError: boolean = false;
+  conexionError: boolean = false;
 
   mensajeNombre: string = '';
   mensajeApellido: string = '';
   mensajeEdad: string = '';
   mensajeDNI: string = '';
-  mensajeObraSocial: string = '';
   mensajeEmail: string = '';
   mensajeContrasena: string = '';
-  mensajeUsuario: string = '';
   mensajeImagenPerfil: string = '';
-  mensajeImagenPortada: string = '';
+  mensajeUsuario: string = '';
 
   constructor(
     protected auth: AuthService,
@@ -58,13 +61,12 @@ export class PacientesComponent {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        Validators.pattern('^[a-zA-Z ]+$'),
+        Validators.pattern('^[a-zA-Z]+$'),
       ]),
       apellido: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        // Validators.pattern('^[a-zA-Z ]+$'), (de cceco)
       ]),
       edad: new FormControl('', [
         Validators.required,
@@ -78,11 +80,6 @@ export class PacientesComponent {
         Validators.maxLength(8),
         Validators.pattern('^[0-9]+$'),
       ]),
-      obraSocial: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3), //apl
-        Validators.pattern('^[a-zA-Z ]+$'),
-      ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       contrasena: new FormControl('', [
         Validators.required,
@@ -91,7 +88,14 @@ export class PacientesComponent {
         Validators.pattern('^[^\\s]+$'),
       ]),
       imagenPerfil: new FormControl('', [Validators.required]),
-      imagenPortada: new FormControl('', [Validators.required]),
+    });
+
+    const observable = this.db.traerObjetos('especialistas');
+
+    this.subscription = observable.subscribe((resultado) => {
+      this.especialidades = Array.from(
+        new Set((resultado as any[]).map((doc) => doc.especialidad))
+      );
     });
   }
 
@@ -100,60 +104,42 @@ export class PacientesComponent {
     this.apellidoError = false;
     this.edadError = false;
     this.DNIError = false;
-    this.obraSocialError = false;
     this.emailError = false;
     this.contrasenaError = false;
     this.conexionError = false;
     this.imagenPerfilError = false;
-    this.imagenPortadaError = false;
 
     if (this.ValidarCampos())
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
-        .then(async (response) => {
-          this.auth.CerrarSesion();
+        .then(async (userCredential) => {
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
           const dni = this.formRegistro.controls['dni'].value;
-          const obraSocial = this.formRegistro.controls['obraSocial'].value;
           const email = this.formRegistro.controls['email'].value;
           const fotoPerfil = await this.storage.ObtenerImagenURL(
+            // no puedo obtenerlo porque se debe hacer un await
             this.imagenPerfil,
             'ImagenesDePerfil'
           );
-          const fotoPortada = await this.storage.ObtenerImagenURL(
-            this.imagenPortada,
-            'ImagenesDePortada'
-          );
 
           this.db.AgregarObjeto(
-            new Paciente(
-              nombre,
-              apellido,
-              edad,
-              dni,
-              obraSocial,
-              email,
-              fotoPerfil,
-              fotoPortada
-            ),
-            'pacientes'
+            new Administrador(nombre, apellido, edad, dni, email, fotoPerfil),
+            'especialistas'
           );
           this.formRegistro.get('nombre')?.setValue('');
           this.formRegistro.get('apellido')?.setValue('');
           this.formRegistro.get('edad')?.setValue('');
           this.formRegistro.get('dni')?.setValue('');
-          this.formRegistro.get('obraSocial')?.setValue('');
           this.formRegistro.get('email')?.setValue('');
-          this.formRegistro.get('fotoPerfil')?.setValue('');
-          this.formRegistro.get('fotoPortada')?.setValue('');
+          this.formRegistro.get('imagenPerfil')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
           this.router.navigateByUrl('/');
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Paciente registrado',
+            title: 'Especialista registrado',
             showConfirmButton: false,
             timer: 1500,
             background: '#6c757d',
@@ -201,24 +187,22 @@ export class PacientesComponent {
     const controlApellido = this.formRegistro.controls['apellido'];
     const controlEdad = this.formRegistro.controls['edad'];
     const controlDni = this.formRegistro.controls['dni'];
-    const controlObraSocial = this.formRegistro.controls['obraSocial'];
     const controlMail = this.formRegistro.controls['email'];
     const controlContrasena = this.formRegistro.controls['contrasena'];
-    const controlImagnePerfil = this.formRegistro.controls['imagenPerfil'];
-    const controlImagenPortada = this.formRegistro.controls['imagenPortada'];
+    const controlImagenPerfil = this.formRegistro.controls['imagenPerfil'];
+
+    console.log(this.formRegistro.get('especialidad'));
 
     if (controlNombre.errors !== null) {
       camposValidados = false;
       this.nombreError = true;
       if (controlNombre.errors!['required']) {
-        this.mensajeNombre = 'Ingrese el nombre de paciente';
+        this.mensajeNombre = 'Ingrese el nombre de especialista';
       } else if (
         controlNombre.errors!['minlength'] ||
         controlNombre.errors!['maxlength']
       ) {
         this.mensajeNombre = 'El nombre debe tener entre 3 y 20 caracteres';
-      } else if (controlApellido.errors!['pattern']) {
-        this.mensajeApellido = 'El nombre debe ser letras';
       }
     }
 
@@ -226,12 +210,14 @@ export class PacientesComponent {
       camposValidados = false;
       this.apellidoError = true;
       if (controlApellido.errors!['required']) {
-        this.mensajeApellido = 'Ingrese el apellido de paciente';
+        this.mensajeApellido = 'Ingrese el apellido de especialista';
       } else if (
         controlApellido.errors!['minlength'] ||
         controlApellido.errors!['maxlength']
       ) {
         this.mensajeApellido = 'El apellido debe tener entre 3 y 20 caracteres';
+      } else if (controlApellido.errors!['pattern']) {
+        this.mensajeApellido = 'El apellido debe ser letras ';
       }
     }
 
@@ -239,7 +225,7 @@ export class PacientesComponent {
       camposValidados = false;
       this.edadError = true;
       if (controlEdad.errors!['required']) {
-        this.mensajeEdad = 'Ingrese la edad del paciente';
+        this.mensajeEdad = 'Ingrese la edad del especialista';
       } else if (
         controlEdad.errors!['minlength'] ||
         controlEdad.errors!['maxlength']
@@ -254,7 +240,7 @@ export class PacientesComponent {
       camposValidados = false;
       this.DNIError = true;
       if (controlDni.errors!['required']) {
-        this.mensajeDNI = 'Ingrese el dni del paciente';
+        this.mensajeDNI = 'Ingrese el dni del especialista';
       } else if (
         controlDni.errors!['minlength'] ||
         controlDni.errors!['maxlength']
@@ -262,19 +248,6 @@ export class PacientesComponent {
         this.mensajeDNI = 'Ingrese un dni válido';
       } else if (controlDni.errors!['pattern']) {
         this.mensajeDNI = 'El dni debe estar en números';
-      }
-    }
-
-    if (controlObraSocial.errors !== null) {
-      camposValidados = false;
-      this.obraSocialError = true;
-      if (controlObraSocial.errors!['required']) {
-        this.mensajeObraSocial = 'Ingrese la obra social del paciente';
-      } else if (controlObraSocial.errors!['minlength']) {
-        this.mensajeObraSocial =
-          'La obra social debe tener al menos 3 caracteres';
-      } else if (controlObraSocial.errors!['pattern']) {
-        this.mensajeObraSocial = 'Ingrese una obra social válida';
       }
     }
 
@@ -305,34 +278,24 @@ export class PacientesComponent {
       }
     }
 
-    if (controlImagnePerfil.errors !== null) {
+    if (controlImagenPerfil.errors !== null) {
       camposValidados = false;
       this.imagenPerfilError = true;
-      if (controlImagnePerfil.errors!['required']) {
+      if (controlImagenPerfil.errors!['required']) {
         this.mensajeImagenPerfil = 'Suba una foto de perfil';
-      }
-    }
-
-    if (controlImagenPortada.errors !== null) {
-      camposValidados = false;
-      this.imagenPortadaError = true;
-      if (controlImagenPortada.errors!['required']) {
-        this.mensajeImagenPortada = 'Suba una foto de portada';
       }
     }
 
     return camposValidados;
   }
 
-  nuevaImagenPortadaCargada($event: any) {
-    const file = $event.target.files[0];
-    this.imagenPortada = new Blob([file], { type: file.type });
-    console.log(this.imagenPortada);
-  }
-
   nuevaImagenPerfilCargada($event: any) {
     const file = $event.target.files[0];
     this.imagenPerfil = new Blob([file], { type: file.type });
-    console.log(this.imagenPerfil);
+  }
+
+  seleccionarEspecialidad(option: string) {
+    this.especialidadSeleccionada = option;
+    this.mostrarEspecialidades = false;
   }
 }

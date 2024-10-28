@@ -17,9 +17,10 @@ export class Paciente {
     obraSocial: string,
     email: string,
     fotoPerfil: any,
-    fotoPortada: any
+    fotoPortada: any,
+    id: string = ''
   ) {
-    this.id = '';
+    this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
     this.edad = edad;

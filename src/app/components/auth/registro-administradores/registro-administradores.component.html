@@ -1,0 +1,73 @@
+<div class="body">
+  <div class="background"></div>
+  <form [formGroup]="formRegistro">
+    <h3>Registrar Administradores</h3>
+
+    <input type="text" placeholder="Nombre" formControlName="nombre" />
+    @if (nombreError){
+    <div class="error-message">
+      <p>{{ mensajeNombre }}</p>
+    </div>
+    }
+
+    <input type="text" placeholder="Apellido" formControlName="apellido" />
+    @if (apellidoError){
+    <div class="error-message">
+      <p>{{ mensajeApellido }}</p>
+    </div>
+    }
+
+    <input type="text" placeholder="Edad" formControlName="edad" />
+    @if (edadError){
+    <div class="error-message">
+      <p>{{ mensajeEdad }}</p>
+    </div>
+    }
+
+    <input type="text" placeholder="DNI" formControlName="dni" />
+    @if (DNIError){
+    <div class="error-message">
+      <p>{{ mensajeDNI }}</p>
+    </div>
+    }
+
+    <input type="email" placeholder="Correo" formControlName="email" />
+    @if (emailError){
+    <div class="error-message">
+      <p>{{ mensajeEmail }}</p>
+    </div>
+    }
+
+    <input
+      type="password"
+      placeholder="Contraseña"
+      formControlName="contrasena"
+    />
+    @if (contrasenaError){
+    <div class="error-message">
+      <p>{{ mensajeContrasena }}</p>
+    </div>
+    }
+
+    <div class="buttons-container">
+      <label for="imagen-perfil" class="custom-file-upload">
+        Imagen de Perfil
+      </label>
+      <input
+        type="file"
+        accept="image/*"
+        name="imagenPerfil"
+        formControlName="imagenPerfil"
+        id="imagen-perfil"
+        (change)="nuevaImagenPerfilCargada($event)"
+      />
+    </div>
+
+    <button (click )="Registro()">Registrar</button>
+    @if (conexionError){
+    <div class="error-message">
+      <p>{{ mensajeUsuario }}</p>
+    </div>
+    }
+  </form>
+</div>

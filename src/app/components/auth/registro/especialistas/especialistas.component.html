@@ -1,5 +1,5 @@
 <form [formGroup]="formRegistro" action="#">
-  <h1>Registrarse como especialista</h1>
+  <h2>Registrar Especialista</h2>
   <div class="social-container"></div>
 
   <input
@@ -40,16 +40,18 @@
   </div>
   }
 
-  <input
-    type="text"
-    id="combobox"
-    [(ngModel)]="especialidadSeleccionada"
-    formControlName="especialidad"
-    placeholder="Especialidad"
-  />
-  <label for="combobox" (click)="mostrarEspecialidades = true"
-    >Seleccionar especialidad ya existente</label
-  >
+  <div class="speciality-container">
+    <label for="combobox" (click)="mostrarEspecialidades = true"
+      >Seleccionar
+    </label>
+    <input
+      type="text"
+      id="combobox"
+      [(ngModel)]="especialidadSeleccionada"
+      formControlName="especialidad"
+      placeholder="Especialidad"
+    />
+  </div>
 
   @if (mostrarEspecialidades){
   <div class="dropdown">
@@ -57,7 +59,6 @@
     <div (click)="seleccionarEspecialidad(option)">
       {{ option }}
     </div>
-
     }
   </div>
 

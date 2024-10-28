@@ -1,12 +1,209 @@
 import { Component } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Unsubscribe } from '@angular/fire/app-check';
+import { AuthService } from '../../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [FontAwesomeModule, RouterOutlet, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  // Funcionalidad
+  formInicioSesion: FormGroup;
+  authSubscription?: Unsubscribe;
 
+  // validaciones
+  intentosInicioSesion: number;
+
+  mailError: boolean = false;
+  contrasenaError: boolean = false;
+  usuarioNoEncontrado: boolean = false;
+
+  mensajeMail: string = '';
+  mensajeContrasena: string = '';
+  mensajeUsuario: string = '';
+
+  // Constructor
+  constructor(protected auth: AuthService, protected router: Router) {
+    this.formInicioSesion = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      contrasena: new FormControl('', [Validators.required]),
+    });
+    this.intentosInicioSesion = 0;
+  }
+
+  login() {
+    this.mailError = false;
+    this.contrasenaError = false;
+    this.usuarioNoEncontrado = false;
+    if (this.ValidarCampos()) {
+      this.auth
+        .IniciarSesion(this.formInicioSesion.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          if (this.auth.tipoDeUsuario === 'administrador') {
+            this.confirmarInicioSesion();
+          } else if (
+            (this.auth.tipoDeUsuario === 'paciente' ||
+              this.auth.tipoDeUsuario === 'especialista') &&
+            !user.emailVerified
+          ) {
+            this.auth.CerrarSesion();
+            throw new Error('correo-no-verificado');
+          } else if (this.auth.tipoDeUsuario === 'especialista') {
+            if (this.auth.usuario.acceso === 'denegado') {
+              this.auth.CerrarSesion();
+              throw new Error('acceso-denegado-especialista');
+            } else if (this.auth.usuario.acceso === 'pendiente') {
+              this.auth.CerrarSesion();
+              throw new Error('acceso-pendiente-especialista');
+            }
+          } else {
+            this.confirmarInicioSesion();
+          }
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case 'auth/missing-email':
+              this.mailError = true;
+              this.mensajeMail = 'Mail incompleto';
+              break;
+            case 'auth/invalid-email':
+              this.mailError = true;
+              this.mensajeMail = 'Mail inválido';
+              break;
+            case 'auth/missing-password':
+              this.contrasenaError = true;
+              this.mensajeContrasena = 'Contraseña incompleta';
+              break;
+            case 'auth/wrong-password':
+              this.contrasenaError = true;
+              this.mensajeContrasena = 'Contraseña Incorrecta';
+              break;
+            case 'auth/user-not-found':
+            case 'auth/invalid-credential':
+              this.mensajeUsuario = 'Usuario no encontrado';
+              this.usuarioNoEncontrado = true;
+              if (this.intentosInicioSesion > 2) {
+                this.formInicioSesion.patchValue({
+                  email: '',
+                  contraseña: '',
+                });
+                this.mensajeUsuario = 'Ingrese los datos nuevamente';
+              }
+              this.intentosInicioSesion++;
+              break;
+          }
+          if (error.message === 'correo-no-verificado') {
+            this.usuarioNoEncontrado = true;
+            this.mensajeUsuario =
+              'Debe verificar su correo para iniciar sesión';
+          } else if (error.message === 'acceso-pendiente-especialista') {
+            this.usuarioNoEncontrado = true;
+            this.mensajeUsuario = 'Su acceso está pendiente de ser permitido';
+          } else if (error.message === 'acceso-denegado-especialista') {
+            this.usuarioNoEncontrado = true;
+            this.mensajeUsuario =
+              'Su acceso fue denegado por los adminitradores';
+          }
+          console.log(error);
+        });
+    }
+  }
+
+  ValidarCampos() {
+    let camposValidados = true;
+
+    const controlMail = this.formInicioSesion.controls['email'];
+    const controlContrasena = this.formInicioSesion.controls['contrasena'];
+
+    if (controlMail.errors !== null) {
+      camposValidados = false;
+      this.mailError = true;
+      if (controlMail.errors!['required']) {
+        this.mensajeMail = 'Ingrese su email';
+      } else if (controlMail.errors!['email']) {
+        this.mensajeMail = 'Ingrese un email válido';
+      }
+    }
+
+    if (controlContrasena.errors !== null) {
+      camposValidados = false;
+      this.contrasenaError = true;
+      if (controlContrasena.errors!['required']) {
+        this.mensajeContrasena = 'Ingrese su contraseña';
+      }
+    }
+
+    return camposValidados;
+  }
+
+  confirmarInicioSesion() {
+    this.formInicioSesion.get('email')?.setValue('');
+    this.formInicioSesion.get('contraseña')?.setValue('');
+    this.router.navigate(['/']);
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Sesión iniciada',
+      showConfirmButton: false,
+      timer: 1500,
+      background: '#6c757d',
+      color: '#e5dada',
+      backdrop: false,
+    });
+  }
+
+  iniciarOsborn() {
+    this.formInicioSesion.patchValue({
+      email: 'oscorp616@gmail.com',
+      contrasena: 'GreenG115',
+    });
+  }
+
+  iniciarJameson() {
+    this.formInicioSesion.patchValue({
+      email: 'jameson@gmail.com',
+      contrasena: 'Bugle115',
+    });
+  }
+
+  iniciarParker() {
+    this.formInicioSesion.patchValue({
+      email: 'parker616@gmail.com',
+      contrasena: 'Spiderman115',
+    });
+  }
+
+  iniciarStacy() {
+    this.formInicioSesion.patchValue({
+      email: 'gwen616@gmail.com',
+      contrasena: 'George115',
+    });
+  }
+  iniciarMorales() {
+    this.formInicioSesion.patchValue({
+      email: 'morales616@gmail.com',
+      contrasena: 'Prowler115',
+    });
+  }
+
+  iniciarPryde() {
+    this.formInicioSesion.patchValue({
+      email: 'kittypride616@gmail.com',
+      contrasena: 'Xmen115',
+    });
+  }
 }
