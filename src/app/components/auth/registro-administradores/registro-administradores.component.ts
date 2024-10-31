@@ -12,24 +12,20 @@ import { StorageService } from '../../../services/storage.service';
 import { Router } from '@angular/router';
 import { Administrador } from '../../../classes/administrador';
 import Swal from 'sweetalert2';
+import { LoadingComponent } from '../../loading/loading.component';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-registro-administradores',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoadingComponent],
   templateUrl: './registro-administradores.component.html',
   styleUrl: './registro-administradores.component.css',
 })
 export class RegistroAdministradoresComponent {
   subscription: Subscription | null = null;
 
-  especialidadSeleccionada = '';
-  mostrarEspecialidades = false;
-
-  especialidades: any[] = [];
-
   formRegistro: FormGroup;
-
   imagenPerfil: Blob = new Blob();
 
   nombreError: boolean = false;
@@ -54,7 +50,8 @@ export class RegistroAdministradoresComponent {
     protected auth: AuthService,
     protected db: DatabaseService,
     protected storage: StorageService,
-    protected router: Router
+    protected router: Router,
+    protected load: LoadingService
   ) {
     this.formRegistro = new FormGroup({
       nombre: new FormControl('', [
@@ -89,17 +86,8 @@ export class RegistroAdministradoresComponent {
       ]),
       imagenPerfil: new FormControl('', [Validators.required]),
     });
-
-    const observable = this.db.traerObjetos('especialistas');
-
-    this.subscription = observable.subscribe((resultado) => {
-      this.especialidades = Array.from(
-        new Set((resultado as any[]).map((doc) => doc.especialidad))
-      );
-    });
   }
-
-  Registro() {
+  async Registro() {
     this.nombreError = false;
     this.apellidoError = false;
     this.edadError = false;
@@ -108,25 +96,34 @@ export class RegistroAdministradoresComponent {
     this.contrasenaError = false;
     this.conexionError = false;
     this.imagenPerfilError = false;
-
-    if (this.ValidarCampos())
-      this.auth
-        .RegistrarUsuario(this.formRegistro.value)
+    if (this.ValidarCampos()) {
+      this.load.loading = true;
+      this.load.cargandoRegistro = true;
+      await this.auth
+        .RegistrarAdmin(this.formRegistro.value)
         .then(async (userCredential) => {
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
           const dni = this.formRegistro.controls['dni'].value;
           const email = this.formRegistro.controls['email'].value;
+          const contrasena = this.formRegistro.controls['contrasena'].value;
           const fotoPerfil = await this.storage.ObtenerImagenURL(
             // no puedo obtenerlo porque se debe hacer un await
             this.imagenPerfil,
             'ImagenesDePerfil'
           );
-
           this.db.AgregarObjeto(
-            new Administrador(nombre, apellido, edad, dni, email, fotoPerfil),
-            'especialistas'
+            new Administrador(
+              nombre,
+              apellido,
+              edad,
+              dni,
+              email,
+              fotoPerfil,
+              contrasena
+            ),
+            'administradores'
           );
           this.formRegistro.get('nombre')?.setValue('');
           this.formRegistro.get('apellido')?.setValue('');
@@ -135,19 +132,23 @@ export class RegistroAdministradoresComponent {
           this.formRegistro.get('email')?.setValue('');
           this.formRegistro.get('imagenPerfil')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
+
           this.router.navigateByUrl('/');
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Especialista registrado',
+            title: 'Administrador registrado',
             showConfirmButton: false,
             timer: 1500,
             background: '#6c757d',
             color: '#e5dada',
             backdrop: false,
           });
-        })
 
+          console.log('aaaa');
+          this.load.cargandoRegistro = false;
+          this.load.loading = false;
+        })
         .catch((error) => {
           switch (error.code) {
             case 'auth/admin-restricted-operation':
@@ -176,13 +177,12 @@ export class RegistroAdministradoresComponent {
               this.mensajeUsuario =
                 'Ocurrió un error. Por favor, intente de nuevo.';
           }
-          console.log(error);
         });
+    }
   }
 
   ValidarCampos() {
     let camposValidados = true;
-
     const controlNombre = this.formRegistro.controls['nombre'];
     const controlApellido = this.formRegistro.controls['apellido'];
     const controlEdad = this.formRegistro.controls['edad'];
@@ -191,13 +191,11 @@ export class RegistroAdministradoresComponent {
     const controlContrasena = this.formRegistro.controls['contrasena'];
     const controlImagenPerfil = this.formRegistro.controls['imagenPerfil'];
 
-    console.log(this.formRegistro.get('especialidad'));
-
     if (controlNombre.errors !== null) {
       camposValidados = false;
       this.nombreError = true;
       if (controlNombre.errors!['required']) {
-        this.mensajeNombre = 'Ingrese el nombre de especialista';
+        this.mensajeNombre = 'Ingrese el nombre de administrador';
       } else if (
         controlNombre.errors!['minlength'] ||
         controlNombre.errors!['maxlength']
@@ -205,12 +203,11 @@ export class RegistroAdministradoresComponent {
         this.mensajeNombre = 'El nombre debe tener entre 3 y 20 caracteres';
       }
     }
-
     if (controlApellido.errors !== null) {
       camposValidados = false;
       this.apellidoError = true;
       if (controlApellido.errors!['required']) {
-        this.mensajeApellido = 'Ingrese el apellido de especialista';
+        this.mensajeApellido = 'Ingrese el apellido de administrador';
       } else if (
         controlApellido.errors!['minlength'] ||
         controlApellido.errors!['maxlength']
@@ -220,12 +217,11 @@ export class RegistroAdministradoresComponent {
         this.mensajeApellido = 'El apellido debe ser letras ';
       }
     }
-
     if (controlEdad.errors !== null) {
       camposValidados = false;
       this.edadError = true;
       if (controlEdad.errors!['required']) {
-        this.mensajeEdad = 'Ingrese la edad del especialista';
+        this.mensajeEdad = 'Ingrese la edad del administrador';
       } else if (
         controlEdad.errors!['minlength'] ||
         controlEdad.errors!['maxlength']
@@ -235,12 +231,11 @@ export class RegistroAdministradoresComponent {
         this.mensajeEdad = 'La edad debe estar en números';
       }
     }
-
     if (controlDni.errors !== null) {
       camposValidados = false;
       this.DNIError = true;
       if (controlDni.errors!['required']) {
-        this.mensajeDNI = 'Ingrese el dni del especialista';
+        this.mensajeDNI = 'Ingrese el dni del administrador';
       } else if (
         controlDni.errors!['minlength'] ||
         controlDni.errors!['maxlength']
@@ -250,7 +245,6 @@ export class RegistroAdministradoresComponent {
         this.mensajeDNI = 'El dni debe estar en números';
       }
     }
-
     if (controlMail.errors !== null) {
       camposValidados = false;
       this.emailError = true;
@@ -260,7 +254,6 @@ export class RegistroAdministradoresComponent {
         this.mensajeEmail = 'Ingrese un email válido';
       }
     }
-
     if (controlContrasena.errors !== null) {
       camposValidados = false;
       this.contrasenaError = true;
@@ -277,7 +270,6 @@ export class RegistroAdministradoresComponent {
           'La contraseña no debe tener espacios en blanco';
       }
     }
-
     if (controlImagenPerfil.errors !== null) {
       camposValidados = false;
       this.imagenPerfilError = true;
@@ -285,17 +277,10 @@ export class RegistroAdministradoresComponent {
         this.mensajeImagenPerfil = 'Suba una foto de perfil';
       }
     }
-
     return camposValidados;
   }
-
   nuevaImagenPerfilCargada($event: any) {
     const file = $event.target.files[0];
     this.imagenPerfil = new Blob([file], { type: file.type });
-  }
-
-  seleccionarEspecialidad(option: string) {
-    this.especialidadSeleccionada = option;
-    this.mostrarEspecialidades = false;
   }
 }

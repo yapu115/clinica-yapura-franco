@@ -5,9 +5,7 @@
   margin: 0;
   box-sizing: border-box;
 }
-.body {
-  background-color: #080710;
-}
+
 .background {
   width: 430px;
   height: 520px;
@@ -19,17 +17,21 @@
 
 form {
   width: 430px;
+  margin: 10px auto;
   background-color: rgba(6, 126, 246, 0.497);
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 54%;
-  left: 50%;
+  /* position: absolute; */
   border-radius: 10px;
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
   padding: 30px 35px;
-  table-layout: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  overflow-y: auto;
 }
 form * {
   font-family: "Poppins", sans-serif;
@@ -103,6 +105,7 @@ div + button {
 }
 
 .error-message {
+  margin-top: 20px;
   color: #be2b2b;
   line-height: 0px;
   padding: 0;
@@ -110,6 +113,5 @@ div + button {
 }
 
 .error-message + button {
-  margin-top: 15px;
-  margin-bottom: 20px;
+  margin-top: 25px;
 }

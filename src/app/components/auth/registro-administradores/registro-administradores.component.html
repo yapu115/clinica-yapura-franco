@@ -1,3 +1,7 @@
+@if (this.load.loading || this.load.cargandoRegistro){
+<app-loading></app-loading>
+} @else {
+
 <div class="body">
   <div class="background"></div>
   <form [formGroup]="formRegistro">
@@ -62,8 +66,13 @@
         (change)="nuevaImagenPerfilCargada($event)"
       />
     </div>
+    @if (imagenPerfilError){
+    <div class="error-message img-error">
+      <p>{{ mensajeImagenPerfil }}</p>
+    </div>
+    }
 
-    <button (click )="Registro()">Registrar</button>
+    <button (click)="Registro()">Registrar</button>
     @if (conexionError){
     <div class="error-message">
       <p>{{ mensajeUsuario }}</p>
@@ -71,3 +80,4 @@
     }
   </form>
 </div>
+}

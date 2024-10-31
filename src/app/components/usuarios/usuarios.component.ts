@@ -27,13 +27,9 @@ export class UsuariosComponent {
   mostrarInfoPacientes: boolean = false;
 
   constructor(protected auth: AuthService, protected db: DatabaseService) {
-    const observableAdmin = this.db.traerObjetos('administradores');
-
-    this.subscription = observableAdmin.subscribe((resultado) => {
-      this.obtenerAdmins();
-      this.obtenerEspecialistas();
-      this.obtenerPacientes();
-    });
+    this.obtenerAdmins();
+    this.obtenerEspecialistas();
+    this.obtenerPacientes();
   }
 
   mostrarAdministradores() {
@@ -66,7 +62,8 @@ export class UsuariosComponent {
             doc.edad,
             doc.dni,
             doc.email,
-            doc.fotoPerfil
+            doc.fotoPerfil,
+            doc.contrasena
           )
       );
     });
@@ -121,6 +118,7 @@ export class UsuariosComponent {
       confirmButtonText: 'Permitir',
       denyButtonText: `Denegar`,
       confirmButtonColor: '#409f43',
+      denyButtonColor: '#b81414',
     }).then((result) => {
       if (result.isConfirmed) {
         especialista.acceso = 'permitido';

@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
-@if (this.auth.usuario === null){
+@if (!this.auth.usuarioLogueado){
 <button class="back-button" routerLink="/">
   <i class="fas fa-arrow-left"></i>
 </button>

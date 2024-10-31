@@ -1,4 +1,6 @@
-@if (this.auth.usuario !== null){
+@if (load.loading || this.load.cargandoRegistro || this.load.cargandoLogin){
+<app-loading></app-loading>
+} @else { @if (this.auth.usuarioEncontrado){
 <nav class="navbar">
   <div class="navbar-left">
     <a routerLink="/" class="nav-link">Inicio</a>
@@ -6,6 +8,9 @@
     <a routerLink="/usuarios" class="nav-link">Usuarios</a>
     <a routerLink="/registrar-administradores" class="nav-link"
       >Registrar administradores</a
+    >
+    <a routerLink="/registrarse" class="nav-link"
+      >Registrar Pacientes / Especialistas</a
     >
 
     }
@@ -44,3 +49,4 @@
 </div>
 }
 <router-outlet />
+}

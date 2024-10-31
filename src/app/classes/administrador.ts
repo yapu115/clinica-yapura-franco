@@ -6,6 +6,7 @@ export class Administrador {
   dni: number;
   email: string;
   fotoPerfil: any;
+  contrasena: any;
 
   constructor(
     nombre: string,
@@ -14,6 +15,7 @@ export class Administrador {
     dni: number,
     email: string,
     fotoPerfil: any,
+    contrasena: any,
     id: string = ''
   ) {
     this.id = id;
@@ -23,5 +25,6 @@ export class Administrador {
     this.dni = dni;
     this.email = email;
     this.fotoPerfil = fotoPerfil;
+    this.contrasena = contrasena;
   }
 }
