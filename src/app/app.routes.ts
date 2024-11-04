@@ -21,6 +21,14 @@ export const routes: Routes = [
     // canDeactivate: [noAuthGuard],
   },
   {
+    path: 'ingresar-registrarse',
+    loadComponent: () =>
+      import(
+        './components/auth/registro/ingreso-registro/ingreso-registro.component'
+      ).then((m) => m.IngresoRegistroComponent),
+    // canDeactivate: [noAuthGuard],
+  },
+  {
     path: 'registrarse',
     loadComponent: () =>
       import('./components/auth/registro/registro.component').then(

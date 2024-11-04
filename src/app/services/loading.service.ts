@@ -19,6 +19,9 @@ export class LoadingService {
   cargandoRegistro: boolean = false;
   constructor() {}
 
+  // regpac
+  regPaciente = false;
+
   guardarDatosLogin(
     error: boolean,
     mensaje: string,
