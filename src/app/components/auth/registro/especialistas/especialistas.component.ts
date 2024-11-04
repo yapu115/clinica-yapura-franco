@@ -124,6 +124,7 @@ export class EspecialistasComponent {
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
         .then(async (userCredential) => {
+          this.auth.CerrarSesion();
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;

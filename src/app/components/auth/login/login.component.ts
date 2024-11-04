@@ -241,4 +241,11 @@ export class LoginComponent {
       contrasena: 'Xmen115',
     });
   }
+
+  iniciarHarry() {
+    this.formInicioSesion.patchValue({
+      email: 'harrygg@gmail.com',
+      contrasena: 'Globulina115',
+    });
+  }
 }
