@@ -13,10 +13,7 @@ export class DatabaseService {
     const documento = colObjeto.doc();
     objeto.id = documento.ref.id;
 
-    documento.set({ ...objeto });
-
-    // si no cambia el id utilizar:
-    // colUsuarios.add({ ...usuario });
+    return documento.set({ ...objeto });
   }
 
   traerObjetos(coleccion: string) {

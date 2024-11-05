@@ -1,0 +1,42 @@
+<div class="appointment-container">
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar..." [(ngModel)]="query" />
+  </div>
+  <div class="appointment-list">
+    @for (turno of obtenerTurnos(); track $index) {
+
+    <div class="appointment-card">
+      <div class="appointment-header">
+        <h3>{{ turno.especialista }}</h3>
+        <p>{{ turno.especialidad }}</p>
+      </div>
+
+      <div class="appointment-info">
+        <p><strong>Día:</strong> {{ turno.fecha }} -</p>
+        <p>
+          <strong>Hora:</strong>
+          {{ turno.hora }}
+        </p>
+        <p><strong>Estado:</strong> {{ turno.estado }}</p>
+      </div>
+
+      <div class="appointment-actions">
+        @if (turno.estado !== "Realizada") {
+        <button class="cancel-button" (click)="cancelarTurno(turno)">
+          <img src="/mis-turnos/cancelar.png" alt="cancelar" />
+        </button>
+        } @if (turno.estado === "Realizada") { @if (turno.resena){
+        <!-- <button (click)="mostrarResena(turno.resena)" class="rate-button">
+          <img src="/mis-turnos/reseña.png" alt="" />
+        </button> -->
+        }
+        <!-- <button class="survey-button" (click)="activarEncuesta = true">
+          <img src="/mis-turnos/encuesta.png" alt="" />
+        </button> -->
+
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

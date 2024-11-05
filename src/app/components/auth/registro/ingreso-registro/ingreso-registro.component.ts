@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoadingService } from '../../../../services/loading.service';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-ingreso-registro',
@@ -10,7 +11,11 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './ingreso-registro.component.css',
 })
 export class IngresoRegistroComponent {
-  constructor(protected load: LoadingService, protected route: Router) {}
+  constructor(
+    protected load: LoadingService,
+    protected route: Router,
+    protected auth: AuthService
+  ) {}
 
   ingresarPaciente() {
     this.load.regPaciente = true;
@@ -20,6 +25,5 @@ export class IngresoRegistroComponent {
   ingresarEspecialista() {
     this.load.regPaciente = false;
     this.route.navigateByUrl('/registrarse');
-    this.load.loading = true;
   }
 }

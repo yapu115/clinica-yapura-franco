@@ -13,6 +13,11 @@
       >Registrar Pacientes / Especialistas</a
     >
 
+    } @else if (this.auth.tipoDeUsuario === "paciente"){
+    <a routerLink="/mis-turnos-paciente" class="nav-link">Mis turnos</a>
+    } @else if (this.auth.tipoDeUsuario === "especialista"){
+    <a routerLink="/mis-turnos-especialista" class="nav-link">Mis turnos</a>
+
     }
   </div>
   <div class="navbar-right">

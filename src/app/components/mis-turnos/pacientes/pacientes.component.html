@@ -1,0 +1,264 @@
+<div class="appointment-container">
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar..." [(ngModel)]="query" />
+  </div>
+  <div class="appointment-list">
+    @for (turno of obtenerTurnos(); track $index) {
+
+    <div class="appointment-card">
+      <div class="appointment-header">
+        <h3>{{ turno.especialista }}</h3>
+        <p>{{ turno.especialidad }}</p>
+      </div>
+
+      <div class="appointment-info">
+        <p><strong>Día:</strong> {{ turno.fecha }} -</p>
+        <p>
+          <strong>Hora:</strong>
+          {{ turno.hora }}
+        </p>
+        <p><strong>Estado:</strong> {{ turno.estado }}</p>
+      </div>
+
+      <div class="appointment-actions">
+        @if (turno.estado !== "Realizada") {
+        <button class="cancel-button" (click)="cancelarTurno(turno)">
+          <img src="/mis-turnos/cancelar.png" alt="" />
+        </button>
+        } @if (turno.estado === "Realizada") { @if (turno.resena){
+        <button (click)="mostrarResena(turno.resena)" class="rate-button">
+          <img src="/mis-turnos/reseña.png" alt="" />
+        </button>
+        }
+        <button class="survey-button" (click)="activarEncuesta = true">
+          <img src="/mis-turnos/encuesta.png" alt="" />
+        </button>
+
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+@if (this.activarResena){
+<div class="modal-overlay"></div>
+<div class="modal">
+  <p>{{ this.mensajeResena }}</p>
+  <button class="btn-resena" (click)="activarResena = false">Volver</button>
+</div>
+} @if (this.activarEncuesta){
+<div class="modal-overlay"></div>
+<div class="survey-modal">
+  <div class="survey-header">
+    <h2>Encuesta de Satisfacción</h2>
+    <p>Tu opinión es importante para nosotros</p>
+  </div>
+  <form class="survey-content" [formGroup]="formEncuesta">
+    <div class="form-group">
+      <label class="titulo-input"
+        >¿Cómo calificarías la atención recibida por el personal de
+        recepción?</label
+      >
+      <label>
+        <input
+          type="radio"
+          name="calificacionPersonal"
+          value="Buena"
+          formControlName="calificacionPersonal"
+        />
+        Buena
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="calificacionPersonal"
+          value="Regular"
+          formControlName="calificacionPersonal"
+        />
+        Regular
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="calificacionPersonal"
+          value="Mala"
+          formControlName="calificacionPersonal"
+        />
+        Mala
+      </label>
+    </div>
+    @if (errorRecepcion){
+    <div class="error-message">
+      <p>{{ mensajeRecepcion }}</p>
+    </div>
+    }
+
+    <div class="form-group">
+      <label class="titulo-input"
+        >¿La clínica cuenta con el equipo y tecnología necesarios para un buen
+        servicio?</label
+      >
+      <label>
+        <input
+          type="radio"
+          name="equipoNecesario"
+          value="si"
+          formControlName="equipoNecesario"
+        />
+        Sí
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="equipoNecesario"
+          value="no"
+          formControlName="equipoNecesario"
+        />
+        No
+      </label>
+    </div>
+    @if (errorEquipoTeconologia){
+    <div class="error-message">
+      <p>{{ mensajeRecepcion }}</p>
+    </div>
+    }
+
+    <div class="form-group">
+      <label for="pregunta3"
+        >¿Te pareció fácil y rápido el proceso de agendar tu cita?</label
+      >
+      <label>
+        <input
+          type="radio"
+          name="procesoAgendarRapido"
+          value="si"
+          formControlName="procesoAgendarRapido"
+        />
+        Sí
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="procesoAgendarRapido"
+          value="no"
+          formControlName="procesoAgendarRapido"
+        />
+        No
+      </label>
+    </div>
+    @if (errorAgendarCita){
+    <div class="error-message">
+      <p>{{ mensajeAgendarCita }}</p>
+    </div>
+    }
+
+    <div class="form-group">
+      <label for="pregunta3">
+        Del 1 al 5 ¿Qué tanto recomendaría esta clínica a tus familiares o
+        amigos?
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="nivelRecomendacion"
+          value="1"
+          formControlName="nivelRecomendacion"
+        />
+        1
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="nivelRecomendacion"
+          value="2"
+          formControlName="nivelRecomendacion"
+        />
+        2
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="nivelRecomendacion"
+          value="3"
+          formControlName="nivelRecomendacion"
+        />
+        3
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="nivelRecomendacion"
+          value="4"
+          formControlName="nivelRecomendacion"
+        />
+        4
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="nivelRecomendacion"
+          value="5"
+          formControlName="nivelRecomendacion"
+        />
+        5
+      </label>
+    </div>
+    @if (errorRecomendacion){
+    <div class="error-message">
+      <p>{{ mensajeRecomendacion }}</p>
+    </div>
+    }
+    <div class="form-group">
+      <label> ¿El tratamiento ha mejorado tu condición de salud? </label>
+      <label>
+        <input
+          type="radio"
+          name="mejoraEnSalud"
+          value="si"
+          formControlName="mejoraEnSalud"
+        />
+        Sí
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="mejoraEnSalud"
+          value="no"
+          formControlName="mejoraEnSalud"
+        />
+        No
+      </label>
+    </div>
+    @if (errorMejoraCondicion){
+    <div class="error-message">
+      <p>{{ mensajeMejoraCondicion }}</p>
+    </div>
+    }
+    <div class="form-group">
+      <label for="comments" class="titulo-input"
+        >¿Cómo fue la atención del especialista?</label
+      >
+      <textarea
+        id="comments"
+        name="comentarioEspecialista"
+        rows="4"
+        formControlName="comentarioEspecialista"
+        maxlength="280"
+      ></textarea>
+      @if (errorAtencionEspecialista){
+      <div class="error-message">
+        <p>{{ mensajeAtencionEspecialista }}</p>
+      </div>
+      }
+    </div>
+    <div class="button-group">
+      <button class="cancel-button" (click)="this.activarEncuesta = false">
+        Cancelar
+      </button>
+      <button class="submit-button" (click)="guardarEncuesta()">Enviar</button>
+    </div>
+  </form>
+</div>
+
+}

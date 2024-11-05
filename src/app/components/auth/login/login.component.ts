@@ -217,7 +217,7 @@ export class LoginComponent {
 
   iniciarParker() {
     this.formInicioSesion.patchValue({
-      email: 'parker616@gmail.com',
+      email: 'aultimis@gmail.com',
       contrasena: 'Spiderman115',
     });
   }
@@ -244,7 +244,7 @@ export class LoginComponent {
 
   iniciarHarry() {
     this.formInicioSesion.patchValue({
-      email: 'harrygg@gmail.com',
+      email: 'yapufranco115@gmail.com',
       contrasena: 'Globulina115',
     });
   }
