@@ -95,7 +95,7 @@ export class SolicitarTurnoComponent {
           'solicitado'
         );
       } else if (this.auth.tipoDeUsuario === 'administrador') {
-        let turno = new Turno(
+        turno = new Turno(
           especialista,
           especialidad,
           paciente,

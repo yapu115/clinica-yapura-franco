@@ -7,7 +7,8 @@
 
     <div class="appointment-card">
       <div class="appointment-header">
-        <h3>{{ turno.paciente }}</h3>
+        <h3>Especialista: {{ turno.especialista }}</h3>
+        <h4>Paciente: {{ turno.paciente }}</h4>
         <p>{{ turno.especialidad }}</p>
       </div>
 
@@ -21,7 +22,7 @@
       </div>
 
       <div class="appointment-actions">
-        @if (turno.estado === "No realizada") {
+        @if (turno.estado === "no realizado" || turno.estado === "solicitado") {
         <button class="cancel-button" (click)="cancelarTurno(turno)">
           <img src="/mis-turnos/cancelar.png" alt="cancelar" />
         </button>

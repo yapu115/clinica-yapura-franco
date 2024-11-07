@@ -46,12 +46,11 @@
   </div>
   <h3>{{ auth.usuario.nombre }} {{ auth.usuario.apellido }}</h3>
   <p>{{ auth.usuario.email }}</p>
-  <p>{{ auth.usuario.dni }}</p>
-  @if (this.auth.tipoDeUsuario === "paciente"){
-  <p>{{ auth.usuario.obraSocial }}</p>
-  } @else if (this.auth.tipoDeUsuario === "especialista"){
+  @if (this.auth.tipoDeUsuario === "especialista"){
   <p>{{ auth.usuario.especialidad }}</p>
   }
+
+  <button class="ver-perfil" routerLink="/mi-perfil">Mi perfil</button>
 
   <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
 </div>

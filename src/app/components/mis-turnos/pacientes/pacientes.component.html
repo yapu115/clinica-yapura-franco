@@ -25,12 +25,13 @@
         <button (click)="mostrarResena(turno.resena)" class="rate-button">
           <img src="/mis-turnos/reseña.png" alt="" />
         </button>
-        }
+        } @if (turno.encuesta === ""){
+
         <button class="survey-button" (click)="activarEncuesta = true">
           <img src="/mis-turnos/encuesta.png" alt="" />
         </button>
-
-        } @else if (turno.estado === "no realizado") {
+        } } @else if (turno.estado === "no realizado" || turno.estado ===
+        "solicitado") {
         <button class="cancel-button" (click)="cancelarTurno(turno)">
           <img src="/mis-turnos/cancelar.png" alt="" /></button
         >}

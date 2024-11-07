@@ -70,6 +70,14 @@ export const routes: Routes = [
       ).then((m) => m.EspecialistasComponent),
     // canDeactivate: [noAuthGuard],
   },
+  {
+    path: 'mi-perfil',
+    loadComponent: () =>
+      import('./components/mi-perfil/mi-perfil.component').then(
+        (m) => m.MiPerfilComponent
+      ),
+    // canDeactivate: [noAuthGuard],
+  },
   //admin
   {
     path: 'usuarios',

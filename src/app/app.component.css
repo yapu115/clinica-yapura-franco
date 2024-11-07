@@ -95,3 +95,16 @@ p {
   cursor: pointer;
   font-weight: bold;
 }
+
+.ver-perfil {
+  background-color: #4a9ef8;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 0;
+  font-size: large;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,31 @@
+<div class="body">
+  <div class="user-profile">
+    <div class="cover-photo">
+      @if (this.auth.tipoDeUsuario === "paciente"){
+      <img src="{{ this.auth.usuario.fotoPortada }}" alt="Foto de Portada" />
+      } @else {
+      <img src="/banner.png" alt="Foto de Portada" />
+      }
+    </div>
+    <div class="profile-info">
+      <div class="profile-photo">
+        <img src="{{ this.auth.usuario.fotoPerfil }}" alt="Foto de Perfil" />
+      </div>
+      <h2 style="margin-top: 20px">
+        {{ this.auth.usuario.nombre }} {{ this.auth.usuario.apellido }}
+      </h2>
+
+      <p>Correo: {{ this.auth.usuario.email }}</p>
+      <p>DNI: {{ this.auth.usuario.dni }}</p>
+      <p>Edad: {{ this.auth.usuario.edad }} años</p>
+      @if (this.auth.tipoDeUsuario === "paciente"){
+      <p>Obra Social: {{ this.auth.usuario.obraSocial }}</p>
+      } @else if (this.auth.tipoDeUsuario === "especialista"){
+      <h3 style="margin-bottom: 10px; margin-top: 30px">Especialidades:</h3>
+      @for (esp of this.auth.usuario.especialidades; track $index) {
+      <p>{{ esp }}</p>
+
+      } }
+    </div>
+  </div>
+</div>
