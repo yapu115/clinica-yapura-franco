@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Turno } from '../../classes/turno';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Paciente } from '../../classes/paciente';
 
 @Component({
   selector: 'app-solicitar-turno',
@@ -26,8 +27,10 @@ export class SolicitarTurnoComponent {
   subscription: Subscription | null = null;
 
   especialistas: Especialista[] = [];
+  pacientes: Paciente[] = [];
   especialidades: string[] = [];
   nombresEspecialistas: string[] = [];
+  nombresPacientes: string[] = [];
   turnos: Turno[] = [];
 
   especialistasError: boolean = false;
@@ -54,6 +57,7 @@ export class SolicitarTurnoComponent {
     protected router: Router
   ) {
     this.obtenerEspecialistas();
+    this.obtenerPacientes();
     this.obtenerTurnos();
     this.obtenerProximosDias();
 
@@ -196,6 +200,15 @@ export class SolicitarTurnoComponent {
     return this.nombresEspecialistas;
   }
 
+  obtenerNombresPacientes() {
+    this.nombresPacientes = [];
+    this.pacientes.forEach((pac) => {
+      this.nombresPacientes.push(`${pac.nombre} ${pac.apellido}`);
+    });
+
+    return this.nombresPacientes;
+  }
+
   obtenerCambiosListas() {
     this.obtenerEspecialidades();
     this.obtenerNombresEspecialistas();
@@ -214,11 +227,34 @@ export class SolicitarTurnoComponent {
               doc.apellido,
               doc.edad,
               doc.dni,
-              doc.especialidad,
+              doc.especialidades,
               doc.email,
               doc.fotoPerfil,
               doc.acceso,
               doc.id
+            )
+        );
+    });
+  }
+
+  obtenerPacientes() {
+    const observableEspecialistas = this.db.traerObjetos('pacientes');
+
+    this.subscription = observableEspecialistas.subscribe((resultado) => {
+      this.pacientes = (resultado as any[])
+        // .filter((doc) => doc.acceso === 'permitido')
+        .map(
+          (doc) =>
+            new Paciente(
+              doc.nombre,
+              doc.apellido,
+              doc.edad,
+              doc.dni,
+              doc.obraSocial,
+              doc.email,
+              doc.fotoPerfil,
+              doc.fotoPortada,
+              doc.dni
             )
         );
     });
@@ -255,7 +291,7 @@ export class SolicitarTurnoComponent {
       if (turno.especialista === controlespecialista) {
         if (controlDia === turno.fecha) {
           horariosDisponibles = horariosDisponibles.filter(
-            (hora) => hora !== controlDia
+            (hora) => hora !== turno.hora
           );
         }
       }
@@ -266,7 +302,7 @@ export class SolicitarTurnoComponent {
 
   obtenerProximosDias() {
     const hoy = new Date();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       const date = new Date(hoy);
       date.setDate(hoy.getDate() + i + 1);
       const day = String(date.getDate()).padStart(2, '0');

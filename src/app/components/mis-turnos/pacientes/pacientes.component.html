@@ -30,7 +30,7 @@
           <img src="/mis-turnos/encuesta.png" alt="" />
         </button>
 
-        } @else if (turno.estado !== "rechazado") {
+        } @else if (turno.estado === "no realizado") {
         <button class="cancel-button" (click)="cancelarTurno(turno)">
           <img src="/mis-turnos/cancelar.png" alt="" /></button
         >}

@@ -81,8 +81,24 @@
       <div class="error-message">
         <p>{{ mensajeHora }}</p>
       </div>
-      }
+      } @if (this.auth.tipoDeUsuario === "administrador"){
+      <div class="form-group">
+        <label for="paciente">Paciente</label>
 
+        <select id="paciente" formControlName="paciente">
+          <option value="" selected>Selecciona un paciente</option>
+          @for (paciente of this.obtenerNombresPacientes(); track $index) {
+          <option value="{{ paciente }}">
+            {{ paciente }}
+          </option>
+          }
+        </select>
+      </div>
+      @if (pacienteError){
+      <div class="error-message">
+        <p>{{ mensajePaciente }}</p>
+      </div>
+      } }
       <button class="submit-button" (click)="guardarTurno()">
         Solicitar Turno
       </button>

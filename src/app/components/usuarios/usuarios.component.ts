@@ -80,7 +80,7 @@ export class UsuariosComponent {
             doc.apellido,
             doc.edad,
             doc.dni,
-            doc.especialidad,
+            doc.especialidades,
             doc.email,
             doc.fotoPerfil,
             doc.acceso,

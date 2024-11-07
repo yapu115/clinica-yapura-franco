@@ -224,7 +224,7 @@ export class LoginComponent {
 
   iniciarStacy() {
     this.formInicioSesion.patchValue({
-      email: 'gwen616@gmail.com',
+      email: 'yapufranco935@gmail.com',
       contrasena: 'George115',
     });
   }
