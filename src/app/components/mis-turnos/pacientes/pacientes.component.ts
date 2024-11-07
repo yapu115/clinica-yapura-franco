@@ -26,6 +26,8 @@ export class PacientesComponent {
   activarResena = false;
   mensajeResena = '';
 
+  turnoEncuesta: any;
+
   activarEncuesta = false;
 
   errorRecepcion: boolean = false;
@@ -144,6 +146,8 @@ export class PacientesComponent {
       this.db
         .AgregarObjeto(this.formEncuesta.value, 'encuestas-pacientes')
         .then((e) => {
+          // this.turnoEncuesta.encuesta = 'completada';
+          // this.db.ModificarObjeto(this.turnoEncuesta, 'turnos');
           Swal.fire({
             heightAuto: false,
             title: 'Encuesta registrada',
