@@ -63,7 +63,7 @@
         <td>{{ espec.email }}</td>
         <td>{{ espec.dni }}</td>
         <td>{{ espec.edad }}</td>
-        <td>{{ espec.especialidad }}</td>
+        <td>{{ espec.especialidades }}</td>
         @if (espec.acceso === "pendiente"){
         <td class="{{ espec.acceso }}" (click)="cambiarEstadoAcceso(espec)">
           {{ espec.acceso }}

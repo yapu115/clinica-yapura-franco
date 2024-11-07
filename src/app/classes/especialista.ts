@@ -4,7 +4,7 @@ export class Especialista {
   apellido: string;
   edad: number;
   dni: number;
-  especialidad: string;
+  especialidades: string[];
   email: string;
   fotoPerfil: any;
   acceso: string;
@@ -14,7 +14,7 @@ export class Especialista {
     apellido: string,
     edad: number,
     dni: number,
-    especialidad: string,
+    especialidades: string[],
     email: string,
     fotoPerfil: any,
     accesoPermitido: string,
@@ -25,7 +25,7 @@ export class Especialista {
     this.apellido = apellido;
     this.edad = edad;
     this.dni = dni;
-    this.especialidad = especialidad;
+    this.especialidades = especialidades;
     this.email = email;
     this.fotoPerfil = fotoPerfil;
     this.acceso = accesoPermitido;

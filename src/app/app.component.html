@@ -12,8 +12,11 @@
     <a routerLink="/registrarse" class="nav-link"
       >Registrar Pacientes / Especialistas</a
     >
+    <a routerLink="/solicitar-turno" class="nav-link">Solicitar turno</a>
+    <a routerLink="/turnos" class="nav-link">Turnos</a>
 
     } @else if (this.auth.tipoDeUsuario === "paciente"){
+    <a routerLink="/solicitar-turno" class="nav-link">Solicitar turno</a>
     <a routerLink="/mis-turnos-paciente" class="nav-link">Mis turnos</a>
     } @else if (this.auth.tipoDeUsuario === "especialista"){
     <a routerLink="/mis-turnos-especialista" class="nav-link">Mis turnos</a>

@@ -28,6 +28,7 @@ export const routes: Routes = [
       ).then((m) => m.IngresoRegistroComponent),
     // canDeactivate: [noAuthGuard],
   },
+
   {
     path: 'registrarse',
     loadComponent: () =>
@@ -37,6 +38,22 @@ export const routes: Routes = [
     // canDeactivate: [noAuthGuard],
   },
   //pacientes
+  {
+    path: 'turnos',
+    loadComponent: () =>
+      import('./components/turnos/turnos.component').then(
+        (m) => m.TurnosComponent
+      ),
+    // canDeactivate: [noAuthGuard],
+  },
+  {
+    path: 'solicitar-turno',
+    loadComponent: () =>
+      import('./components/solicitar-turno/solicitar-turno.component').then(
+        (m) => m.SolicitarTurnoComponent
+      ),
+    // canDeactivate: [noAuthGuard],
+  },
   {
     path: 'mis-turnos-paciente',
     loadComponent: () =>

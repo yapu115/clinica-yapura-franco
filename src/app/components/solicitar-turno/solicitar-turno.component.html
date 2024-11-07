@@ -1,0 +1,91 @@
+<div class="body">
+  <div class="appointment-form-container">
+    <h2>Solicitar Turno</h2>
+    <form class="appointment-form" [formGroup]="formTurno">
+      <div class="form-group">
+        <label for="especialidad">Especialidad</label>
+
+        <select id="especialidad" formControlName="especialidad">
+          <option value="" selected>Selecciona una especialidad</option>
+          @for (especialidad of this.obtenerEspecialidades(); track $index) {
+          <option value="{{ especialidad }}">
+            {{ especialidad }}
+          </option>
+          }
+        </select>
+      </div>
+      @if (especialidadError){
+      <div class="error-message">
+        <p>{{ mensajeEspecialidad }}</p>
+      </div>
+      }
+
+      <!-- Otro campo de selección -->
+      <div class="form-group">
+        <label for="doctor">Selecciona un especialista</label>
+        <select id="doctor" formControlName="especialista">
+          <option value="" selected>Seleccionar</option>
+
+          @for (especialista of this.obtenerNombresEspecialistas(); track
+          $index) {
+          <option value="{{ especialista }}">
+            {{ especialista }}
+          </option>
+          }
+        </select>
+      </div>
+      @if (especialistasError){
+      <div class="error-message">
+        <p>{{ mensajeEspecialista }}</p>
+      </div>
+      }
+
+      <div class="form-group">
+        <label>Día de la consulta</label>
+        <div class="button-group">
+          @for (dia of proximosDias; track $index) {
+          <button
+            type="button"
+            [class.selected]="diaSeleccionado === dia"
+            (click)="seleccionarDia(dia)"
+          >
+            {{ dia }}
+          </button>
+
+          }
+        </div>
+      </div>
+      @if (fechaError){
+      <div class="error-message">
+        <p>{{ mensajeFecha }}</p>
+      </div>
+      }
+
+      <!-- Selección de hora -->
+      <div class="form-group">
+        <label>Horario de la consulta</label>
+        <div class="button-group">
+          @for (horario of obtenerHorariosDisponibles(); track $index) {
+          <button
+            type="button"
+            [class.selected]="horarioSeleccionado === horario"
+            (click)="seleccionarHorario(horario)"
+          >
+            {{ horario }}
+          </button>
+          }
+        </div>
+      </div>
+
+      @if (horarError){
+      <div class="error-message">
+        <p>{{ mensajeHora }}</p>
+      </div>
+      }
+
+      <button class="submit-button" (click)="guardarTurno()">
+        Solicitar Turno
+      </button>
+    </form>
+  </div>
+</div>

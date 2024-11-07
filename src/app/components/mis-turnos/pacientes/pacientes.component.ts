@@ -10,6 +10,8 @@ import {
 import Swal from 'sweetalert2';
 import { DatabaseService } from '../../../services/database.service';
 import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
+import { Turno } from '../../../classes/turno';
 
 @Component({
   selector: 'app-pacientes',
@@ -42,46 +44,10 @@ export class PacientesComponent {
 
   formEncuesta: FormGroup;
 
+  subscription: Subscription | null = null;
+
   constructor(protected db: DatabaseService, protected auth: AuthService) {
-    this.turnos = [
-      {
-        especialista: 'Dr. Juan Pérez',
-        especialidad: 'Cardiología',
-        fecha: new Date('2024-11-06T15:00:00'),
-        hora: '15:00',
-        estado: 'No realizada',
-      },
-      {
-        especialista: 'Dra. Ana López',
-        especialidad: 'Pediatría',
-        fecha: new Date('2024-11-07T10:30:00'),
-        hora: '10:30',
-        estado: 'Realizada',
-        resena:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      },
-      {
-        especialista: 'Dr. Carlos Mendoza',
-        especialidad: 'Dermatología',
-        fecha: new Date('2024-11-08T13:00:00'),
-        hora: '13:00',
-        estado: 'Realizada',
-      },
-      {
-        especialista: 'Dra. Laura Torres',
-        especialidad: 'Ginecología',
-        fecha: new Date('2024-11-09T09:00:00'),
-        hora: '09:00',
-        estado: 'No realizada',
-      },
-      {
-        especialista: 'Dr. Ricardo Gómez',
-        especialidad: 'Neurología',
-        fecha: new Date('2024-11-10T14:30:00'),
-        hora: '14:30',
-        estado: 'Realizada',
-      },
-    ];
+    this.obtenerTurnosFirestore();
 
     this.formEncuesta = new FormGroup({
       calificacionPersonal: new FormControl('', [Validators.required]),
@@ -90,6 +56,26 @@ export class PacientesComponent {
       nivelRecomendacion: new FormControl('', [Validators.required]),
       mejoraEnSalud: new FormControl('', [Validators.required]),
       comentarioEspecialista: new FormControl('', [Validators.required]),
+    });
+  }
+
+  obtenerTurnosFirestore() {
+    const observableEspecialistas = this.db.traerObjetos('turnos');
+
+    this.subscription = observableEspecialistas.subscribe((resultado) => {
+      this.turnos = (resultado as any[]).map(
+        (doc) =>
+          new Turno(
+            doc.especialista,
+            doc.especialidad,
+            doc.paciente,
+            doc.fecha,
+            doc.hora,
+            doc.estado,
+            doc.resena,
+            doc.id
+          )
+      );
     });
   }
 

@@ -21,11 +21,7 @@
       </div>
 
       <div class="appointment-actions">
-        @if (turno.estado !== "Realizada") {
-        <button class="cancel-button" (click)="cancelarTurno(turno)">
-          <img src="/mis-turnos/cancelar.png" alt="" />
-        </button>
-        } @if (turno.estado === "Realizada") { @if (turno.resena){
+        @if (turno.estado === "realizado") { @if (turno.resena){
         <button (click)="mostrarResena(turno.resena)" class="rate-button">
           <img src="/mis-turnos/reseña.png" alt="" />
         </button>
@@ -34,7 +30,10 @@
           <img src="/mis-turnos/encuesta.png" alt="" />
         </button>
 
-        }
+        } @else if (turno.estado !== "rechazado") {
+        <button class="cancel-button" (click)="cancelarTurno(turno)">
+          <img src="/mis-turnos/cancelar.png" alt="" /></button
+        >}
       </div>
     </div>
     }
