@@ -1,27 +1,35 @@
-# Clinica
+ <h1 align="center">CLINICA ONLINE </h1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e6fcce6a-eff9-404e-af21-72f56555c7e8" alt="Clínica logo" width="300px"/>
+</p>
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Indice
 
-## Code scaffolding
+- [Sobre mí](#personal)
+- [Introducción](#introduccion)
+- [Interfaz y uso](#uso)
+  - [Registro](#registro)
+  - [Inicio de sesión](#inicio)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+# Personal
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Me llamo Franco Yapura, tengo 19 años y actualmente estoy cursando el último cuatrimestre de la tecnicatura en Programacion en la UTN.
+Este es uno de los proyectos finales de la cursada y está trabajado con Angular.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Introduccion
 
-## Running end-to-end tests
+Este proyecto simula un sistema de clínica virtual en donde se pueden registrar usuarios que pueden reservar y realizar turnos en caso de ser paciente y aceptarlos y rechazarlos en caso de ser un especialista.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+# uso
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## registro
+
+
+
+
