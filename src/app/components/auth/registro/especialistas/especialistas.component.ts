@@ -14,20 +14,21 @@ import { Paciente } from '../../../../classes/paciente';
 import Swal from 'sweetalert2';
 import { Especialista } from '../../../../classes/especialista';
 import { Subscription } from 'rxjs';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-especialistas',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, FormsModule],
+  imports: [ReactiveFormsModule, RouterLink, FormsModule, RecaptchaModule],
   templateUrl: './especialistas.component.html',
   styleUrl: './especialistas.component.css',
 })
 export class EspecialistasComponent {
   subscription: Subscription | null = null;
 
-  especialidadSeleccionada = '';
-  mostrarEspecialidades = false;
+  especialidadesSeleccionadas: string = '';
 
+  mostrarEspecialidades = false;
   especialidades: any[] = [];
 
   formRegistro: FormGroup;
@@ -44,6 +45,7 @@ export class EspecialistasComponent {
   contrasenaError: boolean = false;
   imagenPerfilError: boolean = false;
   conexionError: boolean = false;
+  captchaError: boolean = false;
 
   mensajeNombre: string = '';
   mensajeApellido: string = '';
@@ -54,6 +56,7 @@ export class EspecialistasComponent {
   mensajeContrasena: string = '';
   mensajeImagenPerfil: string = '';
   mensajeUsuario: string = '';
+  mensajeCaptcha: string = 'Debe completar el Captcha';
 
   constructor(
     protected auth: AuthService,
@@ -86,10 +89,7 @@ export class EspecialistasComponent {
         Validators.maxLength(8),
         Validators.pattern('^[0-9]+$'),
       ]),
-      especialidad: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3), //apl
-      ]),
+      especialidades: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       contrasena: new FormControl('', [
         Validators.required,
@@ -98,18 +98,29 @@ export class EspecialistasComponent {
         Validators.pattern('^[^\\s]+$'),
       ]),
       imagenPerfil: new FormControl('', [Validators.required]),
+      captcha: new FormControl('', [Validators.required]),
     });
 
     const observable = this.db.traerObjetos('especialistas');
 
     this.subscription = observable.subscribe((resultado) => {
       this.especialidades = Array.from(
-        new Set((resultado as any[]).map((doc) => doc.especialidad))
+        new Set(
+          (resultado as any[]).flatMap((doc) => doc.especialidades) // Aplana los arrays de especialidades
+        )
       );
     });
   }
 
+  resolved(captchaResponse: string | null) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+    this.formRegistro.get('captcha')?.setValue(captchaResponse);
+  }
+
   Registro() {
+    console.log(this.formRegistro.controls['especialidades'].value);
+
+    console.log(this.formRegistro.controls['especialidades'].value);
     this.nombreError = false;
     this.apellidoError = false;
     this.edadError = false;
@@ -119,6 +130,7 @@ export class EspecialistasComponent {
     this.contrasenaError = false;
     this.conexionError = false;
     this.imagenPerfilError = false;
+    this.captchaError = false;
 
     if (this.ValidarCampos())
       this.auth
@@ -129,7 +141,8 @@ export class EspecialistasComponent {
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
           const dni = this.formRegistro.controls['dni'].value;
-          const especialidad = this.formRegistro.controls['especialidad'].value;
+          const especialidad =
+            this.formRegistro.controls['especialidades'].value;
           const email = this.formRegistro.controls['email'].value;
           const fotoPerfil = await this.storage.ObtenerImagenURL(
             // no puedo obtenerlo porque se debe hacer un await
@@ -154,10 +167,11 @@ export class EspecialistasComponent {
           this.formRegistro.get('apellido')?.setValue('');
           this.formRegistro.get('edad')?.setValue('');
           this.formRegistro.get('dni')?.setValue('');
-          this.formRegistro.get('especialidad')?.setValue('');
+          this.formRegistro.get('especialidades')?.setValue('');
           this.formRegistro.get('email')?.setValue('');
           this.formRegistro.get('imagenPerfil')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
+          this.formRegistro.get('captcha')?.setValue('');
           this.router.navigateByUrl('/');
           Swal.fire({
             position: 'top-end',
@@ -210,12 +224,11 @@ export class EspecialistasComponent {
     const controlApellido = this.formRegistro.controls['apellido'];
     const controlEdad = this.formRegistro.controls['edad'];
     const controlDni = this.formRegistro.controls['dni'];
-    const controlEspecialidad = this.formRegistro.controls['especialidad'];
+    const controlEspecialidad = this.formRegistro.controls['especialidades'];
     const controlMail = this.formRegistro.controls['email'];
     const controlContrasena = this.formRegistro.controls['contrasena'];
     const controlImagenPerfil = this.formRegistro.controls['imagenPerfil'];
-
-    console.log(this.formRegistro.get('especialidad'));
+    const controlCaptcha = this.formRegistro.controls['captcha'];
 
     if (controlNombre.errors !== null) {
       camposValidados = false;
@@ -280,10 +293,13 @@ export class EspecialistasComponent {
       this.especialidadError = true;
       if (controlEspecialidad.errors!['required']) {
         this.mensajeEspecialidad = 'Ingrese la especialidad';
-      } else if (controlEspecialidad.errors!['minlength']) {
-        this.mensajeEspecialidad =
-          'La especialidad debe tener al menos 3 caracteres';
       }
+    } else {
+      this.formRegistro
+        .get('especialidades')
+        ?.setValue(
+          this.formRegistro.controls['especialidades'].value.split(', ')
+        );
     }
 
     if (controlMail.errors !== null) {
@@ -321,6 +337,11 @@ export class EspecialistasComponent {
       }
     }
 
+    if (controlCaptcha.errors !== null) {
+      camposValidados = false;
+      this.captchaError = true;
+    }
+
     return camposValidados;
   }
 
@@ -329,8 +350,17 @@ export class EspecialistasComponent {
     this.imagenPerfil = new Blob([file], { type: file.type });
   }
 
-  seleccionarEspecialidad(option: string) {
-    this.especialidadSeleccionada = option;
+  seleccionarEspecialidad(especialidad: string): void {
+    if (this.formRegistro.controls['especialidades'].value === '') {
+      this.formRegistro.get('especialidades')?.setValue(especialidad);
+    } else {
+      this.formRegistro
+        .get('especialidades')
+        ?.setValue(
+          `${this.formRegistro.controls['especialidades'].value}, ${especialidad}`
+        );
+    }
+
     this.mostrarEspecialidades = false;
   }
 }

@@ -1,46 +1,71 @@
-<form [formGroup]="formRegistro" action="#">
-  <h2>Registrar Especialista</h2>
-  <div class="social-container"></div>
+<div class="container">
+  <form [formGroup]="formRegistro" action="#">
+    <h2>Registrar Especialista</h2>
+    <div class="social-container"></div>
 
-  <input
-    type="text"
-    placeholder="Nombre"
-    name="nombre"
-    formControlName="nombre"
-  />
-  @if (nombreError){
-  <div class="error-message">
-    <p>{{ mensajeNombre }}</p>
-  </div>
-  }
+    <input
+      type="text"
+      placeholder="Nombre"
+      name="nombre"
+      formControlName="nombre"
+    />
+    @if (nombreError){
+    <div class="error-message">
+      <p>{{ mensajeNombre }}</p>
+    </div>
+    }
 
-  <input
-    type="text"
-    placeholder="Apellido"
-    name="apellido"
-    formControlName="apellido"
-  />
-  @if (apellidoError){
-  <div class="error-message">
-    <p>{{ mensajeApellido }}</p>
-  </div>
-  }
+    <input
+      type="text"
+      placeholder="Apellido"
+      name="apellido"
+      formControlName="apellido"
+    />
+    @if (apellidoError){
+    <div class="error-message">
+      <p>{{ mensajeApellido }}</p>
+    </div>
+    }
 
-  <input type="text" placeholder="Edad" name="edad" formControlName="edad" />
-  @if (edadError){
-  <div class="error-message">
-    <p>{{ mensajeEdad }}</p>
-  </div>
-  }
+    <input type="text" placeholder="Edad" name="edad" formControlName="edad" />
+    @if (edadError){
+    <div class="error-message">
+      <p>{{ mensajeEdad }}</p>
+    </div>
+    }
 
-  <input type="text" placeholder="DNI" name="dni" formControlName="dni" />
-  @if (DNIError){
-  <div class="error-message">
-    <p>{{ mensajeDNI }}</p>
-  </div>
-  }
+    <input type="text" placeholder="DNI" name="dni" formControlName="dni" />
+    @if (DNIError){
+    <div class="error-message">
+      <p>{{ mensajeDNI }}</p>
+    </div>
+    }
 
-  <div class="speciality-container">
+    <div class="speciality-container">
+      <label for="combobox" (click)="mostrarEspecialidades = true">
+        Seleccionar
+      </label>
+      <input
+        type="text"
+        id="combobox"
+        formControlName="especialidades"
+        placeholder="Especialidades"
+      />
+    </div>
+
+    @if (mostrarEspecialidades) {
+    <div class="dropdown">
+      @for (especialidad of especialidades; track $index) {
+      <div
+        (click)="seleccionarEspecialidad(especialidad)"
+        [class.selected]="especialidadesSeleccionadas.includes(especialidad)"
+      >
+        {{ especialidad }}
+      </div>
+      }
+    </div>
+    }
+    <!-- <div class="speciality-container">
     <label for="combobox" (click)="mostrarEspecialidades = true"
       >Seleccionar
     </label>
@@ -62,53 +87,65 @@
     }
   </div>
 
-  } @if (especialidadError){
-  <div class="error-message">
-    <p>{{ mensajeEspecialidad }}</p>
-  </div>
-  }
+  } -->
+    @if (especialidadError){
+    <div class="error-message">
+      <p>{{ mensajeEspecialidad }}</p>
+    </div>
+    }
 
-  <input type="email" placeholder="Email" formControlName="email" />
-  @if (emailError){
-  <div class="error-message">
-    <p>{{ mensajeEmail }}</p>
-  </div>
-  }
-  <input
-    type="password"
-    placeholder="Contraseña"
-    formControlName="contrasena"
-  />
-  @if (contrasenaError){
-  <div class="error-message">
-    <p>{{ mensajeContrasena }}</p>
-  </div>
-  }
-
-  <div class="buttons-container">
-    <label for="imagen-perfil" class="custom-file-upload">
-      Imagen de Perfil
-    </label>
+    <input type="email" placeholder="Email" formControlName="email" />
+    @if (emailError){
+    <div class="error-message">
+      <p>{{ mensajeEmail }}</p>
+    </div>
+    }
     <input
-      type="file"
-      accept="image/*"
-      name="imagenPerfil"
-      formControlName="imagenPerfil"
-      id="imagen-perfil"
-      (change)="nuevaImagenPerfilCargada($event)"
+      type="password"
+      placeholder="Contraseña"
+      formControlName="contrasena"
     />
-  </div>
+    @if (contrasenaError){
+    <div class="error-message">
+      <p>{{ mensajeContrasena }}</p>
+    </div>
+    }
 
-  @if (imagenPerfilError){
-  <div class="error-message img-error">
-    <p>{{ mensajeImagenPerfil }}</p>
-  </div>
-  }
+    <div class="buttons-container">
+      <label for="imagen-perfil" class="custom-file-upload">
+        Imagen de Perfil
+      </label>
+      <input
+        type="file"
+        accept="image/*"
+        name="imagenPerfil"
+        formControlName="imagenPerfil"
+        id="imagen-perfil"
+        (change)="nuevaImagenPerfilCargada($event)"
+      />
+    </div>
 
-  <button (click)="Registro()">Registrarse</button>
-  @if (conexionError){
-  <div class="error-message">
-    <p>{{ mensajeUsuario }}</p>
-  </div>
-  }
-</form>
+    @if (imagenPerfilError){
+    <div class="error-message img-error">
+      <p>{{ mensajeImagenPerfil }}</p>
+    </div>
+    }
+
+    <re-captcha
+      (resolved)="resolved($event)"
+      #captchaRef="reCaptcha"
+      siteKey="6LdeD3sqAAAAADvWXE_w9Mzjk3y6lRqi0WaT5_v3"
+    ></re-captcha>
+    @if (captchaError){
+    <div class="error-message img-error">
+      <p>{{ mensajeCaptcha }}</p>
+    </div>
+    }
+    <button (click)="Registro()" class="reg">Registrarse</button>
+    @if (conexionError){
+    <div class="error-message">
+      <p>{{ mensajeUsuario }}</p>
+    </div>
+    }
+  </form>
+</div>
