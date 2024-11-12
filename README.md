@@ -144,11 +144,47 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <p> Si ingresamos a "Mis turnos" podremos ver los turnos solicitados por los pacientes y tendermos las opciones de aceptarlos, rechazarlos, cancelarlos o finalizarlos  </p>
 
   <img src="https://github.com/user-attachments/assets/a9c2eea5-5773-4b97-b6fb-25e2bbdcda2c" alt="Mis turnos" width="800px" margin-top="100px"/>
-  
+
+
+<br>
+<br>
+
+<p> Si iniciamos como administrador podremos nuevamente ver la barra de navegación </p>
+<br>
+  <img src="https://github.com/user-attachments/assets/089999f6-8248-4646-9dd1-68703b45386f" alt="Inicio de administrador" width="800px" margin-top="100px"/>
+<br>
+<br>
+  <p> Si ingresamos a "usuarios" podremos ver todos los usuarios registrados en el sitema, tanto administradores, como especialistas y pacientes, con los respesctivos usuarios e información de sus cuentas </p>
+
+  <img src="https://github.com/user-attachments/assets/0db1d5c3-e74e-4591-a96b-5e4472c48e24" alt="administradores" width="800px" margin-top="100px"/>
+  <img src="https://github.com/user-attachments/assets/894d2b91-58b8-4abc-aebb-262f88612c9b" alt="Especialistas" width="800px" margin-top="100px"/>
+  <img src="https://github.com/user-attachments/assets/5cd2a54f-efdb-454f-979f-eb8d8199f9fe" alt="Pacientes" width="800px" margin-top="100px"/>
+
+  <p> Si ingresamos a "Registrar administrador" podremos ver un formulario para ingresar los datos y registrar un nuevo usuario de perfil administrador </p>
+
+  <img src="https://github.com/user-attachments/assets/4f851b2d-594a-428d-bf23-32e17a6345cd" alt="Registrar administrador" width="800px" margin-top="100px"/>
+  <br>
+<br>
+
+
+  <p> Si ingresamos a "Registrar paciente / especialista" podremos ver los formularios respectivos para registrar pacientes y especialistas</p>
+
+  <img src="https://github.com/user-attachments/assets/3fe80ff5-2bca-4da1-9dc1-327bbcc87077" alt="Registrar paciente / especialista" width="800px" margin-top="100px"/>
+  <br>
+<br>
+
+
+  <p> Si ingresamos a "solicitar turno" podremos solicitar un turno ingresando el especialista, especialidad, fecha, hora y paciente (todos los registrados en el sistema)</p>
+
+  <img src="https://github.com/user-attachments/assets/2c9d5f9f-cf6d-473e-a0e0-97d8a3e0a242" alt="Registrar administrador" width="800px" margin-top="100px"/>
+  <br>
+  <br>
+
+<p> Si ingresamos a "Turnos" podremos ver todos los turnos del sistema, con su respectiva información</p>
+
+  <img src="https://github.com/user-attachments/assets/8d8627f6-79f5-4e9f-b518-8ef41f2c5194" alt="turnos" width="800px" margin-top="100px"/>
+  <br>
+  <br>
+
 </div>
-
-
-
-
-
 
