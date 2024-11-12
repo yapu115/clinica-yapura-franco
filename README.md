@@ -135,7 +135,20 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 
 <br>
 <br>
+
+<p> Si iniciamos como especialista podremos nuevamente ver la barra de navegación </p>
+<br>
+  <img src="https://github.com/user-attachments/assets/0534c323-351a-4279-bea6-010fc0f49e3b" alt="Inicio de especialista" width="800px" margin-top="100px"/>
+<br>
+<br>
+  <p> Si ingresamos a "Mis turnos" podremos ver los turnos solicitados por los pacientes y tendermos las opciones de aceptarlos, rechazarlos, cancelarlos o finalizarlos  </p>
+
+  <img src="https://github.com/user-attachments/assets/a9c2eea5-5773-4b97-b6fb-25e2bbdcda2c" alt="Mis turnos" width="800px" margin-top="100px"/>
+  
 </div>
+
+
+
 
 
 
