@@ -70,7 +70,72 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 <br>
 
 <img src="https://github.com/user-attachments/assets/bc19a88b-ea7d-454b-93ae-7c70a00ccb25" alt="registro de especialista" width="800px"/>
-
 </div>
+
+
+### inicio-sesión
+
+  
+<div align="center">
+<p> Si ingresamos Inicio de sesión podremos ver el formulario para iniciar y también 6 perfiles predeterminados: </p>
+  <p>- 1 Administrador</p>
+  <p>- 2 Especialistas</p>
+  <p>- 3 Pacientes</p>
+<br>
+  <img src="https://github.com/user-attachments/assets/aa1c3b87-9285-4816-979e-9985cef7e6a6" alt="Inicio de sesión" width="800px" margin-top="100px"/>
+  <br>
+  <br>
+
+<p> Si iniciamos como Paciente podremos ver una pantalla de inicio con una barra de navegación </p>
+<br>
+
+  <img src="https://github.com/user-attachments/assets/f7e3dde8-9a03-4dda-bfa6-a574d907c746" alt="Inicio de paciente" width="800px" margin-top="100px"/>
+
+<br>
+<br>
+  
+  <p> Si ingresamos a "Solicitar turno" podremos ver un formulario para solicitar un nuevo turno basándonos en los especialistas, sus especialidades y sus horarios disponibles </p>
+<br>
+<br>
+
+
+<img src="https://github.com/user-attachments/assets/57f43639-3170-4cb2-ad8c-a3e0c53945e1" alt="Solicitar turno" width="800px"/>
+
+<br>
+<br>
+  
+  <p> Si ingresamos a "Mis turnos" podremos ver los turnos solicitados en donde se especifican los especialistas, especialidades, fecha y hora y sus estados </p>
+<br>
+<br>
+
+<img src="https://github.com/user-attachments/assets/2cc54381-6630-4fac-9755-4ca215200ab2" alt="Mis turnos" width="800px"/>
+
+
+<br>
+<br>
+<p> Los estados de los turnos pueden ser: </p>
+  <p>- Solicitado</p>
+<img src="https://github.com/user-attachments/assets/4ecf33c2-d4cf-404c-9178-906a52fde752" width="800px"/>
+
+<br>
+<br>
+  <p>- No realizado</p>
+<img src="https://github.com/user-attachments/assets/4cf4978e-877b-4e01-98c2-83ee31b043ae" alt="No realizado" width="800px"/>
+<br>
+<br>
+  <p>- Realizado</p>
+<img src="https://github.com/user-attachments/assets/c9a780eb-e8e7-4c09-881b-e8546de53cfd" alt="Realizado" width="800px"/>
+  <br>
+<br>
+  <p>- Cancelado</p>
+<img src="https://github.com/user-attachments/assets/d1123c85-4e93-4072-bc10-f4840c1757e3" alt="Cancelado" width="800px"/>
+
+  <p>- Rechazado</p>
+<img src="https://github.com/user-attachments/assets/965a5c99-001a-4069-a0fc-99493712050a" alt="Rechazado" width="800px"/>
+
+<br>
+<br>
+</div>
+
 
 
