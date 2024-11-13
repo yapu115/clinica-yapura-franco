@@ -259,3 +259,26 @@ button img {
   margin-bottom: 40px;
   width: 100%;
 }
+
+.realizado,
+.solicitado {
+  color: #029607;
+  font-weight: bold;
+}
+
+.cancelado,
+.rechazado {
+  color: #a4000e;
+  font-weight: bold;
+}
+
+.no {
+  color: #8c8f00;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+strong {
+  color: #000;
+}

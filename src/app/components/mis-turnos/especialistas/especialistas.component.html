@@ -17,7 +17,9 @@
           <strong>Hora:</strong>
           {{ turno.hora }}
         </p>
-        <p><strong>Estado:</strong> {{ turno.estado }}</p>
+        <p class="{{ turno.estado }}">
+          <strong>Estado:</strong> {{ turno.estado }}
+        </p>
       </div>
 
       <div class="appointment-actions">

@@ -2,28 +2,10 @@
   <div class="appointment-form-container">
     <h2>Solicitar Turno</h2>
     <form class="appointment-form" [formGroup]="formTurno">
-      <div class="form-group">
-        <label for="especialidad">Especialidad</label>
-
-        <select id="especialidad" formControlName="especialidad">
-          <option value="" selected>Selecciona una especialidad</option>
-          @for (especialidad of this.obtenerEspecialidades(); track $index) {
-          <option value="{{ especialidad }}">
-            {{ especialidad }}
-          </option>
-          }
-        </select>
-      </div>
-      @if (especialidadError){
-      <div class="error-message">
-        <p>{{ mensajeEspecialidad }}</p>
-      </div>
-      }
-
       <!-- Otro campo de selección -->
       <div class="form-group">
         <label for="doctor">Selecciona un especialista</label>
-        <select id="doctor" formControlName="especialista">
+        <!-- <select id="doctor" formControlName="especialista">
           <option value="" selected>Seleccionar</option>
 
           @for (especialista of this.obtenerNombresEspecialistas(); track
@@ -32,13 +14,79 @@
             {{ especialista }}
           </option>
           }
-        </select>
+        </select> -->
+        <!-- @for (especialista of this.obtenerNombresEspecialistas(); track $index)
+        {
+        <button>aaa</button>
+        } -->
+        <div class="especialistas-container">
+          <!-- Reemplazamos el select por botones -->
+          @for (especialista of this.especialistas; track $index) {
+
+          <div class="especialista">
+            <p class="nombre-especialista">
+              {{ especialista.nombre }} {{ especialista.apellido }}
+            </p>
+            <button type="button" class="especialista-button">
+              <img
+                src="{{ especialista.fotoPerfil }}"
+                alt="{{ especialista.nombre }}"
+                class="especialista-img"
+                (click)="asignarEspecialista(especialista)"
+              />
+            </button>
+          </div>
+
+          }
+        </div>
       </div>
       @if (especialistasError){
       <div class="error-message">
         <p>{{ mensajeEspecialista }}</p>
       </div>
       }
+
+      <!-- <div class="form-group">
+        <label for="especialidad">Especialidad</label>
+        <select id="especialidad" formControlName="especialidad">
+          <option value="" selected>Selecciona una especialidad</option>
+          @for (especialidad of this.obtenerEspecialidades(); track $index) {
+          <option value="{{ especialidad }}">
+            {{ especialidad }}
+          </option>
+          }
+        </select>
+      </div> -->
+
+      @if (this.formTurno.controls["especialista"].value !== ""){
+      <div class="especialidades-container">
+        <!-- Reemplazamos el select por botones -->
+        @for (especialidad of this.obtenerEspecialidades(); track $index) {
+
+        <div class="especialidad">
+          <p class="nombre-especialidad">
+            {{ especialidad }}
+          </p>
+          <button type="button" class="especialidad-button">
+            <img
+              src="/especialidades/{{
+                quitarTildes(especialidad).toLocaleLowerCase()
+              }}.png"
+              alt="{{ especialidad }}"
+              class="especialidad-img"
+              (click)="asignarEspecialidad(especialidad)"
+              (error)="asignarImagenDefault($event)"
+            />
+          </button>
+        </div>
+
+        }
+      </div>
+      @if (especialidadError){
+      <div class="error-message">
+        <p>{{ mensajeEspecialidad }}</p>
+      </div>
+      } }
 
       <div class="form-group">
         <label>Día de la consulta</label>

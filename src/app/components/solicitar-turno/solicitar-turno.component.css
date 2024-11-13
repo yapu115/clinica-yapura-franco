@@ -1,17 +1,18 @@
 .body {
-  max-width: 600px;
+  /* max-width: 600px; */
   margin: 0 auto;
   padding: 20px;
 }
 
 .appointment-form-container {
-  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f4f4f9;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  max-width: 800px;
+  width: 90%;
 }
 
 /* Título del formulario */
@@ -124,4 +125,78 @@
   /* margin-top: 15px; */
   margin-bottom: 10px;
   width: 100%;
+}
+
+/* ------------------------------ */
+
+.especialistas-container,
+.especialidades-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  gap: 15px;
+  justify-items: center;
+  padding: 10px;
+  margin: 25px 0;
+}
+
+/* Estilo de cada especialista */
+.especialista,
+.especialidad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.nombre-especialista,
+.nombre-especialidad {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Estilo del botón que contiene la imagen */
+.especialista-button,
+.especialidad-button {
+  width: 100px; /* Tamaño cuadrado */
+  height: 100px;
+  border: none;
+  border-radius: 12px; /* Bordes redondeados */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.especialidad-button:active,
+.especialidad-button:focus {
+  border-color: #007bff;
+  background-color: #9ac9f2;
+  outline: none;
+  transform: scale(1.05);
+}
+
+.especialista-button:hover,
+.especialidad-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.especialista-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.especialidad-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
 }

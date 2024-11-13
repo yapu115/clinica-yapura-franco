@@ -122,3 +122,25 @@ button img {
 .btn-resena:hover {
   background-color: #0056b3;
 }
+.realizado,
+.solicitado {
+  color: #029607;
+  font-weight: bold;
+}
+
+.cancelado,
+.rechazado {
+  color: #a4000e;
+  font-weight: bold;
+}
+
+.no {
+  color: #d1b82c;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+strong {
+  color: #000;
+}

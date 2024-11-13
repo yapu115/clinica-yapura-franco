@@ -7,7 +7,7 @@
 
     <div class="appointment-card">
       <div class="appointment-header">
-        <h3>{{ turno.especialista }}</h3>
+        <h3>Especialista {{ turno.especialista }}</h3>
         <p>{{ turno.especialidad }}</p>
       </div>
 
@@ -17,7 +17,9 @@
           <strong>Hora:</strong>
           {{ turno.hora }}
         </p>
-        <p><strong>Estado:</strong> {{ turno.estado }}</p>
+        <p class="{{ turno.estado }}">
+          <strong>Estado:</strong> {{ turno.estado }}
+        </p>
       </div>
 
       <div class="appointment-actions">

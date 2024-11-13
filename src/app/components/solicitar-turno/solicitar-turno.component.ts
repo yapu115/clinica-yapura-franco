@@ -180,6 +180,14 @@ export class SolicitarTurnoComponent {
     return this.especialidades;
   }
 
+  asignarEspecialista(e: Especialista) {
+    this.formTurno.get('especialista')?.setValue(`${e.nombre} ${e.apellido}`);
+  }
+
+  asignarEspecialidad(e: string) {
+    this.formTurno.get('especialidad')?.setValue(e);
+  }
+
   obtenerNombresEspecialistas() {
     this.nombresEspecialistas = [];
     const controlespecialidad = this.formTurno.controls['especialidad'].value;
@@ -319,5 +327,13 @@ export class SolicitarTurnoComponent {
   seleccionarHorario(horario: string) {
     this.horarioSeleccionado = horario;
     this.formTurno.get('hora')?.setValue(horario);
+  }
+
+  quitarTildes(texto: string) {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  asignarImagenDefault(event: Event): void {
+    (event.target as HTMLImageElement).src = '/especialidades/default.png';
   }
 }
