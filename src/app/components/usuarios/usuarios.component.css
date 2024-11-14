@@ -1,9 +1,16 @@
+.body {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 5px;
+  /* background-color: #000; */
+}
+
 .user-list-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  padding: 20px;
+  min-height: 60vh;
+  padding: 10px;
 }
 
 .user-table {
@@ -32,6 +39,11 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.user-table img:hover {
+  cursor: pointer;
+  scale: 1.05;
 }
 
 /* Colores alternos en las filas */
@@ -93,4 +105,98 @@
   font-weight: bold;
 
   cursor: pointer;
+}
+
+/* ---------------------- */
+
+.clinic-history-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f4f9fc;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.clinic-history-title {
+  font-size: 2rem;
+  color: #1a4d7f;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.clinic-history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.clinic-history-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clinic-history-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.clinic-history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.clinic-history-patient-name {
+  font-size: 1.5rem;
+  color: #003366;
+  font-weight: bold;
+}
+
+.clinic-history-date {
+  font-size: 1rem;
+  color: #4f9dde;
+}
+
+.clinic-history-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: #333333;
+}
+
+.clinic-history-info strong {
+  color: #1a4d7f;
+}
+
+.clinic-history-additional-info {
+  margin-top: 15px;
+  background-color: #eaf3f9;
+  padding: 10px;
+  padding-top: 5px;
+  border-radius: 5px;
+}
+
+.clinic-history-additional-info h4 {
+  font-size: 1.2rem;
+  color: #1a4d7f;
+  margin-bottom: 15px;
+}
+
+.clinic-history-additional-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.clinic-history-additional-info li {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #333333;
 }

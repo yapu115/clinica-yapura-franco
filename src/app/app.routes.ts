@@ -62,12 +62,21 @@ export const routes: Routes = [
       ),
     // canDeactivate: [noAuthGuard],
   },
+  //especialista
   {
     path: 'mis-turnos-especialista',
     loadComponent: () =>
       import(
         './components/mis-turnos/especialistas/especialistas.component'
       ).then((m) => m.EspecialistasComponent),
+    // canDeactivate: [noAuthGuard],
+  },
+  {
+    path: 'pacientes',
+    loadComponent: () =>
+      import('./components/pacientes/pacientes.component').then(
+        (m) => m.PacientesComponent
+      ),
     // canDeactivate: [noAuthGuard],
   },
   {

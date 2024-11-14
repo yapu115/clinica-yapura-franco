@@ -31,4 +31,9 @@ export class AppComponent {
     this.auth.CerrarSesion();
     this.router.navigateByUrl('/');
   }
+
+  verMiPerfil() {
+    this.router.navigateByUrl('/mi-perfil');
+    this.mostrarPanel = false;
+  }
 }

@@ -20,6 +20,7 @@
     <a routerLink="/mis-turnos-paciente" class="nav-link">Mis turnos</a>
     } @else if (this.auth.tipoDeUsuario === "especialista"){
     <a routerLink="/mis-turnos-especialista" class="nav-link">Mis turnos</a>
+    <a routerLink="/pacientes" class="nav-link">Pacientes</a>
 
     }
   </div>
@@ -50,7 +51,7 @@
   <p>{{ auth.usuario.especialidad }}</p>
   }
 
-  <button class="ver-perfil" routerLink="/mi-perfil">Mi perfil</button>
+  <button class="ver-perfil" (click)="verMiPerfil()">Mi perfil</button>
 
   <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
 </div>

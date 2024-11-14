@@ -84,6 +84,10 @@ export class SolicitarTurnoComponent {
       const hora = this.formTurno.controls['hora'].value;
       const paciente = this.formTurno.controls['paciente'].value;
 
+      // const fechaFormato = this.formatearFecha(fecha);
+
+      // const horaFormato = this.formatearHora(hora);
+
       let turno;
       if (this.auth.tipoDeUsuario === 'paciente') {
         turno = new Turno(
@@ -121,6 +125,26 @@ export class SolicitarTurnoComponent {
       });
     }
   }
+
+  // ----------------------------------------------------------
+  formatearFecha(fecha: string): string {
+    const date = new Date(fecha);
+    console.log(date);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  formatearHora(hora: string): string {
+    const [hour, minute] = hora.split(':');
+    let formattedHour = parseInt(hour);
+    const ampm = formattedHour >= 12 ? 'PM' : 'AM';
+    formattedHour = formattedHour % 12 || 12;
+    return `${formattedHour}:${minute} ${ampm}`;
+  }
+
+  // --------------------------------------------------------------
 
   ValidarCampos() {
     let camposValidados = true;

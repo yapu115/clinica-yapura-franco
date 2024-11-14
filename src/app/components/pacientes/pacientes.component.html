@@ -1,40 +1,36 @@
 <div class="body">
-  <div class="user-profile">
-    <div class="cover-photo">
-      @if (this.auth.tipoDeUsuario === "paciente"){
-      <img src="{{ this.auth.usuario.fotoPortada }}" alt="Foto de Portada" />
-      } @else {
-      <img src="/banner.png" alt="Foto de Portada" />
-      }
-    </div>
-    <div class="profile-info">
-      <div class="profile-photo">
-        <img src="{{ this.auth.usuario.fotoPerfil }}" alt="Foto de Perfil" />
+  <div class="appointment-form-container">
+    <h2>Pacientes</h2>
+
+    <div class="pacientes-container">
+      @for (paciente of this.pacientes; track $index) {
+
+      <div class="paciente">
+        <p class="nombre-paciente">
+          {{ paciente.nombre }} {{ paciente.apellido }}
+        </p>
+        <button type="button" class="paciente-button">
+          <img
+            src="{{ paciente.fotoPerfil }}"
+            alt="{{ paciente.nombre }}"
+            class="paciente-img"
+          />
+        </button>
       </div>
-      <h2 style="margin-top: 20px">
-        {{ this.auth.usuario.nombre }} {{ this.auth.usuario.apellido }}
-      </h2>
 
-      <p>Correo: {{ this.auth.usuario.email }}</p>
-      <p>DNI: {{ this.auth.usuario.dni }}</p>
-      <p>Edad: {{ this.auth.usuario.edad }} años</p>
-      @if (this.auth.tipoDeUsuario === "paciente"){
-      <p>Obra Social: {{ this.auth.usuario.obraSocial }}</p>
-      } @else if (this.auth.tipoDeUsuario === "especialista"){
-      <h3 style="margin-bottom: 10px; margin-top: 30px">Especialidades:</h3>
-      @for (esp of this.auth.usuario.especialidades; track $index) {
-      <p>{{ esp }}</p>
-
-      } }
+      }
     </div>
   </div>
 
-  @if (this.auth.tipoDeUsuario === "paciente"){
+  @if (this.mostrarHistorialClinico){
   <div class="clinic-history-container">
-    <h2 class="clinic-history-title">Historial Clínico</h2>
+    <h2 class="clinic-history-title">
+      Historial Clínico de: {{ pacienteSeleccionado?.nombre }}
+      {{ pacienteSeleccionado?.apellido }}
+    </h2>
 
     <div class="clinic-history-list">
-      @for (turno of turnos; track $index) {
+      @for (turno of turnosPacienteSeleccionado; track $index) {
 
       <div class="clinic-history-card">
         <div class="clinic-history-card-header">

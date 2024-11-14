@@ -28,7 +28,7 @@ export class EspecialistasComponent {
   activarResena = false;
   mensajeResena = '';
 
-  ingresarHistorialClinico: boolean = true;
+  ingresarHistorialClinico: boolean = false;
   formHistorialClinico: FormGroup;
 
   errorAltura: boolean = false;
@@ -43,6 +43,8 @@ export class EspecialistasComponent {
   mensajePresion: string = '';
   mensajeDatosAdicionales: string = '';
   indiceMensajeDatosAdicionales: number = -1;
+
+  turnoSeleccionado: any;
 
   constructor(protected db: DatabaseService, protected auth: AuthService) {
     this.obtenerTurnosFirestore();
@@ -223,21 +225,10 @@ export class EspecialistasComponent {
         !result && 'Debes ingresar la reseña para finalizar el turno',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Turno Finalizado',
-          showConfirmButton: false,
-          timer: 1500,
-          background: '#6c757d',
-          color: '#e5dada',
-          backdrop: false,
-        });
         const resena = result.value;
-        turno.estado = 'realizado';
         turno.resena = resena;
         this.ingresarHistorialClinico = true;
-        this.db.ModificarObjeto(turno, 'turnos');
+        this.turnoSeleccionado = turno;
       }
     });
   }
@@ -267,7 +258,23 @@ export class EspecialistasComponent {
     this.errorDatosAdicionales = false;
 
     if (this.ValidarCampos()) {
-      this.db;
+      this.turnoSeleccionado.estado = 'realizado';
+      this.turnoSeleccionado.historialClinico = this.formHistorialClinico.value;
+
+      this.db.ModificarObjeto(this.turnoSeleccionado, 'turnos');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Turno Finalizado',
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#6c757d',
+        color: '#e5dada',
+        backdrop: false,
+      });
+      this.formHistorialClinico.reset();
+      this.ingresarHistorialClinico = false;
+
       // .AgregarObjeto(this.formHistorialClinico.value, 'encuestas-pacientes')
       // .then((e) => {
       //   Swal.fire({

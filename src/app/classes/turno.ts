@@ -7,6 +7,7 @@ export class Turno {
   estado: string;
   resena: string;
   paciente: string;
+  historialClinico: any;
 
   constructor(
     especialista: string,
@@ -16,7 +17,8 @@ export class Turno {
     hora: string,
     estado: string,
     resena: string = '',
-    id: string = ''
+    id: string = '',
+    historialClinico: any = ''
   ) {
     this.id = id;
     this.especialista = especialista;
@@ -26,5 +28,6 @@ export class Turno {
     this.hora = hora;
     this.estado = estado;
     this.resena = resena;
+    this.historialClinico = historialClinico;
   }
 }

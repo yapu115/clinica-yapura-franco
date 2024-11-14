@@ -7,6 +7,7 @@ import { DatabaseService } from '../../services/database.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
+import { Turno } from '../../classes/turno';
 
 @Component({
   selector: 'app-usuarios',
@@ -26,10 +27,17 @@ export class UsuariosComponent {
   mostrarInfoEspecialistas: boolean = false;
   mostrarInfoPacientes: boolean = false;
 
+  turnos: any;
+  turnosPacienteSeleccionado: any;
+  mostrarHistorialClinico: boolean = false;
+
+  pacienteSeleccionado: Paciente | null = null;
+
   constructor(protected auth: AuthService, protected db: DatabaseService) {
     this.obtenerAdmins();
     this.obtenerEspecialistas();
     this.obtenerPacientes();
+    this.obtenerTurnosFirestore();
   }
 
   mostrarAdministradores() {
@@ -130,5 +138,36 @@ export class UsuariosComponent {
         Swal.fire('Acceso Denegado', '', 'info');
       }
     });
+  }
+
+  obtenerTurnosFirestore() {
+    const observableEspecialistas = this.db.traerObjetos('turnos');
+
+    this.subscription = observableEspecialistas.subscribe((resultado) => {
+      this.turnos = (resultado as any[])
+        .map(
+          (doc) =>
+            new Turno(
+              doc.especialista,
+              doc.especialidad,
+              doc.paciente,
+              doc.fecha,
+              doc.hora,
+              doc.estado,
+              doc.resena,
+              doc.id,
+              doc.historialClinico
+            )
+        )
+        .filter((turno) => turno.estado === 'realizado');
+    });
+  }
+
+  desplegarHistorialClinico(p: Paciente) {
+    this.mostrarHistorialClinico = true;
+    this.turnosPacienteSeleccionado = this.turnos.filter(
+      (turno: any) => turno.paciente === `${p.nombre} ${p.apellido}`
+    );
+    this.pacienteSeleccionado = p;
   }
 }

@@ -87,7 +87,7 @@
     </div>
     }
     <div class="form-group">
-      <label for="presion">Presión</label>
+      <label for="presion">Presión (mmHg)</label>
       <input type="text" id="presion" formControlName="presion" />
     </div>
     @if (errorPresion){
@@ -95,14 +95,14 @@
       <p>{{ mensajePresion }}</p>
     </div>
     }
-    <div formArrayName="additionalFields">
+    <div formArrayName="datosAdicionales">
       @for (dato of datosAdicionales.controls; track $index) {
       <div [formGroupName]="$index" class="form-group">
         <label for="key-{{ $index }}">Dato</label>
         <input
           type="text"
           id="key-{{ $index }}"
-          formControlName="key"
+          formControlName="clave"
           placeholder="Ej. Caries"
         />
 
@@ -110,7 +110,7 @@
         <input
           type="text"
           id="value-{{ $index }}"
-          formControlName="value"
+          formControlName="valor"
           placeholder="Ej. 4"
         />
 
@@ -128,10 +128,12 @@
       }
     </div>
 
-    <!-- @if ( > 4){} -->
+    @if (this.datosAdicionales.length < 3){
     <button class="agregar-campo-valor" (click)="agregarDatoAdicional()">
       Agregar dato
     </button>
+
+    }
 
     <div class="button-group">
       <button
