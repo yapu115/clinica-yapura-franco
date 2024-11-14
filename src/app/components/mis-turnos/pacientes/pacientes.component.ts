@@ -75,11 +75,25 @@ export class PacientesComponent {
             doc.hora,
             doc.estado,
             doc.resena,
-            doc.id
+            doc.id,
+            doc.historialClinico
           )
       );
     });
   }
+
+  // obtenerTurnos() {
+  //   if (this.query.length == 0) return this.turnos;
+
+  //   return this.turnos.filter((turno: any) => {
+  //     let nombreCompleto = turno['especialista'].toLowerCase();
+  //     let especialidad = turno['especialidad'].toLowerCase();
+  //     return (
+  //       nombreCompleto.includes(this.query.toLowerCase()) ||
+  //       especialidad.includes(this.query.toLowerCase())
+  //     );
+  //   });
+  // }
 
   obtenerTurnos() {
     if (this.query.length == 0) return this.turnos;
@@ -87,10 +101,39 @@ export class PacientesComponent {
     return this.turnos.filter((turno: any) => {
       let nombreCompleto = turno['especialista'].toLowerCase();
       let especialidad = turno['especialidad'].toLowerCase();
-      return (
-        nombreCompleto.includes(this.query.toLowerCase()) ||
-        especialidad.includes(this.query.toLowerCase())
-      );
+      if (turno.historialClinico === '') {
+        return (
+          nombreCompleto.includes(this.query.toLowerCase()) ||
+          especialidad.includes(this.query.toLowerCase())
+        );
+      } else {
+        let historialClinico = turno['historialClinico'];
+        let altura = historialClinico['altura'].toLowerCase();
+        let peso = historialClinico['peso'].toLowerCase();
+        let temperatura = historialClinico['temperatura'].toLowerCase();
+        let presion = historialClinico['presion'].toLowerCase();
+        let datosAdicionales = historialClinico['datosAdicionales'];
+
+        let queryLower = this.query.toLowerCase();
+
+        let datosAdicionalesIncluyeQuery = datosAdicionales.some(
+          (dato: any) => {
+            let clave = dato.clave.toLowerCase();
+            let valor = dato.valor.toLowerCase();
+            return clave.includes(queryLower) || valor.includes(queryLower);
+          }
+        );
+
+        return (
+          nombreCompleto.includes(queryLower) ||
+          especialidad.includes(queryLower) ||
+          altura.includes(queryLower) ||
+          peso.includes(queryLower) ||
+          temperatura.includes(queryLower) ||
+          presion.includes(queryLower) ||
+          datosAdicionalesIncluyeQuery
+        );
+      }
     });
   }
 

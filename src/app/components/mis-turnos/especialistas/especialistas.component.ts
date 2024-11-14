@@ -98,7 +98,6 @@ export class EspecialistasComponent {
       }
     });
 
-    console.log(misTurnos);
     if (this.query.length == 0) return misTurnos;
 
     return misTurnos.filter((turno: any) => {
@@ -117,24 +116,24 @@ export class EspecialistasComponent {
         let presion = historialClinico['presion'].toLowerCase();
         let datosAdicionales = historialClinico['datosAdicionales'];
 
-        let verificacionDatosAdicionales = Object.entries(
-          datosAdicionales
-        ).some(([clave, valor]) => {
-          const valorStr = String(valor).toLowerCase(); // Convertimos valor a string
-          return (
-            clave.toLowerCase().includes(this.query.toLowerCase()) ||
-            valorStr.includes(this.query.toLowerCase())
-          );
-        });
+        let queryLower = this.query.toLowerCase();
+
+        let datosAdicionalesIncluyeQuery = datosAdicionales.some(
+          (dato: any) => {
+            let clave = dato.clave.toLowerCase();
+            let valor = dato.valor.toLowerCase();
+            return clave.includes(queryLower) || valor.includes(queryLower);
+          }
+        );
 
         return (
-          nombreCompleto.includes(this.query.toLowerCase()) ||
-          especialidad.includes(this.query.toLowerCase()) ||
-          altura.includes(this.query.toLowerCase()) ||
-          peso.includes(this.query.toLowerCase()) ||
-          temperatura.includes(this.query.toLowerCase()) ||
-          presion.includes(this.query.toLowerCase()) ||
-          verificacionDatosAdicionales
+          nombreCompleto.includes(queryLower) ||
+          especialidad.includes(queryLower) ||
+          altura.includes(queryLower) ||
+          peso.includes(queryLower) ||
+          temperatura.includes(queryLower) ||
+          presion.includes(queryLower) ||
+          datosAdicionalesIncluyeQuery
         );
       }
     });
