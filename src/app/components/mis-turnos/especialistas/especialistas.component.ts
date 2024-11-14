@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DatabaseService } from '../../../services/database.service';
 import { AuthService } from '../../../services/auth.service';
@@ -21,8 +28,39 @@ export class EspecialistasComponent {
   activarResena = false;
   mensajeResena = '';
 
+  ingresarHistorialClinico: boolean = true;
+  formHistorialClinico: FormGroup;
+
+  errorAltura: boolean = false;
+  errorPeso: boolean = false;
+  errorTemperatura: boolean = false;
+  errorPresion: boolean = false;
+  errorDatosAdicionales: boolean = false;
+
+  mensajeAltura: string = '';
+  mensajePeso: string = '';
+  mensajeTemperatura: string = '';
+  mensajePresion: string = '';
+  mensajeDatosAdicionales: string = '';
+  indiceMensajeDatosAdicionales: number = -1;
+
   constructor(protected db: DatabaseService, protected auth: AuthService) {
     this.obtenerTurnosFirestore();
+
+    this.formHistorialClinico = new FormGroup({
+      altura: new FormControl('', [Validators.required, Validators.min(0)]),
+      peso: new FormControl('', [Validators.required, Validators.min(0)]),
+      temperatura: new FormControl('', [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      presion: new FormControl('', [Validators.required]),
+      datosAdicionales: new FormArray([]),
+    });
+  }
+
+  get datosAdicionales(): FormArray {
+    return this.formHistorialClinico.get('datosAdicionales') as FormArray;
   }
 
   obtenerTurnosFirestore() {
@@ -198,6 +236,7 @@ export class EspecialistasComponent {
         const resena = result.value;
         turno.estado = 'realizado';
         turno.resena = resena;
+        this.ingresarHistorialClinico = true;
         this.db.ModificarObjeto(turno, 'turnos');
       }
     });
@@ -206,5 +245,105 @@ export class EspecialistasComponent {
   mostrarResena(resena: string) {
     this.mensajeResena = resena;
     this.activarResena = true;
+  }
+
+  agregarDatoAdicional(): void {
+    const dato = new FormGroup({
+      clave: new FormControl('', Validators.required),
+      valor: new FormControl('', Validators.required),
+    });
+    this.datosAdicionales.push(dato);
+  }
+
+  eliminarDato(indice: number): void {
+    this.datosAdicionales.removeAt(indice);
+  }
+
+  registrarHistorialClinico() {
+    this.errorAltura = false;
+    this.errorPeso = false;
+    this.errorPresion = false;
+    this.errorTemperatura = false;
+    this.errorDatosAdicionales = false;
+
+    if (this.ValidarCampos()) {
+      this.db;
+      // .AgregarObjeto(this.formHistorialClinico.value, 'encuestas-pacientes')
+      // .then((e) => {
+      //   Swal.fire({
+      //     heightAuto: false,
+      //     title: 'Encuesta registrada',
+      //     background: '#dedede',
+      //     color: '#000',
+      //     confirmButtonColor: '#118ab2',
+      //   }).then((e) => {
+      //     if (e.isConfirmed) {
+      //       this.formHistorialClinico.reset();
+      //       this.ingresarHistorialClinico = false;
+      //     }
+      //   });
+      // });
+    }
+  }
+
+  ValidarCampos() {
+    let camposValidados = true;
+
+    const controlAltura = this.formHistorialClinico.controls['altura'];
+    const controlPeso = this.formHistorialClinico.controls['peso'];
+    const controlTemperatura =
+      this.formHistorialClinico.controls['temperatura'];
+    const controlPresion = this.formHistorialClinico.controls['presion'];
+
+    this.datosAdicionales.controls.forEach((control, indice) => {
+      const keyControl = control.get('clave');
+      const valueControl = control.get('valor');
+
+      if (keyControl?.errors || valueControl?.errors) {
+        this.errorDatosAdicionales = true;
+        this.mensajeDatosAdicionales =
+          'Todos los campos adicionales deben tener sus datos';
+        this.indiceMensajeDatosAdicionales = indice;
+      }
+    });
+
+    if (controlAltura.errors !== null) {
+      camposValidados = false;
+      this.errorAltura = true;
+      if (controlAltura.errors!['required']) {
+        this.mensajeAltura = 'Debe ingresar la altura del paciente';
+      } else if (controlAltura.errors!['min']) {
+        this.mensajeAltura = 'Debe ingresar una altura válida';
+      }
+    }
+    if (controlPeso.errors !== null) {
+      camposValidados = false;
+      this.errorPeso = true;
+      if (controlPeso.errors!['required']) {
+        this.mensajePeso = 'Debe ingresar el paso del paciente';
+      } else if (controlPeso.errors!['min']) {
+        this.mensajePeso = 'Debe ingresar un peso válida';
+      }
+    }
+    if (controlTemperatura.errors !== null) {
+      camposValidados = false;
+      this.errorTemperatura = true;
+      if (controlTemperatura.errors!['required']) {
+        this.mensajeTemperatura = 'Debe ingresar la temperatura del paciente';
+      } else if (controlTemperatura.errors!['min']) {
+        this.mensajeTemperatura = 'Debe ingresar una temperatura válida';
+      }
+    }
+    if (controlPresion.errors !== null) {
+      camposValidados = false;
+      this.errorPresion = true;
+      if (controlPresion.errors!['required']) {
+        this.mensajePresion = 'Debe ingresar la presión del paciente';
+      } else if (controlPresion.errors!['min']) {
+        this.mensajePresion = 'Debe ingresar una presión válida';
+      }
+    }
+
+    return camposValidados;
   }
 }

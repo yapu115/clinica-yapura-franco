@@ -24,23 +24,23 @@
 
       <div class="appointment-actions">
         @if (turno.estado === "solicitado"){
-        <button class="cancel-button" (click)="rechazarTurno(turno)">
+        <button (click)="rechazarTurno(turno)">
           <img src="/mis-turnos/rechazar.png" alt="cancelar" />
         </button>
 
-        <button class="cancel-button" (click)="aceptarTurno(turno)">
+        <button (click)="aceptarTurno(turno)">
           <img src="/mis-turnos/accept.png" alt="cancelar" />
         </button>
         } @if (turno.estado === "no realizado") {
-        <button class="cancel-button" (click)="cancelarTurno(turno)">
+        <button (click)="cancelarTurno(turno)">
           <img src="/mis-turnos/cancelar.png" alt="cancelar" />
         </button>
 
-        <button class="cancel-button" (click)="finalizarTurno(turno)">
+        <button (click)="finalizarTurno(turno)">
           <img src="/mis-turnos/finalizar.png" alt="cancelar" />
         </button>
         } @if (turno.estado === "realizado") {
-        <button class="cancel-button" (click)="mostrarResena(turno.resena)">
+        <button (click)="mostrarResena(turno.resena)">
           <img src="/mis-turnos/reseña.png" alt="cancelar" />
         </button>
         }
@@ -50,11 +50,100 @@
   </div>
 </div>
 
-@if (this.activarResena){
+@if (this.ingresarHistorialClinico){
 <div class="modal-overlay"></div>
-<div class="modal">
-  <p>{{ this.mensajeResena }}</p>
-  <button class="btn-resena" (click)="activarResena = false">Volver</button>
+<div class="survey-modal">
+  <div class="survey-header">
+    <h2>Historial clínico del paciente</h2>
+    <p>Ingrese los datos del paciente para actualizar su historial clínico</p>
+  </div>
+  <form class="survey-content" [formGroup]="formHistorialClinico">
+    <div class="form-group">
+      <label for="altura">Altura (cm)</label>
+      <input type="text" id="altura" formControlName="altura" />
+    </div>
+    @if (errorAltura){
+    <div class="error-message">
+      <p>{{ mensajeAltura }}</p>
+    </div>
+    }
+
+    <div class="form-group">
+      <label for="peso">Peso (kg)</label>
+      <input type="text" id="peso" formControlName="peso" />
+    </div>
+    @if (errorPeso){
+    <div class="error-message">
+      <p>{{ mensajePeso }}</p>
+    </div>
+    }
+    <div class="form-group">
+      <label for="temperatura">Temperatura (°C)</label>
+      <input type="text" id="temperatura" formControlName="temperatura" />
+    </div>
+    @if (errorTemperatura){
+    <div class="error-message">
+      <p>{{ mensajeTemperatura }}</p>
+    </div>
+    }
+    <div class="form-group">
+      <label for="presion">Presión</label>
+      <input type="text" id="presion" formControlName="presion" />
+    </div>
+    @if (errorPresion){
+    <div class="error-message">
+      <p>{{ mensajePresion }}</p>
+    </div>
+    }
+    <div formArrayName="additionalFields">
+      @for (dato of datosAdicionales.controls; track $index) {
+      <div [formGroupName]="$index" class="form-group">
+        <label for="key-{{ $index }}">Dato</label>
+        <input
+          type="text"
+          id="key-{{ $index }}"
+          formControlName="key"
+          placeholder="Ej. Caries"
+        />
+
+        <label for="value-{{ $index }}">Valor</label>
+        <input
+          type="text"
+          id="value-{{ $index }}"
+          formControlName="value"
+          placeholder="Ej. 4"
+        />
+
+        @if (this.errorDatosAdicionales){ @if
+        (this.indiceMensajeDatosAdicionales === $index){
+        <div class="error-message">
+          <p>{{ mensajeDatosAdicionales }}</p>
+        </div>
+
+        } }
+        <button (click)="eliminarDato($index)" class="eliminar-dato-adicional">
+          Eliminar
+        </button>
+      </div>
+      }
+    </div>
+
+    <!-- @if ( > 4){} -->
+    <button class="agregar-campo-valor" (click)="agregarDatoAdicional()">
+      Agregar dato
+    </button>
+
+    <div class="button-group">
+      <button
+        class="cancel-button"
+        (click)="this.ingresarHistorialClinico = false"
+      >
+        Cancelar
+      </button>
+      <button class="submit-button" (click)="registrarHistorialClinico()">
+        Enviar
+      </button>
+    </div>
+  </form>
 </div>
 }
-<!-- solicitado / no realizado / rechazado / realizado -->

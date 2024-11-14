@@ -86,7 +86,8 @@
       <div class="error-message">
         <p>{{ mensajeEspecialidad }}</p>
       </div>
-      } }
+      } } @if ( this.formTurno.controls['especialista'].value !== "" &&
+      this.formTurno.controls['especialidad'].value !== "" ){
 
       <div class="form-group">
         <label>Día de la consulta</label>
@@ -146,7 +147,7 @@
       <div class="error-message">
         <p>{{ mensajePaciente }}</p>
       </div>
-      } }
+      } } }
       <button class="submit-button" (click)="guardarTurno()">
         Solicitar Turno
       </button>
