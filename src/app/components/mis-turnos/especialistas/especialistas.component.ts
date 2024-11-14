@@ -79,7 +79,8 @@ export class EspecialistasComponent {
             doc.hora,
             doc.estado,
             doc.resena,
-            doc.id
+            doc.id,
+            doc.historialClinico
           )
       );
     });
@@ -103,10 +104,39 @@ export class EspecialistasComponent {
     return misTurnos.filter((turno: any) => {
       let nombreCompleto = turno['paciente'].toLowerCase();
       let especialidad = turno['especialidad'].toLowerCase();
-      return (
-        nombreCompleto.includes(this.query.toLowerCase()) ||
-        especialidad.includes(this.query.toLowerCase())
-      );
+      if (turno.historialClinico === '') {
+        return (
+          nombreCompleto.includes(this.query.toLowerCase()) ||
+          especialidad.includes(this.query.toLowerCase())
+        );
+      } else {
+        let historialClinico = turno['historialClinico'];
+        let altura = historialClinico['altura'].toLowerCase();
+        let peso = historialClinico['peso'].toLowerCase();
+        let temperatura = historialClinico['temperatura'].toLowerCase();
+        let presion = historialClinico['presion'].toLowerCase();
+        let datosAdicionales = historialClinico['datosAdicionales'];
+
+        let verificacionDatosAdicionales = Object.entries(
+          datosAdicionales
+        ).some(([clave, valor]) => {
+          const valorStr = String(valor).toLowerCase(); // Convertimos valor a string
+          return (
+            clave.toLowerCase().includes(this.query.toLowerCase()) ||
+            valorStr.includes(this.query.toLowerCase())
+          );
+        });
+
+        return (
+          nombreCompleto.includes(this.query.toLowerCase()) ||
+          especialidad.includes(this.query.toLowerCase()) ||
+          altura.includes(this.query.toLowerCase()) ||
+          peso.includes(this.query.toLowerCase()) ||
+          temperatura.includes(this.query.toLowerCase()) ||
+          presion.includes(this.query.toLowerCase()) ||
+          verificacionDatosAdicionales
+        );
+      }
     });
   }
 

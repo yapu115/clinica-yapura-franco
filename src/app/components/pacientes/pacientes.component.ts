@@ -4,11 +4,12 @@ import { DatabaseService } from '../../services/database.service';
 import { AuthService } from '../../services/auth.service';
 import { Turno } from '../../classes/turno';
 import { Paciente } from '../../classes/paciente';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pacientes',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',
 })
@@ -21,9 +22,12 @@ export class PacientesComponent {
   mostrarHistorialClinico: boolean = false;
   turnosPacienteSeleccionado: any;
 
+  pacientesConTurno: any = [];
+  query = '';
+
   constructor(protected db: DatabaseService, protected auth: AuthService) {
-    this.obtenerTurnosFirestore();
     this.obtenerPacientes();
+    this.obtenerTurnosFirestore();
   }
 
   obtenerTurnosFirestore() {
@@ -44,6 +48,7 @@ export class PacientesComponent {
             doc.historialClinico
           )
       );
+      this.filtrarPacientesConTurnosRealizados();
     });
   }
 
@@ -65,5 +70,36 @@ export class PacientesComponent {
           )
       );
     });
+  }
+
+  filtrarPacientesConTurnosRealizados() {
+    console.log(this.turnos);
+    console.log(this.pacientes);
+    const pacientesUnicos = new Set();
+
+    this.turnos.forEach((t: any) => {
+      if (
+        t.especialista ===
+        `${this.auth.usuario.nombre} ${this.auth.usuario.apellido}`
+      ) {
+        this.pacientes.forEach((p: any) => {
+          if (t.paciente === `${p.nombre} ${p.apellido}`) {
+            if (!pacientesUnicos.has(p.dni)) {
+              pacientesUnicos.add(p.dni);
+              this.pacientesConTurno.push(p);
+            }
+          }
+        });
+      }
+    });
+    console.log(this.pacientesConTurno);
+  }
+
+  desplegarHistorialClinico(p: Paciente) {
+    this.mostrarHistorialClinico = true;
+    this.turnosPacienteSeleccionado = this.turnos.filter(
+      (turno: any) => turno.paciente === `${p.nombre} ${p.apellido}`
+    );
+    this.pacienteSeleccionado = p;
   }
 }

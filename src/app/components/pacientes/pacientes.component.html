@@ -3,13 +3,17 @@
     <h2>Pacientes</h2>
 
     <div class="pacientes-container">
-      @for (paciente of this.pacientes; track $index) {
+      @for (paciente of this.pacientesConTurno; track $index) {
 
       <div class="paciente">
         <p class="nombre-paciente">
           {{ paciente.nombre }} {{ paciente.apellido }}
         </p>
-        <button type="button" class="paciente-button">
+        <button
+          type="button"
+          class="paciente-button"
+          (click)="desplegarHistorialClinico(paciente)"
+        >
           <img
             src="{{ paciente.fotoPerfil }}"
             alt="{{ paciente.nombre }}"
