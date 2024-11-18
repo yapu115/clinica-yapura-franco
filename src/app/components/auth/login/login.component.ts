@@ -237,8 +237,8 @@ export class LoginComponent {
 
   iniciarPryde() {
     this.formInicioSesion.patchValue({
-      email: 'kittypride616@gmail.com',
-      contrasena: 'Xmen115',
+      email: 'bohade1285@anypng.com',
+      contrasena: 'Invincible115',
     });
   }
 

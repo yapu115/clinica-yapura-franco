@@ -152,7 +152,6 @@ export class UsuariosComponent {
               doc.especialidad,
               doc.paciente,
               doc.fecha,
-              doc.hora,
               doc.estado,
               doc.resena,
               doc.id,

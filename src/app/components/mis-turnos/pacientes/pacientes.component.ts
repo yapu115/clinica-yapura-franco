@@ -65,20 +65,25 @@ export class PacientesComponent {
     const observableEspecialistas = this.db.traerObjetos('turnos');
 
     this.subscription = observableEspecialistas.subscribe((resultado) => {
-      this.turnos = (resultado as any[]).map(
-        (doc) =>
-          new Turno(
-            doc.especialista,
-            doc.especialidad,
-            doc.paciente,
-            doc.fecha,
-            doc.hora,
-            doc.estado,
-            doc.resena,
-            doc.id,
-            doc.historialClinico
-          )
-      );
+      this.turnos = (resultado as any[])
+        .filter(
+          (doc) =>
+            doc.paciente ===
+            `${this.auth.usuario.nombre} ${this.auth.usuario.apellido}`
+        )
+        .map(
+          (doc) =>
+            new Turno(
+              doc.especialista,
+              doc.especialidad,
+              doc.paciente,
+              doc.fecha.toDate(),
+              doc.estado,
+              doc.resena,
+              doc.id,
+              doc.historialClinico
+            )
+        );
     });
   }
 

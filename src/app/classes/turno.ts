@@ -2,8 +2,7 @@ export class Turno {
   id: string;
   especialista: string;
   especialidad: string;
-  fecha: string;
-  hora: string;
+  fecha: Date;
   estado: string;
   resena: string;
   paciente: string;
@@ -13,8 +12,7 @@ export class Turno {
     especialista: string,
     especialidad: string,
     paciente: string,
-    fecha: string,
-    hora: string,
+    fecha: Date,
     estado: string,
     resena: string = '',
     id: string = '',
@@ -25,7 +23,6 @@ export class Turno {
     this.especialidad = especialidad;
     this.paciente = paciente;
     this.fecha = fecha;
-    this.hora = hora;
     this.estado = estado;
     this.resena = resena;
     this.historialClinico = historialClinico;

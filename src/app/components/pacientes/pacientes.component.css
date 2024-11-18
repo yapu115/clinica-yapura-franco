@@ -4,80 +4,127 @@
   padding: 20px;
 }
 
-.appointment-form-container {
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 800px;
-  width: 90%;
-}
-
-.appointment-form-container h2 {
-  font-size: 1.8rem;
-  color: #333;
-  margin-bottom: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.pacientes-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  justify-items: center;
-  padding: 10px;
-  margin: 25px 0;
-}
-
-/* Estilo de cada especialista */
-.paciente {
+/* General styles */
+.cards-list {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+}
+
+/* Contenedor de las cards */
+.card-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 20px;
+  gap: 20px; /* Espacio entre las cards */
+  width: 100%;
+  max-width: 90%; /* Limitar el tamaño total */
+}
+
+.card {
+  width: 380px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  /* cursor: pointer; */
+  flex-shrink: 0;
+}
+
+.card:hover {
+  /* transform: translateY(-10px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Header with profile image and patient info */
+.card-header {
+  display: flex;
+  padding: 20px;
+  background-color: #003e80;
+  color: #fff;
+  align-items: center;
+  border-bottom: 2px solid #0056b3;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 18px;
+  border: solid #000 3px;
+  object-fit: cover;
+}
+
+.patient-info {
+  flex-grow: 1;
+}
+
+.patient-name {
+  font-size: 1.7em;
+  margin: 0;
+  font-weight: bold;
+}
+
+.patient-specialty {
+  font-size: 1.2em;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+/* Body content */
+.card-body {
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.appointment-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.appointment-date,
+.appointment-time {
+  font-size: 1.1em;
+  margin: 5px 0;
+  color: #666;
+}
+
+.appointment-details {
+  /* margin-top: 15px; */
+}
+
+.appointment-details p {
+  font-size: 0.95em;
+  margin: 5px 0;
+  color: #444;
+}
+
+/* Footer with button */
+.card-footer {
+  padding: 15px;
+  background-color: #f1f1f1;
   text-align: center;
 }
 
-.nombre-paciente {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.paciente-button {
-  width: 100px;
-  height: 100px;
+.btn-details {
+  padding: 10px 20px;
+  background-color: #2861a7;
+  color: #fff;
   border: none;
   border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f4f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 1em;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-.paciente-button:active {
-  border-color: #007bff;
-  background-color: #9ac9f2;
-  outline: none;
-  transform: scale(1.05);
-}
-
-.paciente-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.paciente-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
+.btn-details:hover {
+  background-color: #215a88;
 }
 
 /* ------------------ */

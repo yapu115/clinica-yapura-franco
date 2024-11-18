@@ -12,12 +12,18 @@
             <p class="nombre-especialista">
               {{ especialista.nombre }} {{ especialista.apellido }}
             </p>
-            <button type="button" class="especialista-button">
+            <button
+              type="button"
+              class="especialista-button"
+              (click)="asignarEspecialista(especialista)"
+              [ngClass]="{
+                selected: especialistaSeleccionado === especialista
+              }"
+            >
               <img
                 src="{{ especialista.fotoPerfil }}"
                 alt="{{ especialista.nombre }}"
                 class="especialista-img"
-                (click)="asignarEspecialista(especialista)"
               />
             </button>
           </div>
@@ -31,14 +37,17 @@
       </div>
       } @if (this.formTurno.controls["especialista"].value !== ""){
       <div class="especialidades-container">
-        <!-- Reemplazamos el select por botones -->
         @for (especialidad of this.obtenerEspecialidades(); track $index) {
 
         <div class="especialidad">
           <p class="nombre-especialidad">
             {{ especialidad }}
           </p>
-          <button type="button" class="especialidad-button">
+          <button
+            type="button"
+            class="especialidad-button"
+            [ngClass]="{ selected: especialidadSeleccionada === especialidad }"
+          >
             <img
               src="/especialidades/{{
                 quitarTildes(especialidad).toLocaleLowerCase()
@@ -61,15 +70,16 @@
       this.formTurno.controls['especialidad'].value !== "" ){
 
       <div class="form-group">
-        <label>Día de la consulta</label>
+        <label>Fecha de la consulta</label>
         <div class="button-group">
-          @for (dia of proximosDias; track $index) {
+          @for (dia of turnosDisponibles; track $index) {
           <button
-            type="button"
+            [disabled]="!dia.disponible"
+            [class.ocupado]="!dia.disponible"
             [class.selected]="diaSeleccionado === dia"
             (click)="seleccionarDia(dia)"
           >
-            {{ dia }}
+            {{ dia.fecha | date : "yyyy-MM-dd h:mm a" }}
           </button>
 
           }
@@ -79,29 +89,7 @@
       <div class="error-message">
         <p>{{ mensajeFecha }}</p>
       </div>
-      }
-
-      <!-- Selección de hora -->
-      <div class="form-group">
-        <label>Horario de la consulta</label>
-        <div class="button-group">
-          @for (horario of obtenerHorariosDisponibles(); track $index) {
-          <button
-            type="button"
-            [class.selected]="horarioSeleccionado === horario"
-            (click)="seleccionarHorario(horario)"
-          >
-            {{ horario }}
-          </button>
-          }
-        </div>
-      </div>
-
-      @if (horarError){
-      <div class="error-message">
-        <p>{{ mensajeHora }}</p>
-      </div>
-      } @if (this.auth.tipoDeUsuario === "administrador"){
+      } } @if (this.auth.tipoDeUsuario === "administrador"){
       <div class="form-group">
         <label for="paciente">Paciente</label>
 
@@ -118,7 +106,7 @@
       <div class="error-message">
         <p>{{ mensajePaciente }}</p>
       </div>
-      } } }
+      } }
       <button class="submit-button" (click)="guardarTurno()">
         Solicitar Turno
       </button>

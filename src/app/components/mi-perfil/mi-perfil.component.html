@@ -30,7 +30,7 @@
   </div>
 
   @if (this.auth.tipoDeUsuario === "paciente"){
-  <div class="clinic-history-container">
+  <div class="clinic-history-container" #turnosPDF>
     <h2 class="clinic-history-title">Historial Clínico</h2>
 
     <div class="clinic-history-list">
@@ -42,7 +42,9 @@
             Dr/a. {{ turno.especialista }} - {{ turno.especialidad }}
           </h3>
           <p class="clinic-history-date">
-            {{ turno.fecha }}
+            {{ turno.fecha.getDate() }}/{{ turno.fecha.getMonth() + 1 }}/{{
+              turno.fecha.getFullYear()
+            }}
           </p>
         </div>
 
@@ -53,7 +55,9 @@
             <strong>Temperatura:</strong>
             {{ turno.historialClinico.temperatura }} °C
           </p>
-          <p><strong>Presión:</strong> {{ turno.historialClinico.presion }}</p>
+          <p>
+            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHg
+          </p>
         </div>
 
         <div class="clinic-history-additional-info">
@@ -77,5 +81,6 @@
       }
     </div>
   </div>
+  <button (click)="generarPDF()">Descargar PDF</button>
   }
 </div>

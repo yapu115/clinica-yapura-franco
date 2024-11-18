@@ -1,28 +1,52 @@
 <div class="body">
-  <div class="appointment-form-container">
-    <h2>Pacientes</h2>
+  <div class="cards-list">
+    <div class="card-container">
+      @for (paciente of pacientesConTurno; track $index) {
 
-    <div class="pacientes-container">
-      @for (paciente of this.pacientesConTurno; track $index) {
-
-      <div class="paciente">
-        <p class="nombre-paciente">
-          {{ paciente.nombre }} {{ paciente.apellido }}
-        </p>
-        <button
-          type="button"
-          class="paciente-button"
-          (click)="desplegarHistorialClinico(paciente)"
-        >
+      <div class="card">
+        <div class="card-header">
           <img
+            class="profile-img"
             src="{{ paciente.fotoPerfil }}"
-            alt="{{ paciente.nombre }}"
-            class="paciente-img"
+            alt="Imagen del paciente"
           />
-        </button>
-      </div>
+          <div class="patient-info">
+            <h2 class="patient-name">
+              {{ paciente.nombre }} {{ paciente.apellido }}
+            </h2>
+            <p class="patient-specialty">{{ paciente.edad }} años</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="appointment-details">
+            <h3 class="appointment-title">Información:</h3>
+            <p><strong>Correo:</strong> {{ paciente.email }}</p>
+            <p><strong>Obra Social:</strong> {{ paciente.obraSocial }}</p>
+          </div>
+          <h3 class="appointment-title">Últimos turnos:</h3>
+          @for (t of turnos; track $index) { @if (t.paciente === paciente.nombre
+          + " " + paciente.apellido) { @if ($index < 3){
+          <p class="appointment-date">
+            {{ t.fecha.getDate() }}/{{ t.fecha.getMonth() + 1 }}/{{
+              t.fecha.getFullYear()
+            }}
+            - {{ t.fecha.getHours() }}:{{ t.fecha.getMinutes() }}
+          </p>
 
+          } } }
+        </div>
+        <div class="card-footer">
+          <button
+            class="btn-details"
+            (click)="desplegarHistorialClinico(paciente)"
+          >
+            Ver Historial clínico
+          </button>
+        </div>
+      </div>
       }
+
+      <!-- Aquí puedes agregar más tarjetas similares -->
     </div>
   </div>
 
@@ -42,7 +66,9 @@
             Dr/a. {{ turno.especialista }} - {{ turno.especialidad }}
           </h3>
           <p class="clinic-history-date">
-            {{ turno.fecha }}
+            {{ turno.fecha.getDate() }}/{{ turno.fecha.getMonth() + 1 }}/{{
+              turno.fecha.getFullYear()
+            }}
           </p>
         </div>
 
@@ -53,7 +79,9 @@
             <strong>Temperatura:</strong>
             {{ turno.historialClinico.temperatura }} °C
           </p>
-          <p><strong>Presión:</strong> {{ turno.historialClinico.presion }}</p>
+          <p>
+            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHH
+          </p>
         </div>
 
         <div class="clinic-history-additional-info">

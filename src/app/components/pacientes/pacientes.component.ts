@@ -34,20 +34,21 @@ export class PacientesComponent {
     const observableEspecialistas = this.db.traerObjetos('turnos');
 
     this.subscription = observableEspecialistas.subscribe((resultado) => {
-      this.turnos = (resultado as any[]).map(
-        (doc) =>
-          new Turno(
-            doc.especialista,
-            doc.especialidad,
-            doc.paciente,
-            doc.fecha,
-            doc.hora,
-            doc.estado,
-            doc.resena,
-            doc.id,
-            doc.historialClinico
-          )
-      );
+      this.turnos = (resultado as any[])
+        .filter((doc) => doc.estado === 'realizado')
+        .map(
+          (doc) =>
+            new Turno(
+              doc.especialista,
+              doc.especialidad,
+              doc.paciente,
+              doc.fecha.toDate(),
+              doc.estado,
+              doc.resena,
+              doc.id,
+              doc.historialClinico
+            )
+        );
       this.filtrarPacientesConTurnosRealizados();
     });
   }
@@ -73,16 +74,15 @@ export class PacientesComponent {
   }
 
   filtrarPacientesConTurnosRealizados() {
-    console.log(this.turnos);
-    console.log(this.pacientes);
     const pacientesUnicos = new Set();
 
     this.turnos.forEach((t: any) => {
       if (
         t.especialista ===
-        `${this.auth.usuario.nombre} ${this.auth.usuario.apellido}`
+          `${this.auth.usuario.nombre} ${this.auth.usuario.apellido}` &&
+        t.estado === 'realizado'
       ) {
-        this.pacientes.forEach((p: any) => {
+        this.pacientes.forEach((p: Paciente) => {
           if (t.paciente === `${p.nombre} ${p.apellido}`) {
             if (!pacientesUnicos.has(p.dni)) {
               pacientesUnicos.add(p.dni);

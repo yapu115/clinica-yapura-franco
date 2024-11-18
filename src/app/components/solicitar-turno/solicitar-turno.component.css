@@ -1,5 +1,4 @@
 .body {
-  /* max-width: 600px; */
   margin: 0 auto;
   padding: 20px;
 }
@@ -11,11 +10,10 @@
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 800px;
+  max-width: 870px;
   width: 90%;
 }
 
-/* Título del formulario */
 .appointment-form-container h2 {
   font-size: 1.8rem;
   color: #333;
@@ -23,21 +21,18 @@
   font-family: Arial, sans-serif;
 }
 
-/* Estilos del formulario */
 .appointment-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Grupo de formulario */
 .form-group {
   text-align: left;
   display: flex;
   flex-direction: column;
 }
 
-/* Etiquetas */
 .form-group label {
   font-weight: bold;
   color: #555;
@@ -45,7 +40,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Campos de entrada */
 .appointment-form input,
 .appointment-form textarea {
   padding: 10px;
@@ -63,7 +57,6 @@
   outline: none;
 }
 
-/* Botón de envío */
 .submit-button {
   background-color: #0056b3;
   color: white;
@@ -80,7 +73,6 @@
   background-color: #003976;
 }
 
-/* Estilos generales del select */
 .appointment-form select {
   padding: 10px;
   border: 1px solid #ddd;
@@ -88,18 +80,25 @@
   font-size: 1rem;
   background-color: #fff;
   color: #333;
-  appearance: none; /* Elimina el estilo por defecto del navegador */
+  appearance: none;
   transition: border-color 0.3s ease;
 }
 
-/* Cambia el borde cuando el campo está enfocado */
 .appointment-form select:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.button-group button {
+.button-group {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  justify-items: center;
   padding: 10px;
+}
+
+.button-group button {
+  padding: 8px;
   margin: 5px;
   border: 1px solid #90aac6;
   border-radius: 5px;
@@ -122,7 +121,6 @@
   color: #c74d4d;
   line-height: 0px;
   font-style: italic;
-  /* margin-top: 15px; */
   margin-bottom: 10px;
   width: 100%;
 }
@@ -132,14 +130,13 @@
 .especialistas-container,
 .especialidades-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  grid-template-columns: repeat(3, 1fr);
   gap: 15px;
   justify-items: center;
   padding: 10px;
   margin: 25px 0;
 }
 
-/* Estilo de cada especialista */
 .especialista,
 .especialidad {
   display: flex;
@@ -153,16 +150,15 @@
   font-size: 0.9rem;
   font-weight: bold;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-/* Estilo del botón que contiene la imagen */
 .especialista-button,
 .especialidad-button {
-  width: 100px; /* Tamaño cuadrado */
+  width: 100px;
   height: 100px;
   border: none;
-  border-radius: 12px; /* Bordes redondeados */
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -199,4 +195,17 @@
   height: 80px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.especialista-button.selected,
+.especialidad-button.selected {
+  transform: scale(1.15);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  border-color: #007bff;
+  background-color: #9ac9f2;
+}
+
+.especialista-img.selected,
+.especialidad-img.selected {
+  transform: scale(1.15);
 }

@@ -14,11 +14,12 @@ import { Turno } from '../../classes/turno';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Paciente } from '../../classes/paciente';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-solicitar-turno',
   standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule],
+  imports: [FontAwesomeModule, ReactiveFormsModule, CommonModule],
   templateUrl: './solicitar-turno.component.html',
   styleUrl: './solicitar-turno.component.css',
 })
@@ -31,25 +32,27 @@ export class SolicitarTurnoComponent {
   especialidades: string[] = [];
   nombresEspecialistas: string[] = [];
   nombresPacientes: string[] = [];
-  turnos: Turno[] = [];
+  turnos: any[] = [];
 
   especialistasError: boolean = false;
   especialidadError: boolean = false;
   fechaError: boolean = false;
-  horarError: boolean = false;
   pacienteError: boolean = false;
 
   mensajeEspecialista = 'Debe ingresar un especialista';
   mensajeEspecialidad = 'Debe ingresar una especialidad';
   mensajeFecha = 'Debe ingresar una fecha para el turno';
-  mensajeHora = 'Debe ingresar la hora del turno';
   mensajePaciente = 'Debe ingresar un paciente';
 
-  proximosDias: string[] = [];
-  horarios = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
-
   diaSeleccionado: string | null = null;
-  horarioSeleccionado: string | null = null;
+
+  // -------------------------------
+  fechaSeleccionada: any = null;
+  turnosDisponibles: any[] = [];
+
+  especialistaSeleccionado: any = null;
+  especialidadSeleccionada: any = null;
+  // -------------------------------
 
   constructor(
     protected auth: AuthService,
@@ -59,7 +62,7 @@ export class SolicitarTurnoComponent {
     this.obtenerEspecialistas();
     this.obtenerPacientes();
     this.obtenerTurnos();
-    this.obtenerProximosDias();
+    // this.cargarTurnos();
 
     this.formTurno = new FormGroup({
       especialidad: new FormControl('', [Validators.required]),
@@ -74,19 +77,13 @@ export class SolicitarTurnoComponent {
     this.especialistasError = false;
     this.especialidadError = false;
     this.fechaError = false;
-    this.horarError = false;
     this.pacienteError = false;
 
     if (this.ValidarCampos()) {
       const especialidad = this.formTurno.controls['especialidad'].value;
       const especialista = this.formTurno.controls['especialista'].value;
       const fecha = this.formTurno.controls['fecha'].value;
-      const hora = this.formTurno.controls['hora'].value;
       const paciente = this.formTurno.controls['paciente'].value;
-
-      // const fechaFormato = this.formatearFecha(fecha);
-
-      // const horaFormato = this.formatearHora(hora);
 
       let turno;
       if (this.auth.tipoDeUsuario === 'paciente') {
@@ -95,7 +92,6 @@ export class SolicitarTurnoComponent {
           especialidad,
           `${this.auth.usuario.nombre} ${this.auth.usuario.apellido}`,
           fecha,
-          hora,
           'solicitado'
         );
       } else if (this.auth.tipoDeUsuario === 'administrador') {
@@ -104,7 +100,6 @@ export class SolicitarTurnoComponent {
           especialidad,
           paciente,
           fecha,
-          hora,
           'solicitado'
         );
       }
@@ -126,53 +121,27 @@ export class SolicitarTurnoComponent {
     }
   }
 
-  // ----------------------------------------------------------
-  formatearFecha(fecha: string): string {
-    const date = new Date(fecha);
-    console.log(date);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  formatearHora(hora: string): string {
-    const [hour, minute] = hora.split(':');
-    let formattedHour = parseInt(hour);
-    const ampm = formattedHour >= 12 ? 'PM' : 'AM';
-    formattedHour = formattedHour % 12 || 12;
-    return `${formattedHour}:${minute} ${ampm}`;
-  }
-
-  // --------------------------------------------------------------
-
   ValidarCampos() {
     let camposValidados = true;
 
     const controlEspecialidad = this.formTurno.controls['especialidad'];
     const controlEspecialista = this.formTurno.controls['especialista'];
     const controlFecha = this.formTurno.controls['fecha'];
-    const controlHora = this.formTurno.controls['hora'];
     const controlPaciente = this.formTurno.controls['paciente'];
-
-    if (controlEspecialidad.errors !== null) {
-      camposValidados = false;
-      this.especialidadError = true;
-    }
 
     if (controlEspecialista.errors !== null) {
       camposValidados = false;
       this.especialistasError = true;
     }
 
-    if (controlFecha.errors !== null) {
+    if (controlEspecialidad.errors !== null) {
       camposValidados = false;
-      this.fechaError = true;
+      if (controlEspecialista.value !== '') this.especialidadError = true;
     }
 
-    if (controlHora.errors !== null) {
+    if (controlFecha.errors !== null) {
       camposValidados = false;
-      this.horarError = true;
+      if (controlEspecialidad.value !== '') this.fechaError = true;
     }
 
     if (this.auth.tipoDeUsuario === 'administrador')
@@ -206,10 +175,14 @@ export class SolicitarTurnoComponent {
 
   asignarEspecialista(e: Especialista) {
     this.formTurno.get('especialista')?.setValue(`${e.nombre} ${e.apellido}`);
+    this.especialistaSeleccionado = e;
+    this.especialistasError = false;
   }
 
   asignarEspecialidad(e: string) {
     this.formTurno.get('especialidad')?.setValue(e);
+    this.especialidadSeleccionada = e;
+    this.especialidadError = false;
   }
 
   obtenerNombresEspecialistas() {
@@ -303,54 +276,51 @@ export class SolicitarTurnoComponent {
             doc.especialidad,
             doc.paciente,
             doc.fecha,
-            doc.hora,
             doc.estado,
             doc.resena
           )
       );
+      this.cargarTurnos();
     });
   }
 
-  obtenerHorariosDisponibles() {
-    const controlespecialista = this.formTurno.controls['especialista'].value;
-    const controlDia = this.formTurno.controls['fecha'].value;
-
-    if (controlespecialista === '') return this.horarios;
-
-    let horariosDisponibles = this.horarios;
-
-    this.turnos.forEach((turno) => {
-      if (turno.especialista === controlespecialista) {
-        if (controlDia === turno.fecha) {
-          horariosDisponibles = horariosDisponibles.filter(
-            (hora) => hora !== turno.hora
-          );
-        }
-      }
-    });
-
-    return horariosDisponibles;
-  }
-
-  obtenerProximosDias() {
+  cargarTurnos() {
+    const horariosPorDia = [
+      '09:00',
+      '10:30',
+      '12:00',
+      '13:30',
+      '15:00',
+      '16:30',
+    ];
     const hoy = new Date();
     for (let i = 0; i < 15; i++) {
-      const date = new Date(hoy);
-      date.setDate(hoy.getDate() + i + 1);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      this.proximosDias.push(`${day}/${month}`);
+      const dia = new Date(hoy);
+      dia.setDate(hoy.getDate() + i);
+
+      horariosPorDia.forEach((hora) => {
+        const [horas, minutos] = hora.split(':').map(Number);
+        const fechaCompleta = new Date(dia);
+        fechaCompleta.setHours(horas, minutos, 0, 0);
+
+        this.turnosDisponibles.push({ fecha: fechaCompleta, disponible: true });
+      });
     }
+
+    const turnosOcupados = this.turnos.map((turno) => turno.fecha.toDate());
+
+    this.turnosDisponibles = this.turnosDisponibles.filter((turno) => {
+      return !turnosOcupados.some(
+        (ocupado: Date) => ocupado.getTime() === turno.fecha.getTime()
+      );
+    });
   }
 
-  seleccionarDia(dia: string) {
+  seleccionarDia(dia: any) {
+    this.turnosDisponibles.forEach((t) => (t.seleccionado = false));
+    dia.seleccionado = true;
     this.diaSeleccionado = dia;
-    this.formTurno.get('fecha')?.setValue(dia);
-  }
-
-  seleccionarHorario(horario: string) {
-    this.horarioSeleccionado = horario;
-    this.formTurno.get('hora')?.setValue(horario);
+    this.formTurno.get('fecha')?.setValue(dia.fecha);
   }
 
   quitarTildes(texto: string) {
