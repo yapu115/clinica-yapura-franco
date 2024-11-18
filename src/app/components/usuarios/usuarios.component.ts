@@ -8,11 +8,15 @@ import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 import { Turno } from '../../classes/turno';
+import { CommonModule } from '@angular/common';
+import * as XLSX from 'xlsx';
+// import { saveAs } from 'file-saver';
+// import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
 })
@@ -127,15 +131,29 @@ export class UsuariosComponent {
       denyButtonText: `Denegar`,
       confirmButtonColor: '#409f43',
       denyButtonColor: '#b81414',
+      background: '#4f9dde',
+      color: '#222',
     }).then((result) => {
       if (result.isConfirmed) {
         especialista.acceso = 'permitido';
         this.db.ModificarObjeto(especialista, 'especialistas');
-        Swal.fire('Acceso Permitido', '', 'success');
+        Swal.fire({
+          title: 'Acceso Permitido',
+          icon: 'success',
+          background: '#4f9dde',
+          color: '#222',
+          confirmButtonColor: '#004b97',
+        });
       } else if (result.isDenied) {
         especialista.acceso = 'denegado';
         this.db.ModificarObjeto(especialista, 'especialistas');
-        Swal.fire('Acceso Denegado', '', 'info');
+        Swal.fire({
+          title: 'Acceso Denegado',
+          icon: 'info',
+          background: '#4f9dde',
+          color: '#222',
+          confirmButtonColor: '#004b97',
+        });
       }
     });
   }
@@ -145,20 +163,21 @@ export class UsuariosComponent {
 
     this.subscription = observableEspecialistas.subscribe((resultado) => {
       this.turnos = (resultado as any[])
+        .filter((doc) => doc.estado === 'realizado')
         .map(
           (doc) =>
             new Turno(
               doc.especialista,
               doc.especialidad,
               doc.paciente,
-              doc.fecha,
+              doc.fecha.toDate(),
               doc.estado,
               doc.resena,
               doc.id,
               doc.historialClinico
             )
-        )
-        .filter((turno) => turno.estado === 'realizado');
+        );
+      console.log(this.turnos);
     });
   }
 
@@ -168,5 +187,53 @@ export class UsuariosComponent {
       (turno: any) => turno.paciente === `${p.nombre} ${p.apellido}`
     );
     this.pacienteSeleccionado = p;
+  }
+
+  turnosFiltrados(paciente: any): Turno[] {
+    return this.turnos.filter(
+      (t: any) => t.paciente === `${paciente.nombre} ${paciente.apellido}`
+    );
+  }
+
+  descargarExcel() {
+    // Encabezados del archivo
+    const encabezados = [
+      'Paciente',
+      'Especialista',
+      'Especialidad',
+      'Fecha',
+      'Hora',
+    ];
+
+    // Convertir datos a formato CSV
+    let contenido = encabezados.join(',') + '\n';
+    this.turnosPacienteSeleccionado.forEach((t: Turno) => {
+      const fila = [
+        t.paciente,
+        t.especialista,
+        t.especialidad,
+        `${t.fecha.getDate()}/${
+          t.fecha.getMonth() + 1
+        }/${t.fecha.getFullYear()}`,
+        `${t.fecha.getHours()}:${t.fecha.getMinutes()}`,
+      ].join(',');
+      contenido += fila + '\n';
+    });
+    console.log(contenido);
+
+    // Crear un Blob con el contenido en formato CSV
+    const blob = new Blob([contenido], { type: 'text/csv;charset=utf-8;' });
+
+    // Crear enlace dinámico para la descarga
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `turnos_${this.pacienteSeleccionado?.apellido}.csv`; // Nombre del archivo
+    document.body.appendChild(a);
+    a.click();
+
+    // Limpiar
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   }
 }

@@ -22,77 +22,111 @@
       Pacientes
     </button>
   </div>
-  <div class="user-list-container">
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>Foto de Perfil</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>DNI</th>
-          <th>Edad</th>
-          @if (mostrarInfoPacientes){
-          <th>Obra Social</th>
-          } @else if (mostrarInfoEspecialistas){
-          <th>Especialidad</th>
-          <th>Acceso</th>
+
+  <div class="cards-list">
+    <div class="card-container">
+      @if (this.mostrarInfoAdministradores){ @for (admin of
+      this.administradores; track $index) {
+
+      <div class="card">
+        <div class="card-header">
+          <img
+            class="profile-img"
+            src="{{ admin.fotoPerfil }}"
+            alt="Imagen del paciente"
+          />
+          <div class="patient-info">
+            <h2 class="patient-name">
+              {{ admin.nombre }} {{ admin.apellido }}
+            </h2>
+            <p class="patient-specialty">{{ admin.edad }} años</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="appointment-details">
+            <h3 class="appointment-title">Información:</h3>
+            <p><strong>Correo:</strong> {{ admin.email }}</p>
+            <p><strong>DNI:</strong> {{ admin.dni }}</p>
+          </div>
+        </div>
+      </div>
+      } } @else if (this.mostrarInfoEspecialistas){ @for (esp of
+      this.especialistas; track $index) {
+
+      <div class="card">
+        <div class="card-header">
+          <img
+            class="profile-img"
+            src="{{ esp.fotoPerfil }}"
+            alt="Imagen del paciente"
+          />
+          <div class="patient-info">
+            <h2 class="patient-name">{{ esp.nombre }} {{ esp.apellido }}</h2>
+            <p class="patient-specialty">{{ esp.edad }} años</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="appointment-details">
+            <h3 class="appointment-title">Información:</h3>
+            <p><strong>Correo:</strong> {{ esp.email }}</p>
+            <p><strong>DNI:</strong> {{ esp.dni }}</p>
+          </div>
+          <h3 class="appointment-title">Especialidades:</h3>
+          @for (especialidad of esp.especialidades; track $index) {
+          <p class="esp-lista">- {{ especialidad }}</p>
           }
-        </tr>
-      </thead>
-      <tbody>
-        @if (mostrarInfoAdministradores){ @for (admin of administradores; track
-        $index) {
-        <tr>
-          <td>
-            <img src="{{ admin.fotoPerfil }}" alt="Foto de Perfil" />
-          </td>
-          <td>{{ admin.nombre }}</td>
-          <td>{{ admin.apellido }}</td>
-          <td>{{ admin.email }}</td>
-          <td>{{ admin.dni }}</td>
-          <td>{{ admin.edad }}</td>
-        </tr>
-        } } @else if (mostrarInfoEspecialistas){ @for (espec of especialistas;
-        track $index) {
-        <tr>
-          <td>
-            <img src="{{ espec.fotoPerfil }}" alt="Foto de Perfil" />
-          </td>
-          <td>{{ espec.nombre }}</td>
-          <td>{{ espec.apellido }}</td>
-          <td>{{ espec.email }}</td>
-          <td>{{ espec.dni }}</td>
-          <td>{{ espec.edad }}</td>
-          <td>{{ espec.especialidades }}</td>
-          @if (espec.acceso === "pendiente"){
-          <td class="{{ espec.acceso }}" (click)="cambiarEstadoAcceso(espec)">
-            {{ espec.acceso }}
-          </td>
+          <h3 class="appointment-title">Estado:</h3>
+          @if (esp.acceso === "pendiente"){
+          <p class="{{ esp.acceso }}" (click)="cambiarEstadoAcceso(esp)">
+            {{ esp.acceso }}
+          </p>
           } @else {
-          <td class="{{ espec.acceso }}">{{ espec.acceso }}</td>
+          <p class="{{ esp.acceso }}">{{ esp.acceso }}</p>
           }
-        </tr>
-        } } @else if (mostrarInfoPacientes){ @for (pac of pacientes; track
-        $index) {
-        <tr>
-          <td>
-            <img
-              src="{{ pac.fotoPerfil }}"
-              alt="Foto de Perfil"
-              (click)="desplegarHistorialClinico(pac)"
-            />
-          </td>
-          <td>{{ pac.nombre }}</td>
-          <td>{{ pac.apellido }}</td>
-          <td>{{ pac.email }}</td>
-          <td>{{ pac.dni }}</td>
-          <td>{{ pac.edad }}</td>
-          <td>{{ pac.obraSocial }}</td>
-        </tr>
-        } }
-      </tbody>
-    </table>
+        </div>
+      </div>
+      } } @else if (this.mostrarInfoPacientes){ @for (pac of pacientes; track
+      pacientes.length) {
+      <div class="card">
+        <div class="card-header">
+          <img
+            class="profile-img"
+            src="{{ pac.fotoPerfil }}"
+            alt="Imagen del paciente"
+          />
+          <div class="patient-info">
+            <h2 class="patient-name">{{ pac.nombre }} {{ pac.apellido }}</h2>
+            <p class="patient-specialty">{{ pac.edad }} años</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="appointment-details">
+            <h3 class="appointment-title">Información:</h3>
+            <p><strong>Correo:</strong> {{ pac.email }}</p>
+            <p><strong>Obra Social:</strong> {{ pac.obraSocial }}</p>
+          </div>
+          @if (turnosFiltrados(pac).length > 0 ){
+          <h3 class="appointment-title">Últimos turnos:</h3>
+
+          @for (t of turnosFiltrados(pac) | slice:0:3 ; track $index) {
+          <p></p>
+          <p class="appointment-date">
+            {{ t.fecha.getDate() }}/{{ t.fecha.getMonth() + 1 }}/{{
+              t.fecha.getFullYear()
+            }}
+            - {{ t.fecha.getHours() }}:{{ t.fecha.getMinutes() }}
+          </p>
+
+          } }
+        </div>
+        <div class="card-footer">
+          <button class="btn-details" (click)="desplegarHistorialClinico(pac)">
+            Ver Historial clínico
+          </button>
+        </div>
+      </div>
+      } }
+    </div>
   </div>
 
   @if (this.mostrarHistorialClinico){
@@ -111,7 +145,9 @@
             Dr/a. {{ turno.especialista }} - {{ turno.especialidad }}
           </h3>
           <p class="clinic-history-date">
-            {{ turno.fecha }}
+            {{ turno.fecha.getDate() }}/{{ turno.fecha.getMonth() + 1 }}/{{
+              turno.fecha.getFullYear()
+            }}
           </p>
         </div>
 
@@ -122,7 +158,9 @@
             <strong>Temperatura:</strong>
             {{ turno.historialClinico.temperatura }} °C
           </p>
-          <p><strong>Presión:</strong> {{ turno.historialClinico.presion }}</p>
+          <p>
+            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHH
+          </p>
         </div>
 
         <div class="clinic-history-additional-info">
@@ -145,6 +183,11 @@
       </div>
       }
     </div>
+    @if (turnosFiltrados(pacienteSeleccionado).length > 0 ){
+    <button class="descargar-datos" (click)="descargarExcel()">
+      Descargar datos
+    </button>
+    }
   </div>
   }
 </div>

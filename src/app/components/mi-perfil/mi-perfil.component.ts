@@ -5,11 +5,12 @@ import { Subscription } from 'rxjs';
 import { Turno } from '../../classes/turno';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })
@@ -19,6 +20,10 @@ export class MiPerfilComponent {
 
   turnos: any;
   logoURL: string = '/home_logo.png';
+
+  mostrarModal = false;
+  especialidades: any[] = [];
+  especialidadSeleccionada = 'todas';
 
   constructor(protected auth: AuthService, protected db: DatabaseService) {
     this.obtenerTurnosFirestore();
@@ -51,7 +56,28 @@ export class MiPerfilComponent {
     });
   }
 
-  generarPDF() {
+  abrirModal() {
+    this.mostrarModal = true;
+    this.especialidades = [
+      ...new Set(this.turnos.map((turno: Turno) => turno.especialidad)),
+    ];
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
+    this.especialidades = [];
+  }
+
+  generarPDF(especialidad: string) {
+    let turnosPDF;
+
+    if (especialidad === 'todas' || especialidad === '') {
+      turnosPDF = this.turnos;
+    } else {
+      turnosPDF = this.turnos.filter(
+        (turno: Turno) => turno.especialidad === especialidad
+      );
+    }
     const doc = new jsPDF('p', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.width;
     const marginX = 15;
@@ -77,7 +103,7 @@ export class MiPerfilComponent {
     currentY += 15;
 
     doc.setFontSize(12);
-    this.turnos.forEach((turno: any, index: any) => {
+    turnosPDF.forEach((turno: any, index: any) => {
       if (currentY > 270) {
         doc.addPage();
         currentY = 20;
@@ -88,7 +114,13 @@ export class MiPerfilComponent {
       doc.text(turno.especialista, marginX, currentY);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(100, 100, 100);
-      doc.text(turno.fecha, pageWidth - marginX - 20, currentY);
+      doc.text(
+        `${turno.fecha.getDate()}/${
+          turno.fecha.getMonth() + 1
+        }/${turno.fecha.getFullYear()}`,
+        pageWidth - marginX - 20,
+        currentY
+      );
       currentY += 14;
 
       doc.setFont('helvetica', 'normal');
@@ -146,5 +178,6 @@ export class MiPerfilComponent {
     });
 
     doc.save('historial-clinico.pdf');
+    this.cerrarModal();
   }
 }

@@ -81,6 +81,39 @@
       }
     </div>
   </div>
-  <button (click)="generarPDF()">Descargar PDF</button>
+  <button (click)="abrirModal()">Descargar PDF</button>
   }
 </div>
+
+@if (this.mostrarModal){
+
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Filtrar por especialidad</h2>
+      <button class="btn-close" (click)="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <label for="especialidad-select">Especialidad:</label>
+      <select id="especialidad-select" [(ngModel)]="especialidadSeleccionada">
+        <option value="todas">Todas</option>
+        @for (especialidad of especialidades; track $index) {
+        <option [value]="especialidad">
+          {{ especialidad }}
+        </option>
+
+        }
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button
+        class="btn-confirm"
+        (click)="generarPDF(especialidadSeleccionada)"
+      >
+        Descargar
+      </button>
+    </div>
+  </div>
+</div>
+}
