@@ -56,5 +56,7 @@
   <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
 </div>
 }
-<router-outlet />
+<div [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet></router-outlet>
+</div>
 }

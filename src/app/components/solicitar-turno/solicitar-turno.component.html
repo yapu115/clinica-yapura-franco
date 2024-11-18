@@ -46,6 +46,7 @@
           <button
             type="button"
             class="especialidad-button"
+            (click)="asignarEspecialidad(especialidad)"
             [ngClass]="{ selected: especialidadSeleccionada === especialidad }"
           >
             <img
@@ -54,7 +55,6 @@
               }}.png"
               alt="{{ especialidad }}"
               class="especialidad-img"
-              (click)="asignarEspecialidad(especialidad)"
               (error)="asignarImagenDefault($event)"
             />
           </button>

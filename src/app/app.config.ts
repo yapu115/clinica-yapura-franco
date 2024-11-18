@@ -20,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     provideHttpClient(withFetch()),
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig }, provideAnimationsAsync(),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
+    provideAnimationsAsync(),
   ],
 };

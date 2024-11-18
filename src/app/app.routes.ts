@@ -10,6 +10,7 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./components/home/home.component').then((m) => m.HomeComponent),
+    data: { animation: 'home' },
   },
 
   {
@@ -18,7 +19,7 @@ export const routes: Routes = [
       import('./components/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'iniciar-sesion' },
   },
   {
     path: 'ingresar-registrarse',
@@ -26,7 +27,7 @@ export const routes: Routes = [
       import(
         './components/auth/registro/ingreso-registro/ingreso-registro.component'
       ).then((m) => m.IngresoRegistroComponent),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'ingresar-registrarse' },
   },
 
   {
@@ -35,7 +36,7 @@ export const routes: Routes = [
       import('./components/auth/registro/registro.component').then(
         (m) => m.RegistroComponent
       ),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'registrarse' },
   },
   //pacientes
   {
@@ -52,7 +53,7 @@ export const routes: Routes = [
       import('./components/solicitar-turno/solicitar-turno.component').then(
         (m) => m.SolicitarTurnoComponent
       ),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'solicitar-turno' },
   },
   {
     path: 'mis-turnos-paciente',
@@ -60,7 +61,7 @@ export const routes: Routes = [
       import('./components/mis-turnos/pacientes/pacientes.component').then(
         (m) => m.PacientesComponent
       ),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'mis-turnos-paciente' },
   },
   //especialista
   {
@@ -85,7 +86,7 @@ export const routes: Routes = [
       import('./components/mi-perfil/mi-perfil.component').then(
         (m) => m.MiPerfilComponent
       ),
-    // canDeactivate: [noAuthGuard],
+    data: { animation: 'mi-perfil' },
   },
   //admin
   {
