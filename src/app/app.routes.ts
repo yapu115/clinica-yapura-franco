@@ -105,6 +105,13 @@ export const routes: Routes = [
       ).then((m) => m.RegistroAdministradoresComponent),
     // canDeactivate: [noAuthGuard],
   },
+  {
+    path: 'graficos-estadisticas',
+    loadComponent: () =>
+      import(
+        './components/graficos-estadisticas/graficos-estadisticas.component'
+      ).then((m) => m.GraficosEstadisticasComponent),
+  },
 
   {
     path: 'error',

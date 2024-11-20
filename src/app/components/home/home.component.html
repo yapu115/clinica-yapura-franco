@@ -22,4 +22,41 @@
     </button>
     }
   </div>
+
+  <div class="container">
+    @if (this.auth.tipoDeUsuario === "administrador"){
+    <button class="toggle-btn" (click)="toggleSidebar()">&#62;</button>
+
+    }
+
+    <div
+      class="sidebar"
+      [class.open]="isSidebarOpen"
+      [class.closed]="!isSidebarOpen"
+    >
+      <button class="close-btn" (click)="toggleSidebar()">&#60;</button>
+      <h2>Entradas al sistema</h2>
+      @if (this.isSidebarOpen){
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre y Apellido</th>
+            <th>Fecha de Entrada</th>
+            <th>Hora de Entrada</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ingreso of this.entradasAlSistemaUsuarios; track $index) {
+          <tr>
+            <td>{{ ingreso.usuario }}</td>
+            <td>{{ ingreso.fecha }}</td>
+            <td>{{ ingreso.hora }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+    </div>
+  </div>
 </div>

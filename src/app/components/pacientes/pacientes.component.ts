@@ -67,7 +67,8 @@ export class PacientesComponent {
             doc.obraSocial,
             doc.email,
             doc.fotoPerfil,
-            doc.fotoPortada
+            doc.fotoPortada,
+            doc.ingresosAlSistema
           )
       );
     });

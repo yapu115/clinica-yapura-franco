@@ -108,6 +108,7 @@ export class RegistroAdministradoresComponent {
           const dni = this.formRegistro.controls['dni'].value;
           const email = this.formRegistro.controls['email'].value;
           const contrasena = this.formRegistro.controls['contrasena'].value;
+          const ingresosAlSistema: Date[] = [];
           const fotoPerfil = await this.storage.ObtenerImagenURL(
             // no puedo obtenerlo porque se debe hacer un await
             this.imagenPerfil,
@@ -121,7 +122,8 @@ export class RegistroAdministradoresComponent {
               dni,
               email,
               fotoPerfil,
-              contrasena
+              contrasena,
+              ingresosAlSistema
             ),
             'administradores'
           );

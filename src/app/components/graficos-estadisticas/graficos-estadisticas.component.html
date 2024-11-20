@@ -1,0 +1,22 @@
+<div class="body">
+  <div class="graphics-container">
+    <div class="pieContainer">
+      <canvas id="myPieChart"></canvas>
+    </div>
+
+    <div class="select-group">
+      <label for="fechas">Selecciona una fecha:</label>
+      <select id="fechas" (change)="onFechaSeleccionada($event)">
+        @for (fecha of fechas; track $index) {
+        <option [value]="fecha.valor">
+          {{ fecha.formato }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <div class="pieContainer">
+      <canvas id="myPieChart2"></canvas>
+    </div>
+  </div>
+</div>

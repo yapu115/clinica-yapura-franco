@@ -144,6 +144,7 @@ export class EspecialistasComponent {
           const especialidad =
             this.formRegistro.controls['especialidades'].value;
           const email = this.formRegistro.controls['email'].value;
+          const ingresoAlSistema: Date[] = [];
           const fotoPerfil = await this.storage.ObtenerImagenURL(
             // no puedo obtenerlo porque se debe hacer un await
             this.imagenPerfil,
@@ -159,7 +160,8 @@ export class EspecialistasComponent {
               especialidad,
               email,
               fotoPerfil,
-              'pendiente'
+              'pendiente',
+              ingresoAlSistema
             ),
             'especialistas'
           );

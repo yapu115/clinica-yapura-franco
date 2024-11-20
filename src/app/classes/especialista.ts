@@ -8,6 +8,7 @@ export class Especialista {
   email: string;
   fotoPerfil: any;
   acceso: string;
+  ingresosAlSistema: Date[];
 
   constructor(
     nombre: string,
@@ -18,6 +19,7 @@ export class Especialista {
     email: string,
     fotoPerfil: any,
     accesoPermitido: string,
+    ingresosAlSistema: Date[],
     id: string = ''
   ) {
     this.id = id;
@@ -29,5 +31,6 @@ export class Especialista {
     this.email = email;
     this.fotoPerfil = fotoPerfil;
     this.acceso = accesoPermitido;
+    this.ingresosAlSistema = ingresosAlSistema;
   }
 }

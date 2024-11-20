@@ -118,6 +118,7 @@ export class PacientesComponent {
           const dni = this.formRegistro.controls['dni'].value;
           const obraSocial = this.formRegistro.controls['obraSocial'].value;
           const email = this.formRegistro.controls['email'].value;
+          const ingresosAlSistema: Date[] = [];
           const fotoPerfil = await this.storage.ObtenerImagenURL(
             this.imagenPerfil,
             'ImagenesDePerfil'
@@ -136,7 +137,8 @@ export class PacientesComponent {
               obraSocial,
               email,
               fotoPerfil,
-              fotoPortada
+              fotoPortada,
+              ingresosAlSistema
             ),
             'pacientes'
           );

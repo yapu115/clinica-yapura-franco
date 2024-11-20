@@ -44,3 +44,128 @@
 .bottom-button {
   margin-top: 30px;
 }
+
+/* ----------------------- */
+
+.container {
+  position: relative;
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  background-color: #ecf0f1;
+  overflow: hidden;
+}
+
+.toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #023e8a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn:hover {
+  background-color: #002659;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #023e8a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn:hover {
+  background-color: #002659;
+}
+.toggle-btn {
+  left: 20px;
+}
+
+.close-btn {
+  left: 85%;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  max-width: 600px;
+  height: 100%;
+  background-color: #2c3e50;
+  color: white;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+  transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+.sidebar.closed {
+  left: -100%;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d73636;
+  padding-bottom: 10px;
+}
+
+/* Tabla de ingresos*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 40px 0;
+}
+
+thead {
+  background-color: #002659;
+  color: white;
+  font-weight: bold;
+}
+
+thead th {
+  padding: 15px;
+  font-size: 16px;
+}
+
+tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+tbody td {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  color: #2c3e50;
+}
+
+tbody td:last-child {
+  border-bottom: none;
+}

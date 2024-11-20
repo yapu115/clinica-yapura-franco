@@ -1,0 +1,66 @@
+.body {
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.pieContainer {
+  margin: 40px auto;
+  margin-bottom: 60px;
+  width: 60%;
+  max-width: 500px;
+  padding: 50px 20px;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  background-color: #768db4;
+  border-radius: 30px;
+}
+
+canvas {
+  z-index: 100;
+}
+
+/* dropdown */
+
+.graphics-container {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 870px;
+  width: 90%;
+}
+
+.select-group {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.select-group label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  font-family: Arial, sans-serif;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}

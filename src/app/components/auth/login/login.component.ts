@@ -21,6 +21,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { DatabaseService } from '../../../services/database.service';
 
 export const animations = trigger('routeAnimations', [
   // from bottom
@@ -193,7 +194,8 @@ export class LoginComponent {
   constructor(
     protected auth: AuthService,
     protected router: Router,
-    protected load: LoadingService
+    protected load: LoadingService,
+    protected db: DatabaseService
   ) {
     this.formInicioSesion = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -332,10 +334,17 @@ export class LoginComponent {
   confirmarInicioSesion() {
     this.load.cargandoLogin = false;
     this.load.loading = false;
+    this.auth.usuario.ingresosAlSistema.push(new Date());
+    let coleccion;
+    if (this.auth.tipoDeUsuario === 'administrador')
+      coleccion = 'administradores';
+    else coleccion = `${this.auth.tipoDeUsuario}s`;
+    this.db.ModificarObjeto(this.auth.usuario, coleccion);
     this.formInicioSesion.get('email')?.setValue('');
     this.formInicioSesion.get('contraseña')?.setValue('');
     this.router.navigate(['/']);
     this.auth.usuarioLogueado = true;
+
     // Swal.fire({
     //   position: 'top-end',
     //   icon: 'success',

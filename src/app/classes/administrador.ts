@@ -7,6 +7,7 @@ export class Administrador {
   email: string;
   fotoPerfil: any;
   contrasena: any;
+  ingresosAlSistema: Date[];
 
   constructor(
     nombre: string,
@@ -16,6 +17,7 @@ export class Administrador {
     email: string,
     fotoPerfil: any,
     contrasena: any,
+    ingresosAlSistema: Date[],
     id: string = ''
   ) {
     this.id = id;
@@ -26,5 +28,6 @@ export class Administrador {
     this.email = email;
     this.fotoPerfil = fotoPerfil;
     this.contrasena = contrasena;
+    this.ingresosAlSistema = ingresosAlSistema;
   }
 }

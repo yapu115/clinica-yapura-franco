@@ -8,6 +8,7 @@ export class Paciente {
   email: string;
   fotoPerfil: any;
   fotoPortada: any;
+  ingresosAlSistema: Date[];
 
   constructor(
     nombre: string,
@@ -18,6 +19,7 @@ export class Paciente {
     email: string,
     fotoPerfil: any,
     fotoPortada: any,
+    ingresosAlSistema: Date[],
     id: string = ''
   ) {
     this.id = id;
@@ -29,5 +31,6 @@ export class Paciente {
     this.email = email;
     this.fotoPerfil = fotoPerfil;
     this.fotoPortada = fotoPortada;
+    this.ingresosAlSistema = ingresosAlSistema;
   }
 }

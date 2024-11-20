@@ -75,7 +75,8 @@ export class UsuariosComponent {
             doc.dni,
             doc.email,
             doc.fotoPerfil,
-            doc.contrasena
+            doc.contrasena,
+            doc.ingresosAlSistema
           )
       );
     });
@@ -116,7 +117,8 @@ export class UsuariosComponent {
             doc.obraSocial,
             doc.email,
             doc.fotoPerfil,
-            doc.fotoPortada
+            doc.fotoPortada,
+            doc.ingresosAlSistema
           )
       );
     });
