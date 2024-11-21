@@ -10,10 +10,12 @@ import { Especialista } from '../classes/especialista';
 import { Paciente } from '../classes/paciente';
 import { DatabaseService } from '../services/database.service';
 import { Subscription } from 'rxjs';
+import { DniPipe } from '../pipes/dni.pipe';
 
 @Directive({
   selector: '[appMostrarCard]',
   standalone: true,
+  providers: [DniPipe],
 })
 export class MostrarCardDirective {
   @Input('appMostrarCard') userInfo!: any;
@@ -28,7 +30,8 @@ export class MostrarCardDirective {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    protected db: DatabaseService
+    protected db: DatabaseService,
+    private dniPipe: DniPipe
   ) {
     this.obtenerAdmins();
     this.obtenerEspecialistas();
@@ -101,7 +104,7 @@ export class MostrarCardDirective {
         </div>
         <div class="card-body">
           <p>Correo: <strong>${usuario.email}</strong></p>
-          <p>DNI: <strong>${usuario.dni}</strong></p>
+          <p>DNI: <strong>${this.dniPipe.transform(usuario.dni)}</strong></p>
         </div>
       </div>
     `;

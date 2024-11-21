@@ -13,11 +13,17 @@ import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { Turno } from '../../../classes/turno';
 import { CommonModule } from '@angular/common';
+import { AgregarUnidadMedidaPipe } from '../../../pipes/agregar-unidad-medida.pipe';
 
 @Component({
   selector: 'app-especialistas',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    AgregarUnidadMedidaPipe,
+  ],
   templateUrl: './especialistas.component.html',
   styleUrl: './especialistas.component.css',
 })

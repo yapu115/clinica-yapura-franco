@@ -10,7 +10,7 @@
 
           <div class="especialista">
             <p class="nombre-especialista">
-              {{ especialista.nombre }} {{ especialista.apellido }}
+              {{ especialista | mostrarNombre : "doctor" }}
             </p>
             <button
               type="button"

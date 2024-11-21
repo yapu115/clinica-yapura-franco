@@ -12,6 +12,9 @@ import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { AgrandarImagenDirective } from '../../directives/agrandar-imagen.directive';
 import { EnviarMailDirective } from '../../directives/enviar-mail.directive';
+import { DniPipe } from '../../pipes/dni.pipe';
+import { AgregarUnidadMedidaPipe } from '../../pipes/agregar-unidad-medida.pipe';
+import { MostrarNombrePipe } from '../../pipes/mostrar-nombre.pipe';
 // import { saveAs } from 'file-saver';
 // import { saveAs } from 'file-saver';
 
@@ -23,6 +26,9 @@ import { EnviarMailDirective } from '../../directives/enviar-mail.directive';
     CommonModule,
     AgrandarImagenDirective,
     EnviarMailDirective,
+    DniPipe,
+    AgregarUnidadMedidaPipe,
+    MostrarNombrePipe,
   ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',

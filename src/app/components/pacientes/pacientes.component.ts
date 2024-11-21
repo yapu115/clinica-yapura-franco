@@ -6,11 +6,18 @@ import { Turno } from '../../classes/turno';
 import { Paciente } from '../../classes/paciente';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AgregarUnidadMedidaPipe } from '../../pipes/agregar-unidad-medida.pipe';
+import { MostrarNombrePipe } from '../../pipes/mostrar-nombre.pipe';
 
 @Component({
   selector: 'app-pacientes',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AgregarUnidadMedidaPipe,
+    MostrarNombrePipe,
+  ],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',
 })

@@ -12,7 +12,7 @@
           />
           <div class="patient-info">
             <h2 class="patient-name">
-              {{ paciente.nombre }} {{ paciente.apellido }}
+              {{ paciente | mostrarNombre : "nombreApellido" }}
             </h2>
             <p class="patient-specialty">{{ paciente.edad }} años</p>
           </div>
@@ -69,14 +69,23 @@
         </div>
 
         <div class="clinic-history-info">
-          <p><strong>Altura:</strong> {{ turno.historialClinico.altura }} cm</p>
-          <p><strong>Peso:</strong> {{ turno.historialClinico.peso }} kg</p>
           <p>
-            <strong>Temperatura:</strong>
-            {{ turno.historialClinico.temperatura }} °C
+            <strong>Altura:</strong>
+            {{ turno.historialClinico.altura | agregarUnidadMedida : "cm" }}
           </p>
           <p>
-            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHH
+            <strong>Peso:</strong>
+            {{ turno.historialClinico.peso | agregarUnidadMedida : "kg" }}
+          </p>
+          <p>
+            <strong>Temperatura:</strong>
+            {{
+              turno.historialClinico.temperatura | agregarUnidadMedida : "°C"
+            }}
+          </p>
+          <p>
+            <strong>Presión:</strong>
+            {{ turno.historialClinico.presion | agregarUnidadMedida : "mmHg" }}
           </p>
         </div>
 

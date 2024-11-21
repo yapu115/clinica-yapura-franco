@@ -12,11 +12,11 @@
         <img src="{{ this.auth.usuario.fotoPerfil }}" alt="Foto de Perfil" />
       </div>
       <h2 style="margin-top: 20px">
-        {{ this.auth.usuario.nombre }} {{ this.auth.usuario.apellido }}
+        {{ this.auth.usuario | mostrarNombre : "nombreApellido" }}
       </h2>
 
       <p>Correo: {{ this.auth.usuario.email }}</p>
-      <p>DNI: {{ this.auth.usuario.dni }}</p>
+      <p>DNI: {{ this.auth.usuario.dni | dni }}</p>
       <p>Edad: {{ this.auth.usuario.edad }} años</p>
       @if (this.auth.tipoDeUsuario === "paciente"){
       <p>Obra Social: {{ this.auth.usuario.obraSocial }}</p>
@@ -39,7 +39,7 @@
       <div class="clinic-history-card">
         <div class="clinic-history-card-header">
           <h3 class="clinic-history-patient-name">
-            Dr/a. {{ turno.especialista }} - {{ turno.especialidad }}
+            {{ turno | mostrarNombre : "especialista" }}
           </h3>
           <p class="clinic-history-date">
             {{ turno.fecha | date : "dd/MM/yyyy" }}
@@ -47,14 +47,23 @@
         </div>
 
         <div class="clinic-history-info">
-          <p><strong>Altura:</strong> {{ turno.historialClinico.altura }} cm</p>
-          <p><strong>Peso:</strong> {{ turno.historialClinico.peso }} kg</p>
           <p>
-            <strong>Temperatura:</strong>
-            {{ turno.historialClinico.temperatura }} °C
+            <strong>Altura:</strong>
+            {{ turno.historialClinico.altura | agregarUnidadMedida : "cm" }}
           </p>
           <p>
-            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHg
+            <strong>Peso:</strong>
+            {{ turno.historialClinico.peso | agregarUnidadMedida : "kg" }}
+          </p>
+          <p>
+            <strong>Temperatura:</strong>
+            {{
+              turno.historialClinico.temperatura | agregarUnidadMedida : "°C"
+            }}
+          </p>
+          <p>
+            <strong>Presión:</strong>
+            {{ turno.historialClinico.presion | agregarUnidadMedida : "mmHg" }}
           </p>
         </div>
 

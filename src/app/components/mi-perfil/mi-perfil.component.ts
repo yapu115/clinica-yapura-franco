@@ -7,11 +7,20 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DniPipe } from '../../pipes/dni.pipe';
+import { AgregarUnidadMedidaPipe } from '../../pipes/agregar-unidad-medida.pipe';
+import { MostrarNombrePipe } from '../../pipes/mostrar-nombre.pipe';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    DniPipe,
+    AgregarUnidadMedidaPipe,
+    MostrarNombrePipe,
+  ],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })

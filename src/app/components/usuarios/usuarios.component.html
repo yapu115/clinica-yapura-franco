@@ -38,7 +38,7 @@
           />
           <div class="patient-info">
             <h2 class="patient-name">
-              {{ admin.nombre }} {{ admin.apellido }}
+              {{ admin | mostrarNombre : "nombreApellido" }}
             </h2>
             <p class="patient-specialty">{{ admin.edad }} años</p>
           </div>
@@ -51,7 +51,7 @@
               <strong [appEnviarMail]="admin.email">{{ admin.email }}</strong>
             </p>
             <p>
-              DNI: <strong>{{ admin.dni }}</strong>
+              DNI: <strong>{{ admin.dni | dni }}</strong>
             </p>
           </div>
         </div>
@@ -156,14 +156,23 @@
         </div>
 
         <div class="clinic-history-info">
-          <p><strong>Altura:</strong> {{ turno.historialClinico.altura }} cm</p>
-          <p><strong>Peso:</strong> {{ turno.historialClinico.peso }} kg</p>
           <p>
-            <strong>Temperatura:</strong>
-            {{ turno.historialClinico.temperatura }} °C
+            <strong>Altura:</strong>
+            {{ turno.historialClinico.altura | agregarUnidadMedida : "cm" }}
           </p>
           <p>
-            <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHH
+            <strong>Peso:</strong>
+            {{ turno.historialClinico.peso | agregarUnidadMedida : "kg" }}
+          </p>
+          <p>
+            <strong>Temperatura:</strong>
+            {{
+              turno.historialClinico.temperatura | agregarUnidadMedida : "°C"
+            }}
+          </p>
+          <p>
+            <strong>Presión:</strong>
+            {{ turno.historialClinico.presion | agregarUnidadMedida : "mmHg" }}
           </p>
         </div>
 

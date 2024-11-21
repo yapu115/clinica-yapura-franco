@@ -13,11 +13,17 @@ import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { Turno } from '../../../classes/turno';
 import { CommonModule } from '@angular/common';
+import { AgregarUnidadMedidaPipe } from '../../../pipes/agregar-unidad-medida.pipe';
 
 @Component({
   selector: 'app-pacientes',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    AgregarUnidadMedidaPipe,
+  ],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',
 })

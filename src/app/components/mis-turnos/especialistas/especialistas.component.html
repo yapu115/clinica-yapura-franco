@@ -15,21 +15,28 @@
         <p><strong>Día:</strong> {{ turno.fecha | date : "dd/MM/yyyy" }}</p>
         <p>
           <strong>Hora:</strong>
-          {{ turno.fecha | date : "shortTime" }}
+          {{ turno.fecha }}
         </p>
         <p class="{{ turno.estado }}">
           <strong>Estado:</strong> {{ turno.estado }}
         </p>
 
         @if (turno.historialClinico !== ""){
-        <p><strong>Altura:</strong> {{ turno.historialClinico.altura }} cm</p>
-        <p><strong>Peso:</strong> {{ turno.historialClinico.peso }} kg</p>
         <p>
-          <strong>Temperatura:</strong>
-          {{ turno.historialClinico.temperatura }} °C
+          <strong>Altura:</strong>
+          {{ turno.historialClinico.altura | agregarUnidadMedida : "cm" }}
         </p>
         <p>
-          <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHg
+          <strong>Peso:</strong>
+          {{ turno.historialClinico.peso | agregarUnidadMedida : "kg" }}
+        </p>
+        <p>
+          <strong>Temperatura:</strong>
+          {{ turno.historialClinico.temperatura | agregarUnidadMedida : "°C" }}
+        </p>
+        <p>
+          <strong>Presión:</strong>
+          {{ turno.historialClinico.presion | agregarUnidadMedida : "mmHg" }}
         </p>
         @for (datoAdicional of turno.historialClinico.datosAdicionales; track
         $index) {

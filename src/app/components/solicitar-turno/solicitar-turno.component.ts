@@ -17,11 +17,17 @@ import { Paciente } from '../../classes/paciente';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../loading/loading.component';
 import { LoadingService } from '../../services/loading.service';
+import { MostrarNombrePipe } from '../../pipes/mostrar-nombre.pipe';
 
 @Component({
   selector: 'app-solicitar-turno',
   standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MostrarNombrePipe,
+  ],
   templateUrl: './solicitar-turno.component.html',
   styleUrl: './solicitar-turno.component.css',
 })
