@@ -42,9 +42,7 @@
             Dr/a. {{ turno.especialista }} - {{ turno.especialidad }}
           </h3>
           <p class="clinic-history-date">
-            {{ turno.fecha.getDate() }}/{{ turno.fecha.getMonth() + 1 }}/{{
-              turno.fecha.getFullYear()
-            }}
+            {{ turno.fecha | date : "dd/MM/yyyy" }}
           </p>
         </div>
 

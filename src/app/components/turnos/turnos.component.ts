@@ -5,11 +5,12 @@ import Swal from 'sweetalert2';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Turno } from '../../classes/turno';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-turnos',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './turnos.component.html',
   styleUrl: './turnos.component.css',
 })
@@ -35,11 +36,11 @@ export class TurnosComponent {
             doc.especialista,
             doc.especialidad,
             doc.paciente,
-            doc.fecha,
-            doc.hora,
+            doc.fecha.toDate(),
             doc.estado,
             doc.resena,
-            doc.id
+            doc.id,
+            doc.historialClinico
           )
       );
     });

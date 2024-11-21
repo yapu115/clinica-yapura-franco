@@ -1,8 +1,12 @@
 <div class="body">
   <div class="graphics-container">
+    <H2>Cantidad de turnos por especialidad</H2>
+
     <div class="pieContainer">
       <canvas id="myPieChart"></canvas>
     </div>
+
+    <H2>Cantidad de turnos por día</H2>
 
     <div class="select-group">
       <label for="fechas">Selecciona una fecha:</label>
@@ -17,6 +21,43 @@
 
     <div class="pieContainer">
       <canvas id="myPieChart2"></canvas>
+    </div>
+
+    <H2>Cantidad de turnos en un lapso de tiempo</H2>
+
+    <div class="select-row">
+      <div class="select-item">
+        <label for="fechaInicio">Fecha inicial</label>
+        <select id="fechaInicio" (change)="onFechaInicialSeleccionada($event)">
+          @for (fecha of fechasInicio; track $index) {
+          <option [value]="fecha.valor">
+            {{ fecha.formato }}
+          </option>
+          }
+        </select>
+      </div>
+
+      <div class="select-item">
+        <label for="fechaFinal">Fecha final</label>
+        <select id="fechaFinal" (change)="onFechaFinalSeleccionada($event)">
+          @for (fecha of fechasFinal; track $index) {
+          <option [value]="fecha.valor">
+            {{ fecha.formato }}
+          </option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="pieContainer">
+      <canvas id="myPieChart3"></canvas>
+    </div>
+
+    <div class="select-item">
+      <label for="tipoTurnos">Turnos</label>
+      <select id="tipoTurnos" (change)="onTipoTurnoActualizado($event)">
+        <option value="solicitado">Solicitados</option>
+        <option value="realizado">Finalizados</option>
+      </select>
     </div>
   </div>
 </div>

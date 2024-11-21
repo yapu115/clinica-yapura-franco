@@ -10,13 +10,20 @@ import { RouterLink } from '@angular/router';
 import { Turno } from '../../classes/turno';
 import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { AgrandarImagenDirective } from '../../directives/agrandar-imagen.directive';
+import { EnviarMailDirective } from '../../directives/enviar-mail.directive';
 // import { saveAs } from 'file-saver';
 // import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [
+    RouterLink,
+    CommonModule,
+    AgrandarImagenDirective,
+    EnviarMailDirective,
+  ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
 })
@@ -97,6 +104,7 @@ export class UsuariosComponent {
             doc.email,
             doc.fotoPerfil,
             doc.acceso,
+            doc.ingresosAlSistema,
             doc.id
           )
       );
@@ -138,6 +146,7 @@ export class UsuariosComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         especialista.acceso = 'permitido';
+        console.log(especialista);
         this.db.ModificarObjeto(especialista, 'especialistas');
         Swal.fire({
           title: 'Acceso Permitido',

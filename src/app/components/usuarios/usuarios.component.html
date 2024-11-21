@@ -34,6 +34,7 @@
             class="profile-img"
             src="{{ admin.fotoPerfil }}"
             alt="Imagen del paciente"
+            appAgrandarImagen
           />
           <div class="patient-info">
             <h2 class="patient-name">
@@ -45,8 +46,13 @@
         <div class="card-body">
           <div class="appointment-details">
             <h3 class="appointment-title">Información:</h3>
-            <p><strong>Correo:</strong> {{ admin.email }}</p>
-            <p><strong>DNI:</strong> {{ admin.dni }}</p>
+            <p>
+              Correo:
+              <strong [appEnviarMail]="admin.email">{{ admin.email }}</strong>
+            </p>
+            <p>
+              DNI: <strong>{{ admin.dni }}</strong>
+            </p>
           </div>
         </div>
       </div>
@@ -111,10 +117,8 @@
           @for (t of turnosFiltrados(pac) | slice:0:3 ; track $index) {
           <p></p>
           <p class="appointment-date">
-            {{ t.fecha.getDate() }}/{{ t.fecha.getMonth() + 1 }}/{{
-              t.fecha.getFullYear()
-            }}
-            - {{ t.fecha.getHours() }}:{{ t.fecha.getMinutes() }}
+            {{ t.fecha | date : "dd/MM/yyyy" }}
+            - {{ t.fecha | date : "shortTime" }}
           </p>
 
           } }

@@ -27,10 +27,8 @@
           @for (t of turnos; track $index) { @if (t.paciente === paciente.nombre
           + " " + paciente.apellido) { @if ($index < 3){
           <p class="appointment-date">
-            {{ t.fecha.getDate() }}/{{ t.fecha.getMonth() + 1 }}/{{
-              t.fecha.getFullYear()
-            }}
-            - {{ t.fecha.getHours() }}:{{ t.fecha.getMinutes() }}
+            {{ t.fecha | date : "dd/MM/yyyy" }}
+            - {{ t.fecha | date : "shortTime" }}
           </p>
 
           } } }

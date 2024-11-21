@@ -1,16 +1,42 @@
 .body {
   margin: 0 auto;
-  height: 100vh;
-  overflow-y: auto;
+  height: 100%;
+  /* overflow-y: auto; */
   padding: 20px;
-  margin-bottom: 10px;
+}
+
+.graphics-container {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 870px;
+  width: 90%;
+}
+
+H2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #000000;
+  margin: 40px 0;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin-top: 150px;
+}
+
+H2:first-of-type {
+  margin-top: 40px;
 }
 
 .pieContainer {
   margin: 40px auto;
   margin-bottom: 60px;
   width: 60%;
-  max-width: 500px;
+  max-width: 450px;
   padding: 50px 20px;
   align-items: center;
   text-align: center;
@@ -24,17 +50,6 @@ canvas {
 }
 
 /* dropdown */
-
-.graphics-container {
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 870px;
-  width: 90%;
-}
 
 .select-group {
   text-align: left;
@@ -61,6 +76,46 @@ select {
 }
 
 select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ---- */
+
+/* Contenedor de las nuevas opciones */
+.select-row {
+  display: flex;
+  justify-content: space-between; /* Coloca un select a la izquierda y otro a la derecha */
+  margin: 20px 0; /* Espaciado vertical */
+  gap: 20px; /* Espaciado entre los elementos */
+}
+
+.select-item {
+  flex: 1; /* Cada select ocupa la misma proporción */
+  max-width: 45%; /* Limita el ancho al 45% para que no ocupen demasiado espacio */
+}
+
+.select-item label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  font-family: Arial, sans-serif;
+  display: block;
+}
+
+.select-item select {
+  width: 100%; /* Asegura que el select ocupe todo el ancho de su contenedor */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
+  transition: border-color 0.3s ease;
+}
+
+.select-item select:focus {
   border-color: #007bff;
   outline: none;
 }

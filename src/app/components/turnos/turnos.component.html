@@ -13,12 +13,32 @@
       </div>
 
       <div class="appointment-info">
-        <p><strong>Día:</strong> {{ turno.fecha }} -</p>
+        <p><strong>Día:</strong> {{ turno.fecha | date : "dd/MM/yyyy" }}</p>
         <p>
           <strong>Hora:</strong>
-          {{ turno.hora }}
+          {{ turno.fecha | date : "shortTime" }}
         </p>
-        <p><strong>Estado:</strong> {{ turno.estado }}</p>
+        <p class="{{ turno.estado }}">
+          <strong>Estado:</strong> {{ turno.estado }}
+        </p>
+
+        @if (turno.historialClinico !== ""){
+        <p><strong>Altura:</strong> {{ turno.historialClinico.altura }} cm</p>
+        <p><strong>Peso:</strong> {{ turno.historialClinico.peso }} kg</p>
+        <p>
+          <strong>Temperatura:</strong>
+          {{ turno.historialClinico.temperatura }} °C
+        </p>
+        <p>
+          <strong>Presión:</strong> {{ turno.historialClinico.presion }} mmHg
+        </p>
+        @for (datoAdicional of turno.historialClinico.datosAdicionales; track
+        $index) {
+        <p>
+          <strong>{{ datoAdicional.clave }}: </strong>
+          {{ datoAdicional.valor }}
+        </p>
+        } }
       </div>
 
       <div class="appointment-actions">

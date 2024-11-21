@@ -6,11 +6,12 @@ import { Turno } from '../../classes/turno';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })

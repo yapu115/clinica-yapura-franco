@@ -12,11 +12,12 @@ import { DatabaseService } from '../../../services/database.service';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { Turno } from '../../../classes/turno';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pacientes',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',
 })

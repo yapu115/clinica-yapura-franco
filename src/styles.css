@@ -36,5 +36,83 @@ button.ghost {
   border-color: #f5f3f4;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.card-tooltip {
+  position: absolute;
+  border-radius: 8px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card-tooltip .card {
+  width: 380px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-tooltip .card:hover {
+  /* transform: translateY(-10px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-tooltip .card-header {
+  display: flex;
+  padding: 20px;
+  background-color: #003e80;
+  color: #fff;
+  align-items: center;
+  border-bottom: 2px solid #0056b3;
+}
+
+.card-tooltip .profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 18px;
+  border: solid #000 3px;
+  object-fit: cover;
+}
+
+.card-tooltip .patient-info {
+  flex-grow: 1;
+}
+
+.card-tooltip.patient-name {
+  font-size: 1.7em;
+  margin: 0;
+  font-weight: bold;
+}
+
+.card-tooltip .patient-specialty {
+  font-size: 1.2em;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.card-tooltip .card-body {
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.card-tooltip .appointment-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

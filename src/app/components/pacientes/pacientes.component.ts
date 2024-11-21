@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { Turno } from '../../classes/turno';
 import { Paciente } from '../../classes/paciente';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pacientes',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css',
 })

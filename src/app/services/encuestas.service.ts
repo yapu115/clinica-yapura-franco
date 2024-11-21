@@ -10,6 +10,7 @@ import { Turno } from '../classes/turno';
 export class EncuestasService {
   subscription: Subscription | null = null;
   especialidades: any = [];
+  especialistas: any[] = [];
   turnos: any = [];
 
   constructor(protected db: DatabaseService) {
@@ -27,10 +28,13 @@ export class EncuestasService {
         if (!this.especialidades.includes(especialidad))
           this.especialidades.push(especialidad);
       });
+      if (!this.especialistas.includes(`${e.nombre} ${e.apellido}`))
+        this.especialistas.push(`${e.nombre} ${e.apellido}`);
     });
   }
 
   async obtenerTurnosFirestore() {
+    this.turnos = [];
     const observableTurnos = this.db.traerObjetos('turnos');
 
     const turnos = await firstValueFrom(observableTurnos);

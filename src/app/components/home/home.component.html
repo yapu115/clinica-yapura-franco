@@ -49,7 +49,9 @@
         <tbody>
           @for (ingreso of this.entradasAlSistemaUsuarios; track $index) {
           <tr>
-            <td>{{ ingreso.usuario }}</td>
+            <td appMostrarCard="{{ ingreso.usuario }}">
+              {{ ingreso.usuario }}
+            </td>
             <td>{{ ingreso.fecha }}</td>
             <td>{{ ingreso.hora }}</td>
           </tr>

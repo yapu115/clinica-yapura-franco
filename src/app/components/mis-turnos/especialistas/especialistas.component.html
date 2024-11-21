@@ -12,14 +12,10 @@
       </div>
 
       <div class="appointment-info">
-        <p>
-          <strong>Día:</strong> {{ turno.fecha.getDate() }}/{{
-            turno.fecha.getMonth() + 1
-          }}/{{ turno.fecha.getFullYear() }}
-        </p>
+        <p><strong>Día:</strong> {{ turno.fecha | date : "dd/MM/yyyy" }}</p>
         <p>
           <strong>Hora:</strong>
-          {{ turno.fecha.getHours() }}:{{ turno.fecha.getMinutes() }}
+          {{ turno.fecha | date : "shortTime" }}
         </p>
         <p class="{{ turno.estado }}">
           <strong>Estado:</strong> {{ turno.estado }}

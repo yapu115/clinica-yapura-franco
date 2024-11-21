@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Paciente } from '../../classes/paciente';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../loading/loading.component';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-solicitar-turno',
@@ -57,7 +59,8 @@ export class SolicitarTurnoComponent {
   constructor(
     protected auth: AuthService,
     protected db: DatabaseService,
-    protected router: Router
+    protected router: Router,
+    protected load: LoadingService
   ) {
     this.obtenerEspecialistas();
     this.obtenerPacientes();
@@ -85,6 +88,7 @@ export class SolicitarTurnoComponent {
       const fecha = this.formTurno.controls['fecha'].value;
       const paciente = this.formTurno.controls['paciente'].value;
 
+      this.load.loading = true;
       let turno;
       if (this.auth.tipoDeUsuario === 'paciente') {
         turno = new Turno(
@@ -107,6 +111,7 @@ export class SolicitarTurnoComponent {
         this.formTurno.reset();
 
         this.router.navigate(['/']);
+        this.load.loading = false;
         Swal.fire({
           position: 'top-end',
           icon: 'success',

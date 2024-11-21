@@ -4,11 +4,12 @@ import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { EncuestasService } from '../../services/encuestas.service';
+import { MostrarCardDirective } from '../../directives/mostrar-card.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, MostrarCardDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -21,17 +22,11 @@ export class HomeComponent {
   entradasAlSistemaEspecialistas: any[] = [];
   entradasAlSistemaPacientes: any[] = [];
 
-  constructor(
-    protected auth: AuthService,
-    protected db: DatabaseService,
-    protected estadisticas: EncuestasService
-  ) {
+  constructor(protected auth: AuthService, protected db: DatabaseService) {
     this.entradasAlSistemaUsuarios = [];
     this.obtenerAdmins();
     this.obtenerEspecialistas();
     this.obtenerPacientes();
-    console.log(estadisticas.especialidades);
-    console.log(estadisticas.turnos);
   }
 
   toggleSidebar() {
