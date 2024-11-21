@@ -64,6 +64,7 @@
           <img
             class="profile-img"
             src="{{ esp.fotoPerfil }}"
+            appAgrandarImagen
             alt="Imagen del paciente"
           />
           <div class="patient-info">
@@ -74,8 +75,14 @@
         <div class="card-body">
           <div class="appointment-details">
             <h3 class="appointment-title">Información:</h3>
-            <p><strong>Correo:</strong> {{ esp.email }}</p>
-            <p><strong>DNI:</strong> {{ esp.dni }}</p>
+            <p>
+              Correo:<strong [appEnviarMail]="esp.email">
+                {{ esp.email }}
+              </strong>
+            </p>
+            <p>
+              DNI: <strong>{{ esp.dni | dni }}</strong>
+            </p>
           </div>
           <h3 class="appointment-title">Especialidades:</h3>
           @for (especialidad of esp.especialidades; track $index) {
@@ -99,6 +106,7 @@
             class="profile-img"
             src="{{ pac.fotoPerfil }}"
             alt="Imagen del paciente"
+            appAgrandarImagen
           />
           <div class="patient-info">
             <h2 class="patient-name">{{ pac.nombre }} {{ pac.apellido }}</h2>
@@ -108,8 +116,16 @@
         <div class="card-body">
           <div class="appointment-details">
             <h3 class="appointment-title">Información:</h3>
-            <p><strong>Correo:</strong> {{ pac.email }}</p>
-            <p><strong>Obra Social:</strong> {{ pac.obraSocial }}</p>
+            <p>
+              Correo:
+              <strong [appEnviarMail]="pac.email"> {{ pac.email }}</strong>
+            </p>
+            <p>
+              DNI:<strong>{{ pac.dni | dni }}</strong>
+            </p>
+            <p>
+              Obra Social:<strong>{{ pac.obraSocial }}</strong>
+            </p>
           </div>
           @if (turnosFiltrados(pac).length > 0 ){
           <h3 class="appointment-title">Últimos turnos:</h3>

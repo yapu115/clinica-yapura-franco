@@ -15,7 +15,7 @@
         <p><strong>Día:</strong> {{ turno.fecha | date : "dd/MM/yyyy" }}</p>
         <p>
           <strong>Hora:</strong>
-          {{ turno.fecha }}
+          {{ turno.fecha | date : "shortTime" }}
         </p>
         <p class="{{ turno.estado }}">
           <strong>Estado:</strong> {{ turno.estado }}
