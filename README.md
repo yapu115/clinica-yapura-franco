@@ -12,8 +12,18 @@
 - [Introducción](#introduccion)
 - [Interfaz y uso](#uso)
   - [Inicio](#inicio)
-    - [Registro](#registro)
-    - [Inicio de sesión](#inicio)
+  - [Registro](#registro)
+  - [Inicio de sesión](#inicio-sesión)
+  - [Solicitar turnos](#solicitar-turno)
+  - [Mis turnos (paciente)](#mis-turnos-paciente)
+  - [Mi perfil](#mi-perfil)
+  - [Mis turnos (especialista)](#mis-turnos-especialista)
+  - [Usuarios](#usuarios)
+  - [Registrar administrador](#registrar-administrador)
+  - [Registrar pacientes / especialistas](#registrar-paciente-especialista)
+  - [Solicitar turno (administrador)](#solicitar-turno-administrador)
+  - [Registrar administrador](#turnos)
+  - [Graficos y estadísticas](#graficos-estadisticas)
 
 
 # Personal
@@ -40,7 +50,7 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <br>
 </div>
 
-### registro
+## registro
 
   
 <div align="center">
@@ -73,7 +83,7 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 </div>
 
 
-### inicio-sesión
+## inicio-sesión
 
   
 <div align="center">
@@ -93,6 +103,9 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 
 <br>
 <br>
+
+## solicitar-turno
+
   
   <p> Si ingresamos a "Solicitar turno" podremos ver un formulario para solicitar un nuevo turno basándonos en los especialistas, sus especialidades y sus horarios disponibles </p>
 <br>
@@ -103,6 +116,9 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 
 <br>
 <br>
+
+## mis-turnos-paciente
+
   
   <p> Si ingresamos a "Mis turnos" podremos ver los turnos solicitados en donde se especifican los especialistas, especialidades, fecha y hora y sus estados </p>
 <br>
@@ -136,6 +152,8 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
 <br>
 <br>
 
+## mi-perfil
+
  <p> Por último podremos ingresar a "mi perfil" en donde se podrán ver los datos del usuario y si se está iniciado como paciente se puede ver el historial clínico, e incluso descargarlo en pdf</p>
 
 <img src="https://github.com/user-attachments/assets/20e22353-7770-403b-9f6a-01ac639d2d2c" alt="Mi perfil" width="800px"/>
@@ -151,6 +169,9 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <img src="https://github.com/user-attachments/assets/76202605-929a-47d7-a2ef-e5bbbb3fe668" alt="Inicio de especialista" width="800px" margin-top="100px"/>
 <br>
 <br>
+
+## mis-turnos-especialista
+
   <p> Si ingresamos a "Mis turnos" podremos ver los turnos solicitados por los pacientes y tendermos las opciones de aceptarlos, rechazarlos, cancelarlos o finalizarlos  </p>
 
   <img src="https://github.com/user-attachments/assets/7488b88b-ced4-474a-bdbb-8380fa57c407" alt="Mis turnos" width="800px" margin-top="100px"/>
@@ -164,11 +185,18 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <img src="https://github.com/user-attachments/assets/ed440079-bffb-4f64-a0a6-c9aeaf5838f9" alt="Inicio de administrador" width="800px" margin-top="100px"/>
 <br>
 <br>
+
+## usuarios
+
   <p> Si ingresamos a "usuarios" podremos ver todos los usuarios registrados en el sitema, tanto administradores, como especialistas y pacientes, con los respesctivos usuarios e información de sus cuentas </p>
 
   <img src="https://github.com/user-attachments/assets/97e171b7-a09e-4bde-a929-6872a3643a8c" alt="administradores" width="800px" margin-top="100px"/>
   <img src="https://github.com/user-attachments/assets/493d34c3-421c-4f00-adb9-8c38284da4b8" alt="Especialistas" width="800px" margin-top="100px"/>
   <img src="https://github.com/user-attachments/assets/b97f49f0-d794-4470-b047-519de1b98e86" alt="Pacientes" width="800px" margin-top="100px"/>
+<br>
+<br>
+
+## registrar-administrador
 
   <p> Si ingresamos a "Registrar administrador" podremos ver un formulario para ingresar los datos y registrar un nuevo usuario de perfil administrador </p>
 
@@ -176,6 +204,7 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <br>
 <br>
 
+## registrar-paciente-especialista
 
   <p> Si ingresamos a "Registrar paciente / especialista" podremos ver los formularios respectivos para registrar pacientes y especialistas</p>
 
@@ -183,6 +212,7 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <br>
 <br>
 
+## solicitar-turno-administrador
 
   <p> Si ingresamos a "solicitar turno" podremos solicitar un turno ingresando el especialista, especialidad, fecha, hora y paciente (todos los registrados en el sistema)</p>
 
@@ -191,11 +221,15 @@ Este proyecto simula un sistema de clínica virtual en donde se pueden registrar
   <br>
   <br>
 
+## turnos
+
 <p> Si ingresamos a "Turnos" podremos ver todos los turnos del sistema, con su respectiva información</p>
 
   <img src="https://github.com/user-attachments/assets/850995d0-8de5-4b72-8ed3-5a03d0106cb0" alt="turnos" width="800px" margin-top="100px"/>
   <br>
   <br>
+
+## graficos-estadisticas
 
 <p> Si ingresamos a "Gráficos y estadísticas" podremos ver las estadísticas de algunos datos de la página, como la cantidad de turnos por especialidad o por día, o la cantidad de turnos en un lapso determinado de tiempo</p>
 
