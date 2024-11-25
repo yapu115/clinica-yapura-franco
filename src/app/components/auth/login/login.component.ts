@@ -341,7 +341,7 @@ export class LoginComponent {
     else coleccion = `${this.auth.tipoDeUsuario}s`;
     this.db.ModificarObjeto(this.auth.usuario, coleccion);
     this.formInicioSesion.get('email')?.setValue('');
-    this.formInicioSesion.get('contraseña')?.setValue('');
+    this.formInicioSesion.get('contrasena')?.setValue('');
     this.router.navigate(['/']);
     this.auth.usuarioLogueado = true;
 

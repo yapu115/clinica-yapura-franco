@@ -11,6 +11,7 @@ import { Paciente } from '../../../../classes/paciente';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { StorageService } from '../../../../services/storage.service';
+import { LoadingService } from '../../../../services/loading.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -51,7 +52,8 @@ export class PacientesComponent {
     protected auth: AuthService,
     protected db: DatabaseService,
     protected storage: StorageService,
-    protected router: Router
+    protected router: Router,
+    protected load: LoadingService
   ) {
     this.formRegistro = new FormGroup({
       nombre: new FormControl('', [
@@ -93,6 +95,12 @@ export class PacientesComponent {
       imagenPerfil: new FormControl('', [Validators.required]),
       imagenPortada: new FormControl('', [Validators.required]),
     });
+
+    this.conexionError = this.load.errorUsuario;
+    this.mensajeUsuario = this.load.mensajeRegistro;
+    if (this.conexionError) {
+      this.formRegistro = this.load.formRegistro;
+    }
   }
 
   Registro() {
@@ -107,7 +115,9 @@ export class PacientesComponent {
     this.imagenPerfilError = false;
     this.imagenPortadaError = false;
 
-    if (this.ValidarCampos())
+    if (this.ValidarCampos()) {
+      this.load.loading = true;
+      this.load.cargandoRegistro = true;
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
         .then(async (response) => {
@@ -151,6 +161,9 @@ export class PacientesComponent {
           this.formRegistro.get('fotoPerfil')?.setValue('');
           this.formRegistro.get('fotoPortada')?.setValue('');
           this.formRegistro.get('contrasena')?.setValue('');
+          this.load.loading = false;
+          this.load.cargandoRegistro = false;
+          this.load.errorUsuario = false;
           this.router.navigateByUrl('/');
           Swal.fire({
             position: 'top-end',
@@ -192,8 +205,17 @@ export class PacientesComponent {
               this.mensajeUsuario =
                 'Ocurrió un error. Por favor, intente de nuevo.';
           }
+
+          this.load.guardarDatosRegistro(
+            true,
+            this.mensajeUsuario,
+            this.formRegistro
+          );
+          this.load.loading = false;
+          this.load.cargandoRegistro = false;
           console.log(error);
         });
+    }
   }
 
   ValidarCampos() {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,13 @@ export class LoadingService {
 
   // registro
   cargandoRegistro: boolean = false;
-  constructor() {}
 
   // regpac
   regPaciente = false;
+
+  formRegistro: any;
+  mensajeRegistro: string = '';
+  constructor() {}
 
   guardarDatosLogin(
     error: boolean,
@@ -32,5 +36,15 @@ export class LoadingService {
     this.mensajeUsuario = mensaje;
     this.email = email;
     this.contrasena = contrasena;
+  }
+
+  guardarDatosRegistro(
+    error: boolean,
+    mensaje: string,
+    formRegistro: FormGroup
+  ) {
+    this.errorUsuario = error;
+    this.formRegistro = formRegistro;
+    this.mensajeRegistro = mensaje;
   }
 }

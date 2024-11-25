@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { Especialista } from '../../../../classes/especialista';
 import { Subscription } from 'rxjs';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { LoadingService } from '../../../../services/loading.service';
 
 @Component({
   selector: 'app-especialistas',
@@ -62,7 +63,8 @@ export class EspecialistasComponent {
     protected auth: AuthService,
     protected db: DatabaseService,
     protected storage: StorageService,
-    protected router: Router
+    protected router: Router,
+    protected load: LoadingService
   ) {
     this.formRegistro = new FormGroup({
       nombre: new FormControl('', [
@@ -110,6 +112,12 @@ export class EspecialistasComponent {
         )
       );
     });
+
+    this.conexionError = this.load.errorUsuario;
+    this.mensajeUsuario = this.load.mensajeRegistro;
+    if (this.conexionError) {
+      this.formRegistro = this.load.formRegistro;
+    }
   }
 
   resolved(captchaResponse: string | null) {
@@ -120,7 +128,6 @@ export class EspecialistasComponent {
   Registro() {
     console.log(this.formRegistro.controls['especialidades'].value);
 
-    console.log(this.formRegistro.controls['especialidades'].value);
     this.nombreError = false;
     this.apellidoError = false;
     this.edadError = false;
@@ -132,11 +139,18 @@ export class EspecialistasComponent {
     this.imagenPerfilError = false;
     this.captchaError = false;
 
-    if (this.ValidarCampos())
+    if (this.ValidarCampos()) {
+      this.load.loading = true;
+      this.load.cargandoRegistro = true;
       this.auth
         .RegistrarUsuario(this.formRegistro.value)
         .then(async (userCredential) => {
           this.auth.CerrarSesion();
+          this.formRegistro
+            .get('especialidades')
+            ?.setValue(
+              this.formRegistro.controls['especialidades'].value.split(', ')
+            );
           const nombre = this.formRegistro.controls['nombre'].value;
           const apellido = this.formRegistro.controls['apellido'].value;
           const edad = this.formRegistro.controls['edad'].value;
@@ -146,7 +160,6 @@ export class EspecialistasComponent {
           const email = this.formRegistro.controls['email'].value;
           const ingresoAlSistema: Date[] = [];
           const fotoPerfil = await this.storage.ObtenerImagenURL(
-            // no puedo obtenerlo porque se debe hacer un await
             this.imagenPerfil,
             'ImagenesDePerfil'
           );
@@ -175,6 +188,9 @@ export class EspecialistasComponent {
           this.formRegistro.get('contrasena')?.setValue('');
           this.formRegistro.get('captcha')?.setValue('');
           this.router.navigateByUrl('/');
+          this.load.loading = false;
+          this.load.cargandoRegistro = false;
+          this.load.errorUsuario = false;
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -215,8 +231,18 @@ export class EspecialistasComponent {
               this.mensajeUsuario =
                 'Ocurrió un error. Por favor, intente de nuevo.';
           }
+
+          this.load.guardarDatosRegistro(
+            true,
+            this.mensajeUsuario,
+            this.formRegistro
+          );
+          this.load.loading = false;
+          this.load.cargandoRegistro = false;
+
           console.log(error);
         });
+    }
   }
 
   ValidarCampos() {
@@ -296,12 +322,6 @@ export class EspecialistasComponent {
       if (controlEspecialidad.errors!['required']) {
         this.mensajeEspecialidad = 'Ingrese la especialidad';
       }
-    } else {
-      this.formRegistro
-        .get('especialidades')
-        ?.setValue(
-          this.formRegistro.controls['especialidades'].value.split(', ')
-        );
     }
 
     if (controlMail.errors !== null) {
